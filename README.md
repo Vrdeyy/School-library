@@ -1,4 +1,4 @@
-# 📚 Perpus Idham - Modern Library Management System
+# 📚 Modern Library Management System
 
 Aplikasi manajemen perpustakaan modern berbasis **Laravel & Filament** dengan fitur unggulan **Self-Service Kiosk** menggunakan teknologi QR Code yang aman (HMAC Signed).
 
