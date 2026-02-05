@@ -20,68 +20,76 @@ class KioskController extends Controller
      */
     public function login(Request $request)
     {
-        $request->validate([
-            'qr_code' => 'nullable|string',
-            'nis' => 'nullable|string',
-            'pin' => 'nullable|string',
-        ]);
+        try {
+            Log::info('Kiosk Login Attempt', $request->all());
+            
+            $request->validate([
+                'qr_code' => 'nullable|string',
+                'nis' => 'nullable|string',
+                'pin' => 'nullable|string',
+            ]);
 
-        $user = null;
+            $user = null;
 
-        // 1. Check QR Code (signed or raw NIS for backward compatibility)
-        if ($request->qr_code) {
-            $user = User::verifyQrSignature($request->qr_code);
-        } 
-        // 2. Check Manual Login (NIS/Email + PIN)
-        elseif ($request->nis && $request->pin) {
-            $user = User::where(function($query) use ($request) {
-                        $query->where('nis', $request->nis)
-                              ->orWhere('email', $request->nis);
-                    })->first();
+            // 1. Check QR Code
+            if ($request->qr_code) {
+                $user = User::verifyQrSignature($request->qr_code);
+            } 
+            // 2. Check Manual Login
+            elseif ($request->nis && $request->pin) {
+                $user = User::where(function($query) use ($request) {
+                            $query->where('nis', $request->nis)
+                                  ->orWhere('email', $request->nis);
+                        })->first();
 
-            // Note: Since User model uses 'password' for hashed pass, 
-            // but we have a 'pin' field. Let's check how PIN is stored.
-            // If it's the password field, use Hash::check. 
-            // If it's a separate 'pin' field, we'll check that.
-            if ($user && $user->pin !== $request->pin) {
-                $user = null;
+                if ($user && $user->pin !== $request->pin) {
+                    $user = null;
+                }
             }
-        }
 
-        if (!$user) {
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found or invalid credentials.',
+                ], 404);
+            }
+
+            if ($user->is_suspended) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User is suspended.',
+                ], 403);
+            }
+
+            // Create Sanctum Token
+            $token = $user->createToken('kiosk-session')->plainTextToken;
+
+            // AUDIT LOG
+            AuditLog::create([
+                'user_id' => $user->id,
+                'action' => 'kiosk_login',
+                'details' => 'Login via ' . ($request->qr_code ? 'QR' : 'Manual'),
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'token' => $token,
+                ],
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('Kiosk Login Error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
             return response()->json([
                 'success' => false,
-                'message' => 'User not found or invalid credentials.',
-            ], 404);
+                'message' => 'Server Error: ' . $e->getMessage()
+            ], 500);
         }
-
-        if ($user->is_suspended) {
-            return response()->json([
-                'success' => false,
-                'message' => 'User is suspended.',
-            ], 403);
-        }
-
-        // Create Sanctum Token for the session
-        $token = $user->createToken('kiosk-session')->plainTextToken;
-
-        // AUDIT LOG
-        AuditLog::create([
-            'user_id' => $user->id,
-            'action' => 'kiosk_login',
-            'details' => 'Login via ' . ($request->qr_code ? 'QR' : 'Manual'),
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'token' => $token,
-            ],
-        ]);
     }
 
     /**
@@ -89,40 +97,39 @@ class KioskController extends Controller
      */
     public function borrow(Request $request)
     {
-        $request->validate(['book_qr' => 'required|string']);
-
-        $user = auth()->user();
-
-        if (!$user->canBorrow()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Borrow limit reached or account suspended.',
-            ], 403);
-        }
-
-        // Verify Book QR (Signed) or Raw Code
-        $bookItem = BookItem::verifyQrSignature($request->book_qr);
-        
-        if (!$bookItem) {
-            // Fallback: Check raw code
-            $bookItem = BookItem::where('code', $request->book_qr)->first();
-        }
-
-        if (!$bookItem) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid QR Code or Book Code not found.',
-            ], 400);
-        }
-
-        if ($bookItem->status !== 'available') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Book is currently ' . $bookItem->status,
-            ], 400);
-        }
-
         try {
+            Log::info('Kiosk Borrow Attempt', ['user' => auth()->id(), 'data' => $request->all()]);
+            $request->validate(['book_qr' => 'required|string']);
+
+            $user = auth()->user();
+
+            if (!$user->canBorrow()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Batas peminjaman tercapai atau akun ditangguhkan.',
+                ], 403);
+            }
+
+            // Verify Book QR (Signed) or Raw Code
+            $bookItem = BookItem::verifyQrSignature($request->book_qr);
+            if (!$bookItem) {
+                $bookItem = BookItem::where('code', $request->book_qr)->first();
+            }
+
+            if (!$bookItem) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kode buku tidak valid atau tidak ditemukan.',
+                ], 400);
+            }
+
+            if ($bookItem->status !== 'available') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Buku sedang ' . $bookItem->status,
+                ], 400);
+            }
+
             DB::transaction(function () use ($user, $bookItem, $request) {
                 // Create Pending Borrow
                 Borrow::create([
@@ -143,15 +150,11 @@ class KioskController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Borrow request submitted. Please ask Admin to approve.',
+                'message' => 'Permintaan peminjaman berhasil dibuat. Silahkan bawa buku ke pustakawan.',
             ]);
-
-        } catch (\Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'success' => false,
-                'message' => 'System error.',
-            ], 500);
+        } catch (\Throwable $e) {
+            Log::error('Kiosk Borrow Error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Server Error: ' . $e->getMessage()], 500);
         }
     }
 
@@ -160,48 +163,48 @@ class KioskController extends Controller
      */
     public function returnBook(Request $request)
     {
-        $request->validate(['book_qr' => 'required|string']);
-
-        $user = auth()->user();
-
-        // Verify Book QR
-        $bookItem = BookItem::verifyQrSignature($request->book_qr);
-
-        if (!$bookItem) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid QR Code signature.',
-            ], 400);
-        }
-
-        // Find active borrow for this book belongs to this user
-        $borrow = Borrow::where('book_item_id', $bookItem->id)
-            ->where('user_id', $user->id)
-            ->whereIn('status', ['approved', 'borrowed'])
-            ->first();
-
-        if (!$borrow) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No active borrow record found for this book and user.',
-            ], 404);
-        }
-
         try {
-            DB::transaction(function () use ($borrow, $bookItem, $user, $request) {
-                // Set to 'returning' - pending admin approval
-                $borrow->update([
-                    'status' => 'returning', 
-                ]);
-                
-                // Set to maintenance until admin approves
-                $bookItem->update(['status' => 'maintenance']);
+            Log::info('Kiosk Return Attempt', ['user' => auth()->id(), 'data' => $request->all()]);
+            $request->validate(['book_qr' => 'required|string']);
+
+            $user = auth()->user();
+
+            // Verify Book QR (Signed) or Raw Code
+            $bookItem = BookItem::verifyQrSignature($request->book_qr);
+            if (!$bookItem) {
+                $bookItem = BookItem::where('code', $request->book_qr)->first();
+            }
+
+            if (!$bookItem) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kode buku tidak valid atau tidak ditemukan.',
+                ], 400);
+            }
+
+            // Find Active Borrow
+            $borrow = Borrow::where('book_item_id', $bookItem->id)
+                ->where('user_id', $user->id)
+                ->whereIn('status', ['approved', 'pending'])
+                ->first();
+
+            if (!$borrow) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kamu tidak memiliki pinjaman aktif untuk buku ini.',
+                ], 400);
+            }
+
+            DB::transaction(function () use ($user, $bookItem, $borrow, $request) {
+                // Mark for return (pending approval)
+                $borrow->update(['status' => 'pending_return']);
+                $bookItem->update(['status' => 'pending_return']);
 
                 // AUDIT LOG
                 AuditLog::create([
                     'user_id' => $user->id,
                     'action' => 'kiosk_return_request',
-                    'details' => 'Item Code: ' . $bookItem->code . ' - Pending admin approval',
+                    'details' => 'Item Code: ' . $bookItem->code,
                     'ip_address' => $request->ip(),
                     'user_agent' => $request->userAgent(),
                 ]);
@@ -209,15 +212,11 @@ class KioskController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Pengembalian tercatat! Silahkan tunggu admin approve dan letakkan buku di tempat pengembalian.',
+                'message' => 'Permintaan pengembalian dikirim. Silahkan taruh buku di loket pengembalian.',
             ]);
-
-        } catch (\Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'success' => false,
-                'message' => 'System error.',
-            ], 500);
+        } catch (\Throwable $e) {
+            Log::error('Kiosk Return Error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Server Error: ' . $e->getMessage()], 500);
         }
     }
 }

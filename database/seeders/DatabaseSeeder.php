@@ -32,76 +32,77 @@ class DatabaseSeeder extends Seeder
             'pin' => '123456',
         ]);
 
-        User::factory()->count(24)->create();
+        // 2b. EXTRA USERS (Disabled for clean slate)
+        // User::factory()->count(24)->create();
 
-        // 3. BOOKS (100 Books, each with 1-5 items)
-        $books = Book::factory()->count(100)->create()->each(function ($book) {
-            $qty = rand(1, 5);
-            for ($i = 1; $i <= $qty; $i++) {
-                $item = $book->items()->create([
-                    'code' => $book->id . '-' . now()->format('ymd') . '-' . strtoupper(Str::random(5)),
-                    'status' => 'available',
-                ]);
-                $item->generateQrSignature(); // Generate QR signature
-            }
-        });
+        // 3. BOOKS (Disabled for clean slate)
+        // $books = Book::factory()->count(100)->create()->each(function ($book) {
+        //     $qty = rand(1, 5);
+        //     for ($i = 1; $i <= $qty; $i++) {
+        //         $item = $book->items()->create([
+        //             'code' => $book->id . '-' . now()->format('ymd') . '-' . strtoupper(Str::random(5)),
+        //             'status' => 'available',
+        //         ]);
+        //         $item->generateQrSignature(); // Generate QR signature
+        //     }
+        // });
 
-        // 4. BORROW HISTORY (Dummy Logs)
-        $users = User::where('role', 'user')->get();
-        $allItems = BookItem::all();
+        // 4. BORROW HISTORY (Dummy Logs) (Disabled for clean slate)
+        // $users = User::where('role', 'user')->get();
+        // $allItems = BookItem::all();
 
-        // Create 50 random history logs
-        for ($i = 0; $i < 50; $i++) {
-            $user = $users->random();
-            $item = $allItems->random();
+        // // Create 50 random history logs
+        // for ($i = 0; $i < 50; $i++) {
+        //     $user = $users->random();
+        //     $item = $allItems->random();
 
-            // Random status: returned, approved (active), pending
-            $status = collect(['returned', 'approved', 'pending'])->random();
+        //     // Random status: returned, approved (active), pending
+        //     $status = collect(['returned', 'approved', 'pending'])->random();
             
-            // Dates logic
-            $borrowDate = now()->subDays(rand(1, 60));
-            $dueDate = $borrowDate->copy()->addDays(7);
+        //     // Dates logic
+        //     $borrowDate = now()->subDays(rand(1, 60));
+        //     $dueDate = $borrowDate->copy()->addDays(7);
             
-            if ($status === 'returned') {
-                $returnDate = $borrowDate->copy()->addDays(rand(3, 10));
+        //     if ($status === 'returned') {
+        //         $returnDate = $borrowDate->copy()->addDays(rand(3, 10));
                 
-                Borrow::create([
-                    'user_id' => $user->id,
-                    'book_item_id' => $item->id,
-                    'borrow_date' => $borrowDate,
-                    'due_date' => $dueDate,
-                    'return_date' => $returnDate,
-                    'status' => 'returned',
-                    'approved_by' => $admin->id,
-                ]);
-            } elseif ($status === 'approved') {
-                // Ensure item is available before marking as borrowed/approved
-                // In dummy data, we might have multiple active borrows for same item if not careful.
-                // For simplicity, we just create log. If active, we mark item as borrowed.
+        //         Borrow::create([
+        //             'user_id' => $user->id,
+        //             'book_item_id' => $item->id,
+        //             'borrow_date' => $borrowDate,
+        //             'due_date' => $dueDate,
+        //             'return_date' => $returnDate,
+        //             'status' => 'returned',
+        //             'approved_by' => $admin->id,
+        //         ]);
+        //     } elseif ($status === 'approved') {
+        //         // Ensure item is available before marking as borrowed/approved
+        //         // In dummy data, we might have multiple active borrows for same item if not careful.
+        //         // For simplicity, we just create log. If active, we mark item as borrowed.
                 
-                // Only mark as borrowed if item is currently available to avoid conflict in seeder logic
-                if ($item->status === 'available') {
-                    Borrow::create([
-                        'user_id' => $user->id,
-                        'book_item_id' => $item->id,
-                        'borrow_date' => $borrowDate,
-                        'due_date' => $dueDate,
-                        'status' => 'approved',
-                        'approved_by' => $admin->id,
-                    ]);
-                    $item->update(['status' => 'borrowed']);
-                }
-            } else { // Pending
-                if ($item->status === 'available') {
-                    Borrow::create([
-                        'user_id' => $user->id,
-                        'book_item_id' => $item->id,
-                        'status' => 'pending',
-                        'borrow_date' => now(), // Pending usually just created
-                        'due_date' => now()->addDays(7),
-                    ]);
-                }
-            }
-        }
+        //         // Only mark as borrowed if item is currently available to avoid conflict in seeder logic
+        //         if ($item->status === 'available') {
+        //             Borrow::create([
+        //                 'user_id' => $user->id,
+        //                 'book_item_id' => $item->id,
+        //                 'borrow_date' => $borrowDate,
+        //                 'due_date' => $dueDate,
+        //                 'status' => 'approved',
+        //                 'approved_by' => $admin->id,
+        //             ]);
+        //             $item->update(['status' => 'borrowed']);
+        //         }
+        //     } else { // Pending
+        //         if ($item->status === 'available') {
+        //             Borrow::create([
+        //                 'user_id' => $user->id,
+        //                 'book_item_id' => $item->id,
+        //                 'status' => 'pending',
+        //                 'borrow_date' => now(), // Pending usually just created
+        //                 'due_date' => now()->addDays(7),
+        //             ]);
+        //         }
+        //     }
+        // }
     }
 }

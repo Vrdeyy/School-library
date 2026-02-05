@@ -36,14 +36,17 @@
                     <span class="label">ID / NIS</span>
                     <span class="value">{{ $user->nis ?? $user->id }}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="label">Status</span>
-                    <span class="value">{{ ucfirst($user->role) }}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="label">Bergabung</span>
-                    <span class="value">{{ $user->created_at->format('d/m/Y') }}</span>
-                </div>
+                @if($user->role === 'user')
+                    <div class="detail-row">
+                        <span class="label">Kelas</span>
+                        <span class="value">{{ $user->kelas ?? '-' }} {{ $user->jurusan ?? '' }}</span>
+                    </div>
+                @else
+                    <div class="detail-row">
+                        <span class="label">Status</span>
+                        <span class="value">{{ ucfirst($user->role) }}</span>
+                    </div>
+                @endif
             </div>
 
             <div class="qr-area">

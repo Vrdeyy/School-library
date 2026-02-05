@@ -30,6 +30,9 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'role' => 'user', // Default role
+            'kelas' => fake()->randomElement(['X', 'XI', 'XII']),
+            'jurusan' => fake()->randomElement(['RPL', 'TKJ', 'Multimedia', 'Akuntansi', 'Perkantoran']),
+            'angkatan' => fake()->randomElement(['2023', '2024', '2025']),
             'nis' => fake()->unique()->numerify('MEM####'), // 4 digits to differ from USR001
             'pin' => '123456',
             'borrow_limit' => 3,

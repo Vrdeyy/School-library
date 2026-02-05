@@ -26,10 +26,14 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'role',
+        'kelas',
+        'jurusan',
+        'angkatan',
         'nis',
         'pin',
         'is_suspended',
         'borrow_limit',
+        'qr_signature',
     ];
 
     /**
@@ -127,14 +131,15 @@ class User extends Authenticatable implements FilamentUser
         if (count($parts) === 3) {
             [$id, $nis, $signature] = $parts;
             
-            $secret = config('app.qr_secret', config('app.key'));
-            $expectedSignature = hash_hmac('sha256', $id . $nis, $secret);
+            // Only proceed if signature component is not empty
+            if (!empty($signature)) {
+                $secret = config('app.qr_secret', config('app.key'));
+                $expectedSignature = hash_hmac('sha256', $id . $nis, $secret);
 
-            if (hash_equals($expectedSignature, $signature)) {
-                return self::where('id', $id)->where('nis', $nis)->first();
+                if (hash_equals($expectedSignature, $signature)) {
+                    return self::where('id', $id)->where('nis', $nis)->first();
+                }
             }
-            
-            return null; // Invalid signature
         }
 
         // Fallback: raw NIS/ID for backward compatibility

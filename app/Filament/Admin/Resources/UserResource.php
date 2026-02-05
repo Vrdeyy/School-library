@@ -40,6 +40,12 @@ class UserResource extends Resource
                     ])
                     ->default('user')
                     ->required(),
+                Forms\Components\TextInput::make('kelas')
+                    ->maxLength(20),
+                Forms\Components\TextInput::make('jurusan')
+                    ->maxLength(50),
+                Forms\Components\TextInput::make('angkatan')
+                    ->maxLength(10),
                 Forms\Components\TextInput::make('nis')
                     ->label('NIS / ID')
                     ->unique(ignoreRecord: true),
@@ -74,6 +80,15 @@ class UserResource extends Resource
                         'user' => 'info',
                         default => 'gray',
                     }),
+                Tables\Columns\TextColumn::make('kelas')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('jurusan')
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('angkatan')
+                    ->searchable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('nis')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_suspended')

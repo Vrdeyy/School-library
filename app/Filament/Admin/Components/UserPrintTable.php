@@ -18,6 +18,8 @@ class UserPrintTable extends BaseWidget
             ->query(User::query())
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
+                Tables\Columns\TextColumn::make('kelas')->sortable(),
+                Tables\Columns\TextColumn::make('jurusan')->sortable(),
                 Tables\Columns\TextColumn::make('role')->badge(),
                 Tables\Columns\TextColumn::make('nis')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->date()->label('Joined'),

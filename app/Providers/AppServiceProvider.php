@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Livewire\Livewire::component('app.filament.admin.components.user-print-table', \App\Filament\Admin\Components\UserPrintTable::class);
+        \Livewire\Livewire::component('app.filament.admin.components.book-item-print-table', \App\Filament\Admin\Components\BookItemPrintTable::class);
     }
 }

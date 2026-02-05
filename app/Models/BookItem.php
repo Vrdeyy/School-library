@@ -59,22 +59,25 @@ class BookItem extends Model
     // Verify QR Signature
     public static function verifyQrSignature(string $payload): ?self
     {
-        // Format: id:code:signature
+        // 1. Try format: id:code:signature
         $parts = explode(':', $payload);
-        if (count($parts) !== 3) {
-            return null;
+        if (count($parts) === 3) {
+            [$id, $code, $signature] = $parts;
+            
+            if (!empty($signature)) {
+                $secret = config('app.qr_secret', config('app.key'));
+                $expectedSignature = hash_hmac('sha256', $id . $code, $secret);
+
+                if (hash_equals($expectedSignature, $signature)) {
+                    return self::where('id', $id)->where('code', $code)->first();
+                }
+            }
         }
 
-        [$id, $code, $signature] = $parts;
-        
-        $secret = config('app.qr_secret', config('app.key'));
-        $expectedSignature = hash_hmac('sha256', $id . $code, $secret);
-
-        if (!hash_equals($expectedSignature, $signature)) {
-            return null;
-        }
-
-        return self::where('id', $id)->where('code', $code)->first();
+        // 2. Fallback: search by raw code or ID
+        return self::where('code', $payload)
+                   ->orWhere('id', $payload)
+                   ->first();
     }
 
     // Get QR Payload untuk di-encode
