@@ -21,16 +21,30 @@
         <div x-show="user" class="absolute top-0 left-0 h-1 bg-primary-500 transition-all duration-100 rounded-t-xl" :style="'width: ' + (timerPercent) + '%'"></div>
 
         <!-- Header -->
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex justify-between flex-wrap gap-4 items-center mb-6">
             <div>
-                <h2 class="text-2xl font-bold text-white">Self-Service Kiosk (Updated)</h2>
+                <h2 class="text-2xl font-bold text-white">Self-Service Kiosk</h2>
                 <p class="text-sm transition-colors duration-300" :class="statusColor" x-text="statusMessage"></p>
             </div>
-            <div x-show="user" class="flex items-center gap-4">
-                <span class="text-gray-300 text-sm">Sesi: <span x-text="Math.ceil(timer / 10)"></span>s</span>
-                <button @click="logout()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm">
-                    Logout
-                </button>
+            
+            <div class="flex items-center gap-4">
+                <!-- Camera Selection (Always Available) -->
+                <div x-show="cameras.length > 0" class="flex items-center gap-2 bg-gray-800/80 backdrop-blur px-3 py-1.5 rounded-lg border border-gray-700 shadow-sm transition-all hover:border-primary-500/50">
+                    <svg class="w-4 h-4 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    <select x-model="selectedCameraId" @change="restartScanner()" class="bg-transparent border-none text-xs text-gray-300 focus:ring-0 cursor-pointer p-0 pr-4 font-bold">
+                        <template x-for="cam in cameras" :key="cam.id">
+                            <option :value="cam.id" x-text="cam.label || 'Kamera ' + cam.id" class="bg-gray-800"></option>
+                        </template>
+                    </select>
+                </div>
+
+                <!-- User Session (Login only) -->
+                <div x-show="user" class="flex items-center gap-4">
+                    <span class="text-gray-300 text-xs">Sesi: <span class="font-mono text-primary-400" x-text="Math.ceil(timer / 10)"></span>s</span>
+                    <button @click="logout()" class="px-3 py-1.5 bg-red-600/20 hover:bg-red-600 text-red-500 hover:text-white border border-red-600/30 rounded-lg text-xs font-bold transition-all active:scale-95">
+                        Logout
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -291,6 +305,8 @@
             manualData: { nis: '', pin: '' },
             manualBookCode: '',
             lastScan: { content: null, time: 0 },
+            cameras: [],
+            selectedCameraId: null,
             modal: {
                 show: false,
                 type: 'success', // success | error | info
@@ -305,6 +321,7 @@
             },
 
             init() {
+                this.loadCameras();
                 this.initScanner("reader");
                 this.startTimer();
 
@@ -340,16 +357,44 @@
                 });
             },
 
+            async loadCameras() {
+                try {
+                    const devices = await Html5Qrcode.getCameras();
+                    if (devices && devices.length > 0) {
+                        this.cameras = devices;
+                        // Default to rear camera if possible
+                        const backCam = devices.find(d => d.label.toLowerCase().includes('back'));
+                        this.selectedCameraId = backCam ? backCam.id : devices[0].id;
+                    }
+                } catch (e) {
+                    console.error("Gagal mendapatkan daftar kamera:", e);
+                }
+            },
+
+            async restartScanner() {
+                const elementId = this.step === 'login' ? 'reader' : (this.step === 'book_input' ? 'reader-book' : null);
+                if (elementId) {
+                    await this.initScanner(elementId);
+                }
+            },
+
             async initScanner(elementId) {
                 await this.stopScanner();
                 this.scanner = new Html5Qrcode(elementId);
+                
+                const config = { 
+                    fps: 10, 
+                    qrbox: { width: 300, height: 300 },
+                    aspectRatio: 1.0 
+                };
+
+                const startConfig = this.selectedCameraId 
+                    ? this.selectedCameraId 
+                    : { facingMode: "environment" };
+
                 this.scanner.start(
-                    { facingMode: "environment" }, 
-                    { 
-                        fps: 10, 
-                        qrbox: { width: 300, height: 300 },
-                        aspectRatio: 1.0 // Force square feed
-                    },
+                    startConfig, 
+                    config,
                     (decodedText) => this.handleScan(decodedText)
                 ).catch(err => {
                     console.error("Scanner error:", err);
@@ -510,7 +555,7 @@
                     this.showModal('success', 'Berhasil!', data.message);
                     setTimeout(() => {
                         this.closeModal();
-                        this.step = 'action_selection';
+                        this.logout();
                     }, 3000);
                 } else if (data) {
                     this.showModal('error', 'Gagal', data.message || 'Respons tidak valid');

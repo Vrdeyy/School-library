@@ -27,6 +27,7 @@ class ItemsRelationManager extends RelationManager
                     ->options([
                         'available' => 'Available',
                         'borrowed' => 'Borrowed',
+                        'returning' => 'Returning (Kiosk)',
                         'lost' => 'Lost',
                         'maintenance' => 'Maintenance',
                     ])
@@ -47,6 +48,7 @@ class ItemsRelationManager extends RelationManager
                     ->color(fn (string $state): string => match ($state) {
                         'available' => 'success',
                         'borrowed' => 'warning',
+                        'returning' => 'primary',
                         'lost' => 'danger',
                         'maintenance' => 'gray',
                     }),

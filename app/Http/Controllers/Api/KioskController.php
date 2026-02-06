@@ -117,6 +117,14 @@ class KioskController extends Controller
             }
 
             if (!$bookItem) {
+                // Check if it's actually a member card QR (better error message)
+                if (User::verifyQrSignature($request->book_qr)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Ini adalah kartu member. Silahkan scan QR yang ada di buku.',
+                    ], 400);
+                }
+
                 return response()->json([
                     'success' => false,
                     'message' => 'Kode buku tidak valid atau tidak ditemukan.',
@@ -176,6 +184,14 @@ class KioskController extends Controller
             }
 
             if (!$bookItem) {
+                // Check if it's actually a member card QR (better error message)
+                if (User::verifyQrSignature($request->book_qr)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Ini adalah kartu member. Silahkan scan QR yang ada di buku.',
+                    ], 400);
+                }
+
                 return response()->json([
                     'success' => false,
                     'message' => 'Kode buku tidak valid atau tidak ditemukan.',
@@ -197,8 +213,8 @@ class KioskController extends Controller
 
             DB::transaction(function () use ($user, $bookItem, $borrow, $request) {
                 // Mark for return (pending approval)
-                $borrow->update(['status' => 'pending_return']);
-                $bookItem->update(['status' => 'pending_return']);
+                $borrow->update(['status' => 'returning']);
+                $bookItem->update(['status' => 'returning']);
 
                 // AUDIT LOG
                 AuditLog::create([
