@@ -58,7 +58,27 @@ Sistem Manajemen Perpustakaan Modern berbasis QR Code dengan Dashboard Admin yan
 
 ---
 
-## 📦 Panduan Instalasi (Setup Detail)
+## � Akun Default (Seeder)
+
+Gunakan akun berikut setelah menjalankan perintah `migrate --seed`:
+
+### **1. Akun Admin (Dashboard)**
+
+- **Email**: `admin@perpus.com`
+- **Password**: `password`
+- **Akses**: Kelola buku, user, approval, dan laporan.
+
+### **2. Akun Member (Kiosk Demo)**
+
+- **Email**: `user@perpus.com`
+- **Password**: `password`
+- **NIS**: `USR001`
+- **PIN**: `123456`
+- **Akses**: Peminjaman dan pengembalian di Kiosk.
+
+---
+
+## �📦 Panduan Instalasi (Setup Detail)
 
 Ikuti langkah ini satu per satu (untuk pemula):
 
