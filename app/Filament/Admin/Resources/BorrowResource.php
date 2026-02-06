@@ -53,8 +53,18 @@ class BorrowResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('Nama Peminjam')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('user.phone')
+                    ->label('No. Telepon')
+                    ->searchable()
+                    ->copyable()
+                    ->icon('heroicon-o-phone')
+                    ->url(fn ($record) => $record->user?->phone ? 'https://wa.me/' . preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $record->user->phone)) : null)
+                    ->openUrlInNewTab()
+                    ->color('success')
+                    ->placeholder('-'),
                 Tables\Columns\TextColumn::make('bookItem.book.title')
                     ->label('Book Title')
                     ->searchable(),
@@ -154,7 +164,6 @@ class BorrowResource extends Resource
                     ->openUrlInNewTab(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('approve')
                     ->label('Approve')
                     ->icon('heroicon-o-check')
@@ -201,9 +210,7 @@ class BorrowResource extends Resource
                     ->visible(fn (Borrow $record) => $record->status === 'approved'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Bulk actions disabled for data integrity
             ])
             ->defaultSort('created_at', 'desc');
     }
@@ -218,7 +225,7 @@ class BorrowResource extends Resource
         return [
             'index' => Pages\ListBorrows::route('/'),
             'create' => Pages\CreateBorrow::route('/create'),
-            'edit' => Pages\EditBorrow::route('/{record}/edit'),
+            // Edit page disabled for data integrity
         ];
     }
 }

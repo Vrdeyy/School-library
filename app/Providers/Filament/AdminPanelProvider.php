@@ -36,6 +36,13 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
+            ->widgets([
+                // Widgets moved to StatsOverview for symmetry
+            ])
+            ->navigationGroups([
+                'System Tools',
+                'Settings',
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

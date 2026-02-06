@@ -28,6 +28,11 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('phone')
+                    ->label('No. Telepon')
+                    ->tel()
+                    ->maxLength(20)
+                    ->placeholder('08xxxxxxxxxx'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
@@ -73,6 +78,11 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->label('No. Telepon')
+                    ->searchable()
+                    ->copyable()
+                    ->icon('heroicon-o-phone'),
                 Tables\Columns\TextColumn::make('role')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {

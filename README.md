@@ -1,115 +1,132 @@
-# 📚 Modern Library Management System
+# 📚 Perpus-Idham: Smart Library System
 
-Aplikasi manajemen perpustakaan modern berbasis **Laravel & Filament** dengan fitur unggulan **Self-Service Kiosk** menggunakan teknologi QR Code yang aman (HMAC Signed).
+Sistem Manajemen Perpustakaan Modern berbasis QR Code dengan Dashboard Admin yang interaktif dan Kiosk Mandiri yang user-friendly.
+
+---
 
 ## 🚀 Fitur Utama
 
-### 🖥️ 1. Self-Service Kiosk (Frontend)
+- **Dashboard Real-Time**: Statistik live, grafik tren peminjaman, dan status koleksi.
+- **Kiosk Mandiri (Self-Service)**: Sistem scan QR Code untuk pinjam dan balikkan buku tanpa antri.
+- **Import/Export Cerdas**: Import ribuan data buku/user dari Excel dengan schema yang simple dan auto-mapping.
+- **Keamanan Data**: Login PIN 6-digit, proteksi transaksi, dan log audit otomatis.
+- **Pemeliharaan Sistem**: Fitur reset data selektif untuk maintain server agar tetap ringan.
+- **Manajemen User**: Support nomor telepon (WhatsApp link) memudahkan admin menghubungi peminjam.
 
-Mode mandiri untuk anggota perpustakaan yang berjalan di tablet/monitor sentuh.
+---
 
-- **Login QR Code / Manual:** Anggota bisa masuk scan kartu member atau input NIS & PIN.
-- **Pinjam Mandiri:** Scan buku untuk meminjam (membutuhkan approval admin untuk keamanan).
-- **Kembali Mandiri:** Scan buku untuk mengembalikan (status 'Returning' sampai dicek admin).
-- **Anti-Fraud:** QR Code buku dan kartu member dilindungi enkripsi (HMAC Signature) agar tidak bisa dipalsukan.
+## 🛠️ Tech Stack
 
-### 👑 2. Admin Panel (Backend)
+- **Backend**: Laravel 11
+- **Admin Panel**: Filament v3 (TALL Stack)
+- **Database**: MySQL / MariaDB
+- **Frontend Kiosk**: Alpine.js + Tailwind CSS
+- **Library Utama**:
+    - `Maatwebsite Excel` (Import/Export)
+    - `Simple QR Code` (Generate QR)
+    - `Heroicons` (Icons)
 
-Dashboard admin yang powerfull menggunakan **Filament V3**.
+---
 
-- **Dashboard Statistik:** Ringkasan jumlah buku, peminjam aktif, dan grafik tren.
-- **Manajemen Buku:** CRUD Buku, Stok Opname, dan Cetak Label QR Massal.
-- **Manajemen User:** CRUD Anggota, Pembuatan Akun, dan Cetak Kartu Anggota Massal.
-- **Pusat Cetak (Bulk Print):** Fitur khusus cetak banyak kartu/label dalam format Grid siap potong.
-- **Sirkulasi:** Approval peminjaman/pengembalian dari Kiosk.
-- **Audit Logs:** Rekam jejak aktivitas sensitif (Login Kiosk, Export Data, dll).
-- **Laporan & Export:** Download data ke Excel.
+## 🔄 Alur Transaksi (Flow)
 
-## 🛠️ Tech Stack & Tools
+### 1. Peminjaman Buku (Kiosk)
 
-Aplikasi ini dibangun menggunakan teknologi modern:
+1. **Login**: User scan kartu anggota (QR) atau masukkan NIS & PIN di halaman `/kiosk`.
+2. **Scan Buku**: Masukkan/Scan kode unik buku (ID Item).
+3. **Konfirmasi**: Klik "Pinjam". Status di Admin akan berubah jadi **Pending**.
+4. **Approval**: Admin meninjau permintaan di Dashboard Admin, lalu klik "Approve".
+5. **Selesai**: Buku resmi dipinjam, stok berkurang, dan masa pinjam (7 hari) dimulai.
 
-- **Framework:** Laravel 11
-- **Admin Panel:** FilamentPHP v3
-- **Frontend / Interactivity:** Livewire 3 & Alpine.js
-- **Styling:** Tailwind CSS
-- **Database:** MySQL
-- **QR Code Engine:** `simplesoftwareio/simple-qrcode` (Backend) & `html5-qrcode` (Frontend Scanner)
-- **PDF/Print:** CSS Grid Print Layout (Native browser print optimization)
+### 2. Pengembalian Buku (Kiosk)
 
-## 📥 Cara Setup & Install
+1. **Scan Balik**: User scan kode buku di Kiosk pada mode "Pengembalian".
+2. **Konfirmasi**: Status berubah jadi **Returning (Kiosk)**.
+3. **Final Check**: Admin menerima buku fisik, lalu klik "Approve Return" di Dashboard.
+4. **Selesai**: Buku kembali tersedia, riwayat tersimpan permanen.
 
-Ikuti langkah ini untuk menjalankan aplikasi di local computer:
+---
 
-### Prerequisite
+## 📂 Struktur Alamat (URL)
 
-- PHP >= 8.2
-- Composer
-- Node.js & NPM
-- Database (MySQL/MariaDB)
+| Fitur               | Alamat URL     | Akses                  |
+| ------------------- | -------------- | ---------------------- |
+| **Katalog Publik**  | `/`            | Umum (Cek Koleksi)     |
+| **Kiosk Mandiri**   | `/kiosk`       | User / Member (Pinjam) |
+| **Dashboard Admin** | `/admin`       | Petugas (Admin)        |
+| **Login Admin**     | `/admin/login` | Login Petugas          |
 
-### Langkah Instalasi
+---
 
-1. **Clone Repository**
+## 📦 Panduan Instalasi (Setup Detail)
+
+Ikuti langkah ini satu per satu (untuk pemula):
+
+1. **Clone & Masuk Folder**:
 
     ```bash
-    git clone https://github.com/username/perpus-idham.git
+    git clone [url-repo]
     cd perpus-idham
     ```
 
-2. **Install Dependencies**
+2. **Install Library (Composer)**:
 
     ```bash
     composer install
+    ```
+
+3. **Install Asset (NPM)**:
+
+    ```bash
     npm install && npm run build
     ```
 
-3. **Setup Environment**
+4. **Setup Environment**:
     - Copy file `.env.example` menjadi `.env`.
-    - Setup konfigurasi database di `.env`.
-    - Setup `APP_url` agar QR Code generate link yang benar.
+    - Setup database di `.env` (DB_DATABASE, DB_USERNAME, DB_PASSWORD).
+
+5. **Generate Kunci Aplikasi**:
 
     ```bash
-    cp .env.example .env
     php artisan key:generate
     ```
 
-4. **Generate App Key & QR Secret**
-    - Pastikan `APP_KEY` terisi.
-    - Tambahkan `QR_SECRET` di `.env` (bebas string acak) untuk keamanan tanda tangan QR.
-
-    ```env
-    QR_SECRET=rahasia-dapur-perpus-123
-    ```
-
-5. **Migrate & Seed (Dummy Data)**
-   Script ini akan membuat tabel dan mengisi data dummy (25 user, 100 buku, 50 history).
+6. **Migrasi Database & Seeder**:
 
     ```bash
-    php artisan migrate:fresh --seed
+    php artisan migrate --seed
     ```
 
-6. **Jalankan Aplikasi**
+    _Catatan: Akun admin default biasanya admin@perpus.com / password_
+
+7. **Jalankan Server**:
     ```bash
     php artisan serve
     ```
-    Akses di: `http://localhost:8000/admin`
+    Buka `http://127.0.0.1:8000` di browser.
 
-## 🔑 Default Credentials (Dummy)
+---
 
-Gunakan akun ini untuk login setelah seeding:
+## 📋 Struktur Data Import (Excel)
 
-| Role            | Email              | Password   |
-| --------------- | ------------------ | ---------- |
-| **Admin**       | `admin@perpus.com` | `password` |
-| **User (Demo)** | `user@perpus.com`  | `password` |
+Jika ingin import data massal di menu **System Tools > Import / Export**:
 
-## 📖 Alur Sistem (System Flow)
+### **User Import**
 
-1. **Admin** input data buku & cetak Label QR Buku (tempel di fisik buku).
-2. **Admin** input anggota & cetak Kartu Anggota (berisi QR Login).
-3. **Anggota** datang ke Kiosk -> Scan Kartu -> Masuk Menu.
-4. **Anggota** scan buku yang mau dipinjam -> Status **Pending**.
-5. **Admin** mengecek menu Borrow -> Klik **Approve** -> Status **Active/Borrowed**.
-6. **Anggota** mengembalikan -> Scan buku di Kiosk -> Status **Returning**.
-7. **Admin** mengecek fisik buku -> Klik **Approve Return** -> Stok kembali.
+- **Kolom Wajib**: `name`, `email`
+- **Kolom Opsional**: `phone`, `password` (default: 12345678), `nis`, `kelas`, `pin`.
+
+### **Book Import**
+
+- **Kolom Wajib**: `title`
+- **Kolom Opsional**: `author`, `publisher`, `year`, `isbn`, `stock`.
+
+---
+
+## 🛡️ Tips Keamanan & Maintenance
+
+- Gunakan menu **System Maintenance** secara berkala untuk membersihkan Audit Log lama.
+- Selalu backup data sebelum melakukan **Reset Data** total.
+- Pastikan printer siap untuk mencetak Kartu Anggota (QR Code) setiap ada member baru.
+
+---
