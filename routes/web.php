@@ -4,11 +4,17 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Book;
 use App\Http\Controllers\Admin\ReportController;
 
+use App\Http\Controllers\KioskPageController;
+
 // Public Catalog as Homepage
 Route::get('/', function () {
     $books = Book::with('items')->orderBy('title')->get();
     return view('catalog.index', compact('books'));
 })->name('catalog');
+
+// Standalone Kiosk Page
+Route::get('/kiosk', [KioskPageController::class, 'index'])->name('kiosk');
+Route::post('/api/kiosk/admin-login', [KioskPageController::class, 'adminLogin'])->name('kiosk.admin-login');
 
 // Admin routes (requires auth)
 Route::middleware(['auth'])->prefix('admin')->group(function () {

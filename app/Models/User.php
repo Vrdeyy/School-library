@@ -142,11 +142,18 @@ class User extends Authenticatable implements FilamentUser
             }
         }
 
-        // Fallback: raw NIS/ID for backward compatibility
-        return self::where('nis', $payload)
-                   ->orWhere('id', $payload)
-                   ->first();
+        // Search by exact NIS FIRST to avoid ID collision
+        $user = self::where('nis', $payload)->first();
+        if ($user) return $user;
+
+        // Last fallback: search by numeric ID if strictly numeric
+        if (is_numeric($payload)) {
+            return self::find($payload);
+        }
+
+        return null;
     }
+
 
     /**
      * Get QR Payload untuk di-encode ke QR Code.

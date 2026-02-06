@@ -74,11 +74,18 @@ class BookItem extends Model
             }
         }
 
-        // 2. Fallback: search by raw code or ID
-        return self::where('code', $payload)
-                   ->orWhere('id', $payload)
-                   ->first();
+        // 2. Fallback: search by exact code FIRST to avoid ID collision (e.g. code "2-..." vs ID 2)
+        $item = self::where('code', $payload)->first();
+        if ($item) return $item;
+
+        // 3. Last fallback: search by numeric ID if strictly numeric
+        if (is_numeric($payload)) {
+            return self::find($payload);
+        }
+
+        return null;
     }
+
 
     // Get QR Payload untuk di-encode
     public function getQrPayloadAttribute(): string

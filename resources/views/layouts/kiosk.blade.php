@@ -14,27 +14,40 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
-    <!-- Alpine.js & HTML5-QRCode -->
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    <!-- Alpine is loaded via Vite usually, but ensuring it's available -->
+    <!-- Scanner & Alpine -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
-<body class="h-full overflow-hidden text-white antialiased">
-    <div class="min-h-screen flex flex-col items-center justify-center p-6 relative">
+<body class="min-h-full bg-[#05060f] text-gray-200 antialiased font-sans">
+    <div class="min-h-screen py-8 px-4 sm:px-6 relative flex flex-col overflow-x-hidden">
         
-        <!-- Background Elements -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-blue-600/20 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] bg-purple-600/20 rounded-full blur-3xl"></div>
+        <!-- Background Decorative Elements -->
+        <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+            <div class="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-primary-600/10 rounded-full blur-[120px] animate-pulse-glow"></div>
+            <div class="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] bg-accent-600/10 rounded-full blur-[120px] animate-pulse-glow" style="animation-delay: -4s"></div>
+            
+            <!-- Grid Pattern -->
+            <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
         </div>
 
         <!-- Main Content -->
-        <main class="w-full max-w-4xl relative z-10">
+        <main class="w-full max-w-7xl mx-auto relative z-10 flex-grow flex flex-col">
             @yield('content')
         </main>
 
-        <!-- Footer / Status -->
-        <footer class="absolute bottom-6 text-sm text-gray-500">
-            PerpusDigital Kiosk v1.0
+        <!-- Dynamic Status Footer -->
+        <footer class="relative z-10 py-8 text-center">
+            <div class="inline-flex items-center gap-4 px-6 py-2 rounded-full glass-card border-white/5 text-xs font-medium tracking-widest text-gray-500 uppercase">
+                <span class="flex h-2 w-2 rounded-full bg-neon-green animate-pulse"></span>
+                <span>System Operational</span>
+                <span class="h-4 w-px bg-white/10 mx-1"></span>
+                <span>v4.0.0-GOLD</span>
+            </div>
         </footer>
     </div>
 
