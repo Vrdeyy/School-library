@@ -224,7 +224,7 @@ class BorrowResource extends Resource
     {
         return [
             'index' => Pages\ListBorrows::route('/'),
-            'create' => Pages\CreateBorrow::route('/create'),
+            // 'create' => Pages\CreateBorrow::route('/create'),
             // Edit page disabled for data integrity
         ];
     }
