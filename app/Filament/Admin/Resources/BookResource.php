@@ -37,7 +37,8 @@ class BookResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('cover_image')
-                    ->image(),
+                    ->image()
+                    ->disk('public'),
                 Forms\Components\TextInput::make('initial_stock')
                     ->label('Jumlah Eksemplar')
                     ->numeric()
