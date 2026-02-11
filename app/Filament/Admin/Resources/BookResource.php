@@ -38,7 +38,10 @@ class BookResource extends Resource
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('cover_image')
                     ->image()
-                    ->disk('public'),
+                    ->disk('public')
+                    ->directory('book-covers')
+                    ->imageEditor()
+                    ->maxSize(1024),
                 Forms\Components\TextInput::make('initial_stock')
                     ->label('Jumlah Eksemplar')
                     ->numeric()

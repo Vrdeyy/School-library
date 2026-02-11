@@ -89,6 +89,7 @@ class BorrowResource extends Resource
                         'returning' => 'primary',
                         'returned' => 'info',
                         'rejected' => 'danger',
+                        default => 'gray',
                     }),
             ])
             ->filters([

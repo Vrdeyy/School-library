@@ -25,8 +25,10 @@ class BookItemPrintTable extends BaseWidget
                     ->color(fn (string $state): string => match ($state) {
                         'available' => 'success',
                         'borrowed' => 'warning',
+                        'returning' => 'primary',
                         'lost' => 'danger',
                         'maintenance' => 'gray',
+                        default => 'gray',
                     }),
             ])
             ->filters([
@@ -34,6 +36,7 @@ class BookItemPrintTable extends BaseWidget
                     ->options([
                         'available' => 'Available',
                         'borrowed' => 'Borrowed',
+                        'returning' => 'Returning (Kiosk)',
                         'lost' => 'Lost',
                         'maintenance' => 'Maintenance',
                     ]),
