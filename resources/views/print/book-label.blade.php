@@ -3,151 +3,109 @@
 @section('title', 'Label Buku - ' . $item->code)
 
 @section('content')
-<div class="page-container">
-    <div class="book-sticker">
-        <!-- Sidebar with Logo & Network -->
-        <div class="sticker-left">
-            <span class="vertical-text">PERPUSTAKAAN</span>
-        </div>
+<div class="flex min-h-screen items-center justify-center bg-slate-100 p-4 print:bg-white print:p-0">
+    <div class="relative overflow-hidden bg-slate-50 border border-slate-300 shadow-2xl rounded-[4mm] flex flex-col print:shadow-none print:border" 
+         style="width: 85.6mm; height: 53.98mm; -webkit-print-color-adjust: exact; print-color-adjust: exact;">
         
-        <!-- Main Content -->
-        <div class="sticker-main">
-            <div class="sticker-header">
-                {{ Str::limit($item->book->author, 20) }}
-            </div>
+        <!-- Background Shapes (Same as User Card) -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden text-slate-900">
+            <!-- Subtle Global Texture -->
+            <div class="absolute inset-0 opacity-[0.05]" 
+                 style="background-image: repeating-linear-gradient(135deg, #475569 0, #475569 0.5px, transparent 0.5px, transparent 8px);"></div>
+
+            <!-- Accent Color Block -->
+            <div class="absolute -right-5 -top-10 w-[45mm] h-[75mm] bg-blue-100/30 rotate-[15deg] border-l border-blue-200/50"></div>
             
-            <div class="sticker-code">
-                {{ $item->code }}
+            <!-- Book Icon Watermark -->
+            <svg class="absolute left-[35mm] top-[30mm] opacity-[0.1] text-blue-600" 
+                 style="width: 15mm; height: 15mm;"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+
+            <!-- Geometric Pattern (Tech Grid) -->
+            <svg class="absolute right-[-2mm] bottom-[0mm] opacity-[0.15] text-blue-900" 
+                 style="width: 35mm; height: 35mm;"
+                 fill="none" stroke="currentColor" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="grid-label" width="8" height="8" patternUnits="userSpaceOnUse">
+                        <path d="M 8 0 L 0 0 0 8" fill="none" stroke="currentColor" stroke-width="0.5"/>
+                    </pattern>
+                </defs>
+                <rect width="100" height="100" fill="url(#grid-label)" />
+            </svg>
+
+            <!-- Floating Plus Signs -->
+            <div class="absolute top-[5mm] right-[35mm] opacity-20 text-blue-500 font-bold text-[3mm]">+</div>
+            <div class="absolute bottom-[15mm] left-[40mm] opacity-20 text-blue-500 font-bold text-[3mm]">+</div>
+
+            <!-- Decorative Dots -->
+            <div class="absolute top-[20mm] left-[40%] w-12 h-6 opacity-10" 
+                 style="background-image: radial-gradient(#1e40af 1px, transparent 1px); background-size: 5px 5px;"></div>
+        </div>
+
+        <!-- Top Accent Bar -->
+        <div class="relative z-10 w-full h-[2.5mm] bg-slate-900"></div>
+
+        <!-- Body -->
+        <div class="relative z-10 px-5 pt-3 flex flex-1 gap-4 items-center">
+            <!-- Left QR Panel (Same as User Card) -->
+            <div class="flex flex-col items-center gap-1.5 shrink-0">
+                <div class="p-1.5 bg-white border-2 border-slate-900 rounded-xl shadow-[4px_4px_0px_#2563eb]">
+                    {!! QrCode::size(105)->margin(1)->color(15, 23, 42)->generate($item->qr_payload) !!}
+                </div>
+                <p class="text-[1.4mm] font-black text-slate-900 tracking-[0.5mm] uppercase opacity-50 italic">SCAN TO VERIFY</p>
             </div>
-            
-            <div class="sticker-qr">
-                {!! QrCode::size(50)->margin(0)->generate($item->qr_payload) !!}
-            </div>
-            
-            <div class="sticker-footer">
-                {{ Str::limit($item->book->title, 25) }}
+
+            <!-- Right Info Panel -->
+            <div class="flex-1 flex flex-col h-full py-1 min-w-0">
+                <!-- Title Container -->
+                <div class="mb-4">
+                    <div class="flex items-center gap-1.5 mb-1.5">
+                        <span class="text-[1.6mm] font-extrabold text-blue-600 tracking-widest uppercase">Book Title</span>
+                        <div class="h-[0.5px] flex-1 bg-blue-100"></div>
+                    </div>
+                    <h2 class="text-[3.8mm] font-black uppercase text-slate-900 leading-[1.15] line-clamp-3" 
+                        style="text-shadow: 0.5px 0.5px 0px white;">
+                        {{ $item->book->title }}
+                    </h2>
+                </div>
+
+                <!-- NIS-style ID Badge for Book Code -->
+                <div>
+                    <div class="flex items-center gap-1.5 mb-1.5">
+                        <span class="text-[1.6mm] font-extrabold text-slate-400 tracking-widest uppercase">Identification</span>
+                        <div class="h-[0.5px] flex-1 bg-slate-200"></div>
+                    </div>
+                    <div class="flex bg-white border-2 border-slate-900 rounded-lg overflow-hidden shadow-[4px_4px_0px_#2563eb] w-full items-stretch">
+                        <div class="bg-slate-900 text-white px-2 py-1 flex items-center">
+                            <span class="text-[1.8mm] font-black uppercase tracking-tighter">CODE</span>
+                        </div>
+                        <div class="flex-1 px-3 py-1 bg-white flex items-center justify-center min-w-0">
+                            <span class="font-mono text-[3.8mm] font-black text-slate-900 uppercase break-all leading-none text-center">
+                                {{ $item->code }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- Footer Bar -->
+        <div class="relative z-10 w-full mt-auto h-[1.5mm] bg-blue-600/20"></div>
     </div>
 </div>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap');
-
-    body {
-        margin: 0;
-        padding: 0;
-        background: #e2e8f0;
-        font-family: 'Inter', sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
-
-    /* Sticker Size: approx 50mm x 30mm (Common label size) */
-    .book-sticker {
-        width: 60mm;
-        height: 35mm;
-        background: white;
-        border: 1px solid #cbd5e1;
-        border-radius: 2mm;
-        display: flex;
-        overflow: hidden;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
-
-    .sticker-left {
-        width: 6mm;
-        background: #1e293b;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .vertical-text {
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-        font-size: 3mm;
-        font-weight: 800;
-        letter-spacing: 0.5mm;
-        white-space: nowrap;
-    }
-
-    .sticker-main {
-        flex: 1;
-        padding: 2mm;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        text-align: center;
-    }
-
-    .sticker-header {
-        font-size: 2.5mm;
-        color: #64748b;
-        font-weight: 600;
-        text-transform: uppercase;
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .sticker-code {
-        font-family: 'Roboto Mono', monospace;
-        font-size: 5mm;
-        font-weight: 700;
-        color: #000;
-        letter-spacing: -0.5px;
-        border: 1px solid #000;
-        padding: 0.5mm 1.5mm;
-        border-radius: 1mm;
-    }
-
-    .sticker-qr {
-        margin: 1mm 0;
-    }
-
-    .sticker-footer {
-        font-size: 2.5mm;
-        color: #0f1729;
-        font-weight: 700;
-        line-height: 1.1;
-        width: 100%;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
     @media print {
-        body {
-            background: none;
-            display: block;
+        @page {
+            size: 85.6mm 53.98mm;
+            margin: 0;
         }
-
-        .page-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .book-sticker {
-            border: 1px dashed #94a3b8; /* Guide for cutting */
-            box-shadow: none;
-            page-break-inside: avoid;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-
-        .no-print {
-            display: none !important;
-        }
+        body { margin: 0; padding: 0; background: white; }
+        .flex { display: block !important; }
+        .min-h-screen { min-height: 0 !important; }
+        .p-4 { padding: 0 !important; }
     }
 </style>
 @endsection

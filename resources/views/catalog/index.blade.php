@@ -3,377 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perpustakaan Digital</title>
+    <title>Katalog Perpustakaan | SMK YAJ DEPOK</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --bg-dark: #0f1729;
-            --bg-card: rgba(30, 41, 59, 0.7);
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Outfit', sans-serif; }
+        
+        .bg-texture {
+            background-image: repeating-linear-gradient(135deg, #475569 0, #475569 0.5px, transparent 0.5px, transparent 15px);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Animated Background */
-        .bg-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
-            z-index: -1;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 80px 20px 60px;
-            text-align: center;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(99, 102, 241, 0.15);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            color: #a5b4fc;
-            margin-bottom: 24px;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #818cf8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 32px;
-            line-height: 1.7;
-        }
-
-        /* Stats */
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        /* Search */
-        .search-container {
-            max-width: 500px;
-            margin: 0 auto 60px;
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 16px 24px 16px 50px;
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            font-size: 1rem;
-            color: var(--text);
-            outline: none;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .search-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-
-        /* Books Grid */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px 80px;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .books-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-        }
-
-        .book-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .book-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .book-cover {
-            height: 200px;
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .book-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .book-cover-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #475569;
-        }
-
-        .book-cover-placeholder svg {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 8px;
-        }
-
-        .book-info {
-            padding: 20px;
-        }
-
-        .book-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .book-author {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 12px;
-        }
-
-        .book-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .book-year {
-            font-size: 0.85rem;
-            color: #64748b;
-        }
-
-        .stock-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .stock-available {
-            background: rgba(34, 197, 94, 0.15);
-            color: #4ade80;
-        }
-
-        .stock-empty {
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: var(--text-muted);
-        }
-
-        .empty-state svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: #475569;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        /* Animations */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
     </style>
 </head>
-<body>
-    <div class="bg-gradient"></div>
-
-    <section class="hero">
-        <div class="hero-badge">
-            <span>📚</span>
-            <span>Perpustakaan Digital</span>
-        </div>
-        <h1>Temukan Buku Favorit Kamu</h1>
-        <p>Jelajahi ribuan koleksi buku di perpustakaan kami. Baca, pinjam, dan kembangkan pengetahuanmu bersama kami.</p>
-        
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-value">{{ $books->count() }}</div>
-                <div class="stat-label">Judul Buku</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">{{ $books->sum(fn($b) => $b->items->count()) }}</div>
-                <div class="stat-label">Total Eksemplar</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">{{ $books->sum(fn($b) => $b->available_stock) }}</div>
-                <div class="stat-label">Tersedia</div>
-            </div>
-        </div>
-
-        <div class="search-container">
-            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-            </svg>
-            <input type="text" class="search-input" placeholder="Cari judul atau penulis..." id="searchInput">
-        </div>
-    </section>
-
-    <div class="container">
-        <h2 class="section-title">
-            <span>📖</span>
-            Koleksi Buku
-        </h2>
-
-        <div class="books-grid" id="booksGrid">
-            @forelse($books as $book)
-            <div class="book-card" data-title="{{ strtolower($book->title) }}" data-author="{{ strtolower($book->author ?? '') }}">
-                <div class="book-cover">
-                    @if($book->cover_image)
-                        <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}">
-                    @else
-                        <div class="book-cover-placeholder">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                            <span style="font-size: 0.8rem">No Cover</span>
-                        </div>
-                    @endif
-                </div>
-                <div class="book-info">
-                    <h3 class="book-title">{{ $book->title }}</h3>
-                    <p class="book-author">{{ $book->author ?? 'Penulis tidak diketahui' }}</p>
-                    <div class="book-meta">
-                        <span class="book-year">{{ $book->year ?? '-' }}</span>
-                        <span class="stock-badge {{ $book->available_stock > 0 ? 'stock-available' : 'stock-empty' }}">
-                            {{ $book->available_stock }} tersedia
-                        </span>
-                    </div>
-                </div>
-            </div>
-            @empty
-            <div class="empty-state" style="grid-column: 1 / -1;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-                <h3>Belum ada koleksi buku</h3>
-                <p>Koleksi buku akan segera hadir!</p>
-            </div>
-            @endforelse
-        </div>
+<body class="bg-slate-50 text-slate-900 min-h-screen overflow-x-hidden selection:bg-blue-600 selection:text-white">
+    
+    <!-- Background Elements -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute inset-0 bg-texture opacity-[0.08]"></div>
+        <div class="absolute inset-0 opacity-[0.05]" 
+             style="background-image: linear-gradient(to right, #1e293b 1px, transparent 1px), linear-gradient(to bottom, #1e293b 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-100/60 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-indigo-100/60 rounded-full blur-[120px]"></div>
     </div>
 
-    <footer class="footer">
-        <p>© {{ date('Y') }} Perpustakaan Digital. Semua hak cipta dilindungi.</p>
-    </footer>
+    <div class="relative z-10">
+        <!-- Header/Hero -->
+        <header class="pt-20 pb-16 px-6 text-center max-w-5xl mx-auto">
+            <div class="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white border border-slate-200 shadow-xl mb-10 animate-float">
+                <span class="flex h-2 w-2 rounded-full bg-blue-600 animate-pulse"></span>
+                <span class="text-[10px] font-black tracking-[0.3em] text-slate-400 uppercase">OFFICIAL_DIGITAL_CATALOG</span>
+            </div>
+
+            <h1 class="text-6xl sm:text-8xl font-black text-slate-900 tracking-tighter uppercase italic leading-none mb-6">
+                EXPLORE<br>
+                <span class="text-blue-600 shadow-blue-600/10">KNOWLEDGE.</span>
+            </h1>
+            
+            <p class="text-slate-500 text-lg font-bold tracking-widest uppercase italic max-w-2xl mx-auto mb-12">
+                Browse through our extensive cryptographic library collection and discover your next intellectual journey.
+            </p>
+
+            <div class="flex justify-center gap-12 flex-wrap mb-16">
+                <div class="text-center group">
+                    <p class="text-4xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">{{ $books->count() }}</p>
+                    <p class="text-[9px] font-black text-slate-400 tracking-[0.4em] uppercase mt-1">TOTAL_TITLES</p>
+                </div>
+                <div class="h-12 w-px bg-slate-200"></div>
+                <div class="text-center group">
+                    <p class="text-4xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">{{ $books->sum(fn($b) => $b->items->count()) }}</p>
+                    <p class="text-[9px] font-black text-slate-400 tracking-[0.4em] uppercase mt-1">AVAILABLE_UNITS</p>
+                </div>
+            </div>
+
+            <!-- Search Area -->
+            <div class="max-w-2xl mx-auto relative group">
+                <div class="absolute -inset-1 bg-blue-100 rounded-[2rem] opacity-40 group-focus-within:opacity-60 blur-xl transition-all"></div>
+                <div class="relative flex bg-white border-2 border-slate-900 rounded-[2rem] overflow-hidden shadow-[10px_10px_0px_#2563eb]">
+                    <div class="bg-slate-100 text-slate-400 px-8 flex items-center border-r border-slate-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="SEARCH_BY_TITLE_OR_AUTHOR..." 
+                           class="flex-1 py-6 px-8 text-xl font-black text-slate-900 placeholder:text-slate-200 outline-none uppercase italic">
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-6 pb-24">
+            <div class="flex items-center gap-4 mb-10">
+                <div class="h-px flex-1 bg-slate-200"></div>
+                <h2 class="text-xs font-black text-slate-400 tracking-[0.5em] uppercase italic">COLLECTION_MANIFEST</h2>
+                <div class="h-px flex-1 bg-slate-200"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="booksGrid">
+                @forelse($books as $book)
+                <div class="book-card group" data-title="{{ strtolower($book->title) }}" data-author="{{ strtolower($book->author ?? '') }}">
+                    <div class="relative bg-white border-2 border-slate-200 rounded-[3rem] overflow-hidden transition-all duration-500 hover:border-blue-600 hover:translate-y-[-8px] hover:shadow-[12px_12px_0px_#2563eb]">
+                        <!-- Cover Area -->
+                        <div class="aspect-[3/4] relative overflow-hidden bg-slate-100">
+                            @if($book->cover_image)
+                                <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}" 
+                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            @else
+                                <div class="w-full h-full flex flex-col items-center justify-center text-slate-200 p-8">
+                                    <svg class="w-20 h-20 mb-4 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                    </svg>
+                                    <span class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">NO_COVER_IMG</span>
+                                </div>
+                            @endif
+                            
+                            <!-- Year Badge -->
+                            <div class="absolute top-6 right-6">
+                                <span class="bg-white/80 backdrop-blur-md border border-slate-100 text-slate-900 text-[9px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest italic shadow-sm">
+                                    {{ $book->year ?? 'N/A' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Content Area -->
+                        <div class="p-8 space-y-6">
+                            <div class="space-y-2">
+                                <p class="text-[9px] font-black text-blue-600 uppercase tracking-[0.4em] italic">AUTHORED_BY:</p>
+                                <h3 class="text-xl font-black text-slate-900 uppercase italic leading-tight line-clamp-2 min-h-[3.5rem] group-hover:text-blue-600 transition-colors">
+                                    {{ $book->title }}
+                                </h3>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest line-clamp-1 italic">
+                                    {{ $book->author ?? 'UNKNOWN_CREATOR' }}
+                                </p>
+                            </div>
+
+                            <div class="pt-6 border-t border-slate-100 flex justify-between items-center">
+                                <div class="space-y-1">
+                                    <p class="text-[8px] font-black text-slate-400 uppercase tracking-[0.3em]">STATE:</p>
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-2 w-2 rounded-full {{ $book->available_stock > 0 ? 'bg-green-500' : 'bg-red-500' }}"></div>
+                                        <span class="text-[10px] font-black uppercase tracking-widest {{ $book->available_stock > 0 ? 'text-green-500' : 'text-red-500' }}">
+                                            {{ $book->available_stock > 0 ? 'INSTOCK' : 'UNAVAILABLE' }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-50 px-4 py-2 rounded-xl border border-slate-100">
+                                    <span class="text-slate-900 font-black text-sm">{{ $book->available_stock }}</span>
+                                    <span class="text-slate-400 text-[8px] font-black uppercase tracking-tighter ml-1">QTY</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @empty
+                <div class="col-span-full py-32 text-center">
+                    <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-dashed border-slate-200">
+                        <svg class="w-16 h-16 text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-3xl font-black text-slate-900 uppercase italic mb-4">MANIFEST_EMPTY</h3>
+                    <p class="text-slate-400 font-bold uppercase tracking-widest italic">The cryptographic repository currently contains no indexed entries.</p>
+                </div>
+                @endforelse
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="py-12 border-t border-slate-100 text-center">
+            <p class="text-[9px] font-black text-slate-300 tracking-[0.5em] uppercase italic">
+                © {{ date('Y') }} PERPUSTAKAAN DIGITAL SMK YAJ DEPOK | CRYPTOGRAPHIC_VAULT_SYSTEM
+            </p>
+        </footer>
+    </div>
 
     <script>
-        // Simple search functionality
         const searchInput = document.getElementById('searchInput');
         const booksGrid = document.getElementById('booksGrid');
         const bookCards = booksGrid.querySelectorAll('.book-card');
