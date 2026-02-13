@@ -122,6 +122,7 @@ class User extends Authenticatable implements FilamentUser
 
     /**
      * Verify QR Signature dan return User jika valid.
+     */
     public static function verifyQrSignature(string $payload): ?self
     {
         // Try signed format first: id:id_pengenal_siswa:signature
