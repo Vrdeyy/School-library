@@ -188,7 +188,7 @@
                             <div class="space-y-2">
                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Properties</p>
                                 <div class="flex flex-wrap gap-1.5">
-                                    <template x-for="field in ['phone', 'role', 'nis', 'kelas', 'pin', 'limit']">
+                                    <template x-for="field in ['phone', 'role', 'id_pengenal_siswa', 'kelas', 'pin', 'limit']">
                                         <span class="text-[10px] font-mono text-gray-500 bg-gray-50 dark:bg-white/5 px-1.5 py-0.5 rounded-md border border-gray-200 dark:border-gray-800" x-text="field"></span>
                                     </template>
                                 </div>

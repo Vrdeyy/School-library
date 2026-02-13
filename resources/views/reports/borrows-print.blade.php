@@ -109,7 +109,7 @@
                         <td class="py-5 px-2 text-[11px] font-black text-blue-600 uppercase italic">{{ $borrow->id }}</td>
                         <td class="py-5 px-2">
                             <p class="text-[11px] font-black text-slate-900 uppercase italic line-clamp-1">{{ $borrow->user->name ?? '-' }}</p>
-                            <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">{{ $borrow->user->nis ?? 'NIS_UNKNOWN' }}</p>
+                            <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">{{ $borrow->user->id_pengenal_siswa ?? 'ID_UNKNOWN' }}</p>
                         </td>
                         <td class="py-5 px-2 text-[10px] font-black text-slate-600">{{ $borrow->bookItem->code ?? '-' }}</td>
                         <td class="py-5 px-2 text-[11px] font-black text-slate-900 uppercase italic line-clamp-1">{{ $borrow->bookItem->book->title ?? '-' }}</td>

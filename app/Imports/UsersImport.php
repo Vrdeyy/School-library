@@ -17,22 +17,29 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
     */
     public function model(array $row)
     {
-        // Handle mapping for 'nis' because export might use 'NIS/NIP' or 'nisnip'
-        $nis = $row['nis'] ?? $row['nisnip'] ?? $row['id_nis'] ?? null;
+        // Handle mapping for 'id_pengenal_siswa' because export might use 'ID Pengenal Siswa' or 'id_pengenal_siswa'
+        $id_pengenal_siswa = $row['id_pengenal_siswa'] ?? $row['id_pengenal_siswa'] ?? $row['nis'] ?? $row['nisnip'] ?? $row['id_nis'] ?? null;
         
-        // Handle password: if missing in file, use default
-        $password = !empty($row['password']) ? Hash::make($row['password']) : Hash::make('12345678');
+        // Handle password: if missing in file, use random for user (they use PIN) or default for admin
+        $role = $row['role'] ?? 'user';
+        $password = $row['password'] ?? null;
+        
+        if (empty($password)) {
+            $password = ($role === 'admin') ? '12345678' : \Illuminate\Support\Str::random(16);
+        }
+        
+        $hashedPassword = Hash::make($password);
 
         return new User([
             'name'         => $row['name'],
             'email'        => $row['email'],
             'phone'        => isset($row['phone']) ? (string)$row['phone'] : null,
-            'password'     => $password,
+            'password'     => $hashedPassword,
             'role'         => $row['role'] ?? 'user',
             'kelas'        => $row['kelas'] ?? null,
             'jurusan'      => $row['jurusan'] ?? null,
             'angkatan'     => $row['angkatan'] ?? null,
-            'nis'          => $nis !== null ? (string)$nis : null,
+            'id_pengenal_siswa' => $id_pengenal_siswa !== null ? (string)$id_pengenal_siswa : null,
             'pin'          => isset($row['pin']) ? (string)$row['pin'] : '123456',
             'borrow_limit' => $row['borrow_limit'] ?? $row['limits'] ?? 3,
             'is_suspended' => false,
@@ -47,7 +54,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
             'phone' => 'nullable|max:20',
             'password' => 'nullable|min:6',
             'role' => 'nullable|in:admin,user',
-            'nis' => 'nullable',
+            'id_pengenal_siswa' => 'nullable',
         ];
     }
 }

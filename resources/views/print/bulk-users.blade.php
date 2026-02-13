@@ -78,8 +78,8 @@
                             <h2 class="text-[4.5mm] font-extrabold uppercase text-slate-900 leading-tight" 
                                 style="text-shadow: 1px 1px 0px white;">{{ $user->name }}</h2>
                             <div class="inline-flex mt-2 bg-white border-2 border-slate-900 rounded-lg overflow-hidden shadow-[3px_3px_0px_#2563eb]">
-                                <span class="bg-slate-900 text-white px-2 py-0.5 text-[1.8mm] font-black">NIS</span>
-                                <span class="px-3 py-0.5 text-[2.2mm] font-bold text-slate-900 uppercase tracking-wider">{{ $user->nis ?? $user->id }}</span>
+                                <span class="bg-slate-900 text-white px-2 py-0.5 text-[1.8mm] font-black">ID</span>
+                                <span class="px-3 py-0.5 text-[2.2mm] font-bold text-slate-900 uppercase tracking-wider">{{ $user->id_pengenal_siswa ?? $user->id }}</span>
                             </div>
                         </div>
 

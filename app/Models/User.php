@@ -30,7 +30,7 @@ class User extends Authenticatable implements FilamentUser
         'kelas',
         'jurusan',
         'angkatan',
-        'nis',
+        'id_pengenal_siswa',
         'pin',
         'is_suspended',
         'borrow_limit',
@@ -113,7 +113,7 @@ class User extends Authenticatable implements FilamentUser
     public function generateQrSignature(): string
     {
         $secret = config('app.qr_secret', config('app.key'));
-        $signature = hash_hmac('sha256', $this->id . $this->nis, $secret);
+        $signature = hash_hmac('sha256', $this->id . $this->id_pengenal_siswa, $secret);
         
         $this->update(['qr_signature' => $signature]);
         
@@ -122,29 +122,26 @@ class User extends Authenticatable implements FilamentUser
 
     /**
      * Verify QR Signature dan return User jika valid.
-     * Format QR: id:nis:signature
-     * Fallback: raw NIS untuk backward compatibility
-     */
     public static function verifyQrSignature(string $payload): ?self
     {
-        // Try signed format first: id:nis:signature
+        // Try signed format first: id:id_pengenal_siswa:signature
         $parts = explode(':', $payload);
         if (count($parts) === 3) {
-            [$id, $nis, $signature] = $parts;
+            [$id, $id_pengenal_siswa, $signature] = $parts;
             
             // Only proceed if signature component is not empty
             if (!empty($signature)) {
                 $secret = config('app.qr_secret', config('app.key'));
-                $expectedSignature = hash_hmac('sha256', $id . $nis, $secret);
-
+                $expectedSignature = hash_hmac('sha256', $id . $id_pengenal_siswa, $secret);
+ 
                 if (hash_equals($expectedSignature, $signature)) {
-                    return self::where('id', $id)->where('nis', $nis)->first();
+                    return self::where('id', $id)->where('id_pengenal_siswa', $id_pengenal_siswa)->first();
                 }
             }
         }
-
-        // Search by exact NIS FIRST to avoid ID collision
-        $user = self::where('nis', $payload)->first();
+ 
+        // Search by exact ID Pengenal Siswa FIRST to avoid ID collision
+        $user = self::where('id_pengenal_siswa', $payload)->first();
         if ($user) return $user;
 
         // Last fallback: search by numeric ID if strictly numeric
@@ -165,6 +162,6 @@ class User extends Authenticatable implements FilamentUser
             $this->generateQrSignature();
         }
         
-        return "{$this->id}:{$this->nis}:{$this->qr_signature}";
+        return "{$this->id}:{$this->id_pengenal_siswa}:{$this->qr_signature}";
     }
 }

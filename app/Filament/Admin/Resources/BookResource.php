@@ -86,21 +86,7 @@ class BookResource extends Resource
                     ->modalCancelActionLabel('Tutup'),
             ])
             ->headerActions([
-                Tables\Actions\Action::make('export')
-                    ->label('Export Data')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->action(function () {
-                        // Audit log export
-                        \App\Models\AuditLog::create([
-                            'user_id' => auth()->id(),
-                            'action' => 'admin_export_books',
-                            'details' => 'Export data buku & items ke Excel',
-                            'ip_address' => request()->ip(),
-                            'user_agent' => request()->userAgent(),
-                        ]);
-
-                        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\BooksExport, 'books-' . now()->format('Y-m-d') . '.xlsx');
-                    }),
+                //
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

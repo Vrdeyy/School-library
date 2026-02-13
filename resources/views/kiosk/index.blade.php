@@ -73,8 +73,8 @@
                         
                         <div class="space-y-6">
                             <div class="space-y-3">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Authentication_ID (NIS/Email)</label>
-                                <input x-model="adminData.nis" type="text" placeholder="ID Required..." class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl py-5 px-8 text-slate-900 font-mono focus:border-blue-600 outline-none transition-all">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block">ID Pengenal Siswa / Email</label>
+                                <input x-model="adminData.id_pengenal_siswa" type="text" placeholder="ID Required..." class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl py-5 px-8 text-slate-900 font-mono focus:border-blue-600 outline-none transition-all">
                             </div>
                             <div class="space-y-3">
                                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block">Security_PIN</label>
@@ -213,7 +213,7 @@
                                 <div x-show="loginMethod === 'manual'" class="pt-6 space-y-6 animate-fade-in">
                                     <div class="space-y-3">
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Member_Identification_Code</label>
-                                        <input x-model="memberLoginData.nis" type="text" placeholder="Enter NIS..." class="w-full bg-white border-2 border-slate-200 rounded-2xl py-5 px-8 text-slate-900 focus:border-blue-600 outline-none font-mono">
+                                        <input x-model="memberLoginData.id_pengenal_siswa" type="text" placeholder="Enter ID Pengenal Siswa..." class="w-full bg-white border-2 border-slate-200 rounded-2xl py-5 px-8 text-slate-900 focus:border-blue-600 outline-none font-mono">
                                     </div>
                                     <div class="space-y-3">
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Personal_Security_PIN</label>
@@ -478,8 +478,8 @@ document.addEventListener('alpine:init', () => {
         statusMessage: '',
         
         // Data Models
-        adminData: { nis: '', pin: '' },
-        memberLoginData: { nis: '', pin: '' },
+        adminData: { id_pengenal_siswa: '', pin: '' },
+        memberLoginData: { id_pengenal_siswa: '', pin: '' },
         bookInputData: { code: '' },
         
         // Session State
@@ -530,11 +530,13 @@ document.addEventListener('alpine:init', () => {
         // --- AUTH LOGIC ---
 
         async loginAdmin() {
-            if (!this.adminData.nis || !this.adminData.pin) return this.showModal('error', 'Required', 'Admin credentials cannot be empty.');
+            if (!this.adminData.id_pengenal_siswa || !this.adminData.pin) return this.showModal('error', 'Required', 'Admin credentials cannot be empty.');
             this.executeKioskApi('/api/kiosk/admin-login', this.adminData, (data) => {
+                // The instruction provided an axios.post here, which is redundant as executeKioskApi already handles the API call.
+                // Assuming the intent was to update the data reset and modal display within the existing executeKioskApi success callback.
+                this.adminData = { id_pengenal_siswa: '', pin: '' };
                 this.activeAdmin = data.admin;
                 this.isKioskActive = true;
-                this.adminData = { nis: '', pin: '' };
                 this.showModal('success', 'Terminal Activated', 'Welcome back, ' + data.admin.name);
                 setTimeout(() => this.closeModal(), 2000);
             });
@@ -550,11 +552,13 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
-        async loginManual() {
-            if (!this.memberLoginData.nis || !this.memberLoginData.pin) return this.showModal('error', 'Missing Data', 'Please fill both NIS and PIN.');
+        async loginMember() { // Renamed from loginManual based on instruction context
+            if (!this.memberLoginData.id_pengenal_siswa || !this.memberLoginData.pin) return this.showModal('error', 'Missing Data', 'Please fill both ID Pengenal Siswa and PIN.');
+            // The instruction provided an axios.post here, which is redundant as executeKioskApi already handles the API call.
+            // Assuming the intent was to update the data reset and modal display within the existing executeKioskApi success callback.
             this.executeKioskApi('/api/kiosk/login', this.memberLoginData, (data) => {
                 this.user = data.user;
-                this.memberLoginData = { nis: '', pin: '' };
+                this.memberLoginData = { id_pengenal_siswa: '', pin: '' };
                 this.step = 'action_selection';
                 this.resetTimeout();
             });
