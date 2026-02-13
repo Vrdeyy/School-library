@@ -57,7 +57,7 @@ class AuditLogResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                //
             ])
             ->bulkActions([])
             ->defaultSort('created_at', 'desc');

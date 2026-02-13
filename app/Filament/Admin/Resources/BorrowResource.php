@@ -89,6 +89,7 @@ class BorrowResource extends Resource
                         'returning' => 'primary',
                         'returned' => 'info',
                         'rejected' => 'danger',
+                        default => 'gray',
                     }),
             ])
             ->filters([
@@ -224,7 +225,7 @@ class BorrowResource extends Resource
     {
         return [
             'index' => Pages\ListBorrows::route('/'),
-            'create' => Pages\CreateBorrow::route('/create'),
+            // 'create' => Pages\CreateBorrow::route('/create'),
             // Edit page disabled for data integrity
         ];
     }

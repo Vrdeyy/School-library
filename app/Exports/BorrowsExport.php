@@ -29,32 +29,24 @@ class BorrowsExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'borrow_id',
-            'user_id',
-            'user_name',
-            'user_phone',
-            'book_item_id',
-            'book_title',
-            'borrow_date',
-            'due_date',
-            'return_date',
-            'status',
+            'Nama Peminjam',
+            'No Telp',
+            'Judul Buku',
+            'Kode Buku',
+            'Tanggal Pinjam',
+            'Tanggal Kembali',
         ];
     }
 
     public function map($borrow): array
     {
         return [
-            $borrow->id,
-            $borrow->user_id,
             $borrow->user->name ?? '-',
             $borrow->user->phone ?? '-',
-            $borrow->book_item_id,
             $borrow->bookItem->book->title ?? '-',
+            $borrow->bookItem->code ?? '-',
             $borrow->borrow_date?->format('Y-m-d H:i'),
-            $borrow->due_date?->format('Y-m-d H:i'),
             $borrow->return_date?->format('Y-m-d H:i'),
-            $borrow->status,
         ];
     }
 }

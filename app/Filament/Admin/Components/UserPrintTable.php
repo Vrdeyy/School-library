@@ -21,7 +21,9 @@ class UserPrintTable extends BaseWidget
                 Tables\Columns\TextColumn::make('kelas')->sortable(),
                 Tables\Columns\TextColumn::make('jurusan')->sortable(),
                 Tables\Columns\TextColumn::make('role')->badge(),
-                Tables\Columns\TextColumn::make('nis')->searchable(),
+                Tables\Columns\TextColumn::make('id_pengenal_siswa')
+                    ->label('Id Pengenal Siswa')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->date()->label('Joined'),
             ])
             ->filters([

@@ -35,15 +35,18 @@ class UserResource extends Resource
                     ->placeholder('08xxxxxxxxxx'),
                 Forms\Components\TextInput::make('password')
                     ->password()
+                    ->revealable()
+                    ->hidden(fn (Forms\Get $get) => $get('role') === 'user')
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
-                    ->required(fn (string $context): bool => $context === 'create'),
+                    ->required(fn (string $context, Forms\Get $get): bool => $context === 'create' && $get('role') === 'admin'),
                 Forms\Components\Select::make('role')
                     ->options([
                         'admin' => 'Admin',
                         'user' => 'User',
                     ])
                     ->default('user')
+                    ->live()
                     ->required(),
                 Forms\Components\TextInput::make('kelas')
                     ->maxLength(20),
@@ -51,15 +54,17 @@ class UserResource extends Resource
                     ->maxLength(50),
                 Forms\Components\TextInput::make('angkatan')
                     ->maxLength(10),
-                Forms\Components\TextInput::make('nis')
-                    ->label('NIS / ID')
+                Forms\Components\TextInput::make('id_pengenal_siswa')
+                    ->label('Id Pengenal Siswa')
                     ->unique(ignoreRecord: true),
                 Forms\Components\TextInput::make('pin')
                     ->label('PIN (Numeric)')
                     ->numeric()
                     ->password()
+                    ->revealable()
+                    ->formatStateUsing(fn ($record) => $record?->pin)
                     ->length(6)
-                    ->dehydrated(fn ($state) => filled($state)), // Store raw or hashed? Req implied 'Login manual (NIS / Email + PIN)'. Sanctum uses password. Maybe PIN is secondary? Assuming plaintext or simple hash. Let's store as string for now, but usually should be hashed if used for auth. Given requirement 'Email + PIN', maybe PIN is password? No, usually seperate. I'll just store it as string for now.
+                    ->dehydrated(fn ($state) => filled($state)), 
                 Forms\Components\Toggle::make('is_suspended')
                     ->label('Suspended')
                     ->default(false),
@@ -75,6 +80,9 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('id_pengenal_siswa')
+                    ->label('Id Pengenal Siswa')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
@@ -99,7 +107,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('angkatan')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('nis')
+                Tables\Columns\TextColumn::make('id_pengenal_siswa')
+                    ->label('ID Pengenal Siswa')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_suspended')
                     ->boolean(),
@@ -124,7 +133,7 @@ class UserResource extends Resource
                     ->modalContent(fn ($record) => new \Illuminate\Support\HtmlString(
                         '<div class="flex flex-col items-center p-4">' .
                         \SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate($record->qr_payload) .
-                        '<p class="mt-2 font-bold">' . ($record->nis ?? $record->id) . '</p>' .
+                        '<p class="mt-2 font-bold">' . ($record->id_pengenal_siswa ?? $record->id) . '</p>' .
                         '<p class="text-xs text-gray-500">Scan at Kiosk</p>' .
                         '</div>'
                     ))
@@ -138,21 +147,7 @@ class UserResource extends Resource
                     ->openUrlInNewTab(),
             ])
             ->headerActions([
-                Tables\Actions\Action::make('export')
-                    ->label('Export Data')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->action(function () {
-                        // Audit log export
-                        \App\Models\AuditLog::create([
-                            'user_id' => auth()->id(),
-                            'action' => 'admin_export_users',
-                            'details' => 'Export data users ke Excel',
-                            'ip_address' => request()->ip(),
-                            'user_agent' => request()->userAgent(),
-                        ]);
-
-                        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\UsersExport, 'users-' . now()->format('Y-m-d') . '.xlsx');
-                    }),
+                //
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

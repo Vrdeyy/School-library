@@ -37,7 +37,11 @@ class BookResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('cover_image')
-                    ->image(),
+                    ->image()
+                    ->disk('public')
+                    ->directory('book-covers')
+                    ->imageEditor()
+                    ->maxSize(1024),
                 Forms\Components\TextInput::make('initial_stock')
                     ->label('Jumlah Eksemplar')
                     ->numeric()
@@ -82,21 +86,7 @@ class BookResource extends Resource
                     ->modalCancelActionLabel('Tutup'),
             ])
             ->headerActions([
-                Tables\Actions\Action::make('export')
-                    ->label('Export Data')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->action(function () {
-                        // Audit log export
-                        \App\Models\AuditLog::create([
-                            'user_id' => auth()->id(),
-                            'action' => 'admin_export_books',
-                            'details' => 'Export data buku & items ke Excel',
-                            'ip_address' => request()->ip(),
-                            'user_agent' => request()->userAgent(),
-                        ]);
-
-                        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\BooksExport, 'books-' . now()->format('Y-m-d') . '.xlsx');
-                    }),
+                //
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

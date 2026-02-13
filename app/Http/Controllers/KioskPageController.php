@@ -26,7 +26,7 @@ class KioskPageController extends Controller
         try {
             $request->validate([
                 'qr_code' => 'nullable|string',
-                'nis' => 'nullable|string', // Support Email or NIS
+                'id_pengenal_siswa' => 'nullable|string', // Support Email or ID
                 'pin' => 'nullable|string',
             ]);
 
@@ -37,10 +37,10 @@ class KioskPageController extends Controller
                 $user = User::verifyQrSignature($request->qr_code);
             } 
             // 2. Check Manual Login for Admin
-            elseif ($request->nis && $request->pin) {
-                $user = User::where(function($query) use ($request) {
-                            $query->where('nis', $request->nis)
-                                  ->orWhere('email', $request->nis);
+            elseif ($request->id_pengenal_siswa && $request->pin) {
+                $user = \App\Models\User::where(function($query) use ($request) {
+                            $query->where('id_pengenal_siswa', $request->id_pengenal_siswa)
+                                  ->orWhere('email', $request->id_pengenal_siswa);
                         })->first();
 
                 if ($user && $user->pin !== $request->pin) {

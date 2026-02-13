@@ -14,7 +14,7 @@ class UsersTemplateExport implements WithHeadings
             'phone',
             'password',
             'role',
-            'nis',
+            'id_pengenal_siswa',
             'kelas',
             'jurusan',
             'angkatan',
