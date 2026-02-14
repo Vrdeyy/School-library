@@ -498,25 +498,25 @@
 
     <!-- Global Feedback Modal (Comic Style) -->
     <template x-teleport="body">
-        <div x-show="modal.show" class="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm" 
+        <div x-show="modal.show" class="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 bg-slate-900/40 backdrop-blur-sm" 
              x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
-            <div class="bg-white border-4 border-slate-900 w-full max-w-xl rounded-[3rem] p-12 text-center relative overflow-hidden shadow-[32px_32px_0px_rgba(30,41,59,0.3)]" @click.away="closeModal()">
+            <div class="bg-white border-4 border-slate-900 w-full max-w-sm sm:max-w-xl rounded-2xl sm:rounded-[3rem] p-6 sm:p-12 text-center relative overflow-hidden shadow-[16px_16px_0px_rgba(30,41,59,0.3)] sm:shadow-[32px_32px_0px_rgba(30,41,59,0.3)]" @click.away="closeModal()">
                 <div class="absolute inset-0 opacity-[0.05] benday-dots pointer-events-none"></div>
                 
                 <div :class="{
                     'bg-green-100 text-green-600 border-green-600': modal.type === 'success',
                     'bg-red-100 text-red-600 border-red-600': modal.type === 'error',
                     'bg-blue-100 text-blue-600 border-blue-600': modal.type === 'info'
-                }" class="w-24 h-24 rounded-3xl border-4 flex items-center justify-center mx-auto mb-8 shadow-[8px_8px_0px_#1e293b] relative z-10 rotate-3">
-                    <template x-if="modal.type === 'success'"><svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></template>
-                    <template x-if="modal.type === 'error'"><svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg></template>
-                    <template x-if="modal.type === 'info'"><svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></template>
+                }" class="w-16 h-16 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl border-[3px] sm:border-4 flex items-center justify-center mx-auto mb-4 sm:mb-8 shadow-[4px_4px_0px_#1e293b] sm:shadow-[8px_8px_0px_#1e293b] relative z-10 rotate-3">
+                    <template x-if="modal.type === 'success'"><svg class="w-8 h-8 sm:w-12 sm:h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></template>
+                    <template x-if="modal.type === 'error'"><svg class="w-8 h-8 sm:w-12 sm:h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg></template>
+                    <template x-if="modal.type === 'info'"><svg class="w-8 h-8 sm:w-12 sm:h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></template>
                 </div>
 
-                <h3 class="text-4xl font-black text-slate-900 mb-4 tracking-tighter uppercase italic chromatic-offset relative z-10" x-text="modal.title"></h3>
-                <p class="text-slate-500 text-lg font-black leading-relaxed mb-10 italic uppercase tracking-wider relative z-10" x-text="modal.message"></p>
+                <h3 class="text-2xl sm:text-4xl font-black text-slate-900 mb-2 sm:mb-4 tracking-tighter uppercase italic chromatic-offset relative z-10" x-text="modal.title"></h3>
+                <p class="text-slate-500 text-sm sm:text-lg font-black leading-relaxed mb-6 sm:mb-10 italic uppercase tracking-wider relative z-10" x-text="modal.message"></p>
                 
-                <button @click="closeModal()" class="w-full py-6 bg-slate-900 text-white rounded-2xl font-black text-xl hover:bg-slate-800 shadow-[8px_8px_0px_#2563eb] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all uppercase italic tracking-widest relative z-10">CONTINUE_TASK</button>
+                <button @click="closeModal()" class="w-full py-4 sm:py-6 bg-slate-900 text-white rounded-xl sm:rounded-2xl font-black text-base sm:text-xl hover:bg-slate-800 shadow-[4px_4px_0px_#2563eb] sm:shadow-[8px_8px_0px_#2563eb] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all uppercase italic tracking-widest relative z-10">CONTINUE_TASK</button>
             </div>
         </div>
     </template>
