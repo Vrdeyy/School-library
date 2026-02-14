@@ -84,16 +84,32 @@
                         <div class="space-y-4 sm:space-y-6">
                             <div class="space-y-2 sm:space-y-3">
                                 <label class="text-[8px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block">IDENTIFICATION_ID / EMAIL</label>
-                                <input x-model="adminData.id_pengenal_siswa" type="text" placeholder="ID_REQUIRED..." class="w-full bg-slate-50 border-[3px] sm:border-4 border-slate-900 rounded-xl sm:rounded-2xl py-3 sm:py-5 px-5 sm:px-8 text-sm sm:text-base text-slate-900 font-black focus:bg-white outline-none transition-all uppercase italic">
+                                <input x-model="adminData.id_pengenal_siswa" 
+                                       type="text" 
+                                       placeholder="ID_REQUIRED..." 
+                                       @keyup.enter="loginAdmin()"
+                                       class="w-full bg-slate-50 border-[3px] sm:border-4 border-slate-900 rounded-xl sm:rounded-2xl py-3 sm:py-5 px-5 sm:px-8 text-sm sm:text-base text-slate-900 font-black focus:bg-white outline-none transition-all uppercase italic">
                             </div>
                             <div class="space-y-2 sm:space-y-3">
                                 <label class="text-[8px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block">SECURITY_PIN_TOKEN</label>
-                                <div class="flex gap-2 sm:gap-3 bg-white border-[3px] sm:border-4 border-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shadow-[4px_4px_0px_#2563eb] sm:shadow-[8px_8px_0px_#2563eb]">
-                                    <div class="bg-slate-100 text-slate-900 px-3 sm:px-5 py-3 sm:py-4 flex items-center border-r-[3px] sm:border-r-4 border-slate-900">
-                                        <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
+                                    <div class="flex gap-2 sm:gap-3 bg-white border-[3px] sm:border-4 border-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shadow-[4px_4px_0px_#2563eb] sm:shadow-[8px_8px_0px_#2563eb] relative">
+                                        <div class="bg-slate-100 text-slate-900 px-3 sm:px-5 py-3 sm:py-4 flex items-center border-r-[3px] sm:border-r-4 border-slate-900">
+                                            <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
+                                        </div>
+                                        <input x-model="adminData.pin" 
+                                               :type="showAdminPin ? 'text' : 'password'" 
+                                               maxlength="6" 
+                                               @keyup.enter="loginAdmin()"
+                                               class="flex-1 bg-transparent py-3 sm:py-4 px-4 sm:px-6 text-slate-900 text-center tracking-[0.5em] sm:tracking-[1em] font-black text-xl sm:text-2xl outline-none">
+                                        <button @click="showAdminPin = !showAdminPin" type="button" class="px-3 sm:px-4 text-slate-400 hover:text-slate-600 transition-colors">
+                                            <template x-if="!showAdminPin">
+                                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                            </template>
+                                            <template x-if="showAdminPin">
+                                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" /></svg>
+                                            </template>
+                                        </button>
                                     </div>
-                                    <input x-model="adminData.pin" type="password" maxlength="6" class="flex-1 bg-transparent py-3 sm:py-4 px-4 sm:px-6 text-slate-900 text-center tracking-[0.5em] sm:tracking-[1em] font-black text-xl sm:text-2xl outline-none">
-                                </div>
                             </div>
                             <button @click="loginAdmin()" :disabled="isProcessing" class="w-full py-4 sm:py-6 bg-slate-900 hover:bg-slate-800 text-white rounded-xl sm:rounded-2xl font-black text-base sm:text-xl transition-all shadow-[4px_4px_0px_#2563eb] sm:shadow-[8px_8px_0px_#2563eb] active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-50 uppercase italic tracking-widest">
                                 <span x-show="!isProcessing">ACTIVATE_TERMINAL</span>
@@ -128,14 +144,20 @@
                             <div class="absolute inset-0 pointer-events-none zig-zag opacity-20 h-4 sm:h-6"></div>
                         </div>
                         
-                        <!-- Camera selection -->
-                        <div x-show="cameras.length > 1" class="w-full max-w-sm mx-auto">
+                        <!-- Camera selection & Controls -->
+                        <div x-show="cameras.length > 0" class="w-full max-w-sm mx-auto flex gap-2">
                             <select x-model="selectedCameraId" @change="restartScanner()" 
-                                    class="w-full bg-white border-[3px] sm:border-4 border-slate-900 rounded-xl sm:rounded-2xl py-3 sm:py-4 px-4 sm:px-6 text-[8px] sm:text-xs font-black uppercase tracking-widest text-slate-900 focus:ring-4 focus:ring-blue-600/20 outline-none transition-all">
+                                    class="flex-1 bg-white border-[3px] sm:border-4 border-slate-900 rounded-xl py-3 px-4 text-[8px] sm:text-xs font-black uppercase tracking-widest text-slate-900 outline-none transition-all">
                                 <template x-for="camera in cameras" :key="camera.id">
-                                    <option :value="camera.id" x-text="camera.label"></option>
+                                    <option :value="camera.id" x-text="camera.label || 'Camera ' + camera.id"></option>
                                 </template>
                             </select>
+                            <button @click="loadCameras()" class="p-3 bg-white border-[3px] border-slate-900 rounded-xl hover:bg-slate-50 transition-all shadow-[2px_2px_0px_#1e293b] active:shadow-none active:translate-x-0.5 active:translate-y-0.5" title="Refresh Cameras">
+                                <svg class="w-4 h-4 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                            </button>
+                            <button x-show="cameras.length > 1" @click="cycleCamera()" class="p-3 bg-blue-600 border-[3px] border-slate-900 rounded-xl text-white hover:bg-blue-500 transition-all shadow-[2px_2px_0px_#1e293b] active:shadow-none active:translate-x-0.5 active:translate-y-0.5" title="Flip Camera">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                            </button>
                         </div>
 
                         <button @click="stopAdminQr()" class="text-[10px] sm:text-sm font-black text-red-600 hover:text-red-700 uppercase tracking-[0.3em] italic bg-white px-4 sm:px-6 py-2 border-2 border-slate-900 rounded-lg shadow-[3px_3px_0px_#ef4444] sm:shadow-[4px_4px_0px_#ef4444]">ABORT_SCAN</button>
@@ -226,18 +248,39 @@
                                 <div x-show="loginMethod === 'manual'" class="pt-8 space-y-8 animate-fade-in relative z-10">
                                     <div class="space-y-4">
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] ml-1">MEMBER_IDENT_CODE</label>
-                                        <input x-model="memberLoginData.id_pengenal_siswa" type="text" placeholder="ENTER_USER_ID..." class="w-full bg-slate-50 border-4 border-slate-900 rounded-2xl py-5 px-8 text-xl font-black text-slate-900 placeholder:text-slate-300 focus:bg-white outline-none italic uppercase">
+                                        <input x-model="memberLoginData.id_pengenal_siswa" 
+                                               type="text" 
+                                               placeholder="ENTER_USER_ID..." 
+                                               @keyup.enter="loginManual()"
+                                               class="w-full bg-slate-50 border-4 border-slate-900 rounded-2xl py-5 px-8 text-xl font-black text-slate-900 placeholder:text-slate-300 focus:bg-white outline-none italic uppercase">
                                     </div>
                                     <div class="space-y-4">
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] ml-1">PERSONAL_SECURITY_PIN</label>
-                                        <div class="flex gap-4 bg-white border-4 border-slate-900 rounded-2xl overflow-hidden shadow-[8px_8px_0px_#2563eb]">
+                                        <div class="flex gap-4 bg-white border-4 border-slate-900 rounded-2xl overflow-hidden shadow-[8px_8px_0px_#2563eb] relative">
                                             <div class="bg-slate-100 text-slate-900 px-6 py-5 flex items-center border-r-4 border-slate-900">
                                                 <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
                                             </div>
-                                            <input x-model="memberLoginData.pin" type="password" maxlength="6" class="flex-1 bg-transparent py-4 px-6 text-slate-900 text-center tracking-[0.8em] font-black text-3xl outline-none">
+                                            <input x-model="memberLoginData.pin" 
+                                                   :type="showUserPin ? 'text' : 'password'" 
+                                                   maxlength="6" 
+                                                   @keyup.enter="loginManual()"
+                                                   class="flex-1 bg-transparent py-4 px-6 text-slate-900 text-center tracking-[0.8em] font-black text-3xl outline-none">
+                                            <button @click="showUserPin = !showUserPin" type="button" class="px-6 text-slate-400 hover:text-slate-600 transition-colors">
+                                                <template x-if="!showUserPin">
+                                                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                                </template>
+                                                <template x-if="showUserPin">
+                                                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" /></svg>
+                                                </template>
+                                            </button>
                                         </div>
                                     </div>
-                                    <button @click="loginManual()" class="w-full py-6 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-lg uppercase tracking-[0.3em] transition-all shadow-[8px_8px_0px_#1e293b] hover:-translate-y-1 active:translate-y-1 active:shadow-none italic">EXECUTE_LOGIN</button>
+                                    <button @click="loginManual()" 
+                                            :disabled="isProcessing"
+                                            class="w-full py-6 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-lg uppercase tracking-[0.3em] transition-all shadow-[8px_8px_0px_#1e293b] hover:-translate-y-1 active:translate-y-1 active:shadow-none italic">
+                                        <span x-show="!isProcessing">EXECUTE_LOGIN</span>
+                                        <span x-show="isProcessing">VERIFYING...</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -257,15 +300,7 @@
                                             <div class="animate-scan"></div>
                                         </div>
 
-                                        <!-- Camera selection -->
-                                        <div x-show="cameras.length > 1" class="absolute bottom-6 left-6 right-6 z-20">
-                                            <select x-model="selectedCameraId" @change="restartScanner()" 
-                                                    class="w-full bg-slate-900/80 backdrop-blur-xl border border-slate-700 rounded-2xl py-3 px-6 text-[10px] font-black uppercase tracking-widest text-slate-400 focus:text-white outline-none transition-all">
-                                                <template x-for="camera in cameras" :key="camera.id">
-                                                    <option :value="camera.id" x-text="camera.label"></option>
-                                                </template>
-                                            </select>
-                                        </div>
+                                        <!-- No camera selection here, follows Admin choice -->
                                     </div>
                                 </template>
                                 <template x-if="loginMethod === 'manual'">
@@ -408,14 +443,7 @@
                                         <div class="absolute w-full h-1 bg-blue-400/50 shadow-[0_0_15px_#60a5fa] animate-scan z-20"></div>
                                     </div>
 
-                                    <div x-show="cameras.length > 1" class="w-full max-w-sm mx-auto">
-                                        <select x-model="selectedCameraId" @change="restartScanner()" 
-                                                class="w-full bg-white border-4 border-slate-900 rounded-2xl py-4 px-6 text-xs font-black uppercase tracking-widest text-slate-900 focus:ring-4 focus:ring-blue-600/20 outline-none transition-all shadow-[4px_4px_0px_#e2e8f0]">
-                                            <template x-for="camera in cameras" :key="camera.id">
-                                                <option :value="camera.id" x-text="camera.label"></option>
-                                            </template>
-                                        </select>
-                                    </div>
+                                    <!-- No camera selection here, follows Admin choice -->
 
                                     <div class="flex items-center justify-center gap-4">
                                         <div class="h-3 w-3 rounded-full bg-blue-600 animate-ping"></div>
@@ -513,6 +541,9 @@ document.addEventListener('alpine:init', () => {
         memberLoginData: { id_pengenal_siswa: '', pin: '' },
         bookInputData: { code: '' },
         
+        showAdminPin: false,
+        showUserPin: false,
+        
         // Session State
         user: null,
         step: 'login', // login, action_selection, book_input, finished
@@ -563,11 +594,10 @@ document.addEventListener('alpine:init', () => {
         async loginAdmin() {
             if (!this.adminData.id_pengenal_siswa || !this.adminData.pin) return this.showModal('error', 'Required', 'Admin credentials cannot be empty.');
             this.executeKioskApi('/api/kiosk/admin-login', this.adminData, (data) => {
-                // The instruction provided an axios.post here, which is redundant as executeKioskApi already handles the API call.
-                // Assuming the intent was to update the data reset and modal display within the existing executeKioskApi success callback.
                 this.adminData = { id_pengenal_siswa: '', pin: '' };
                 this.activeAdmin = data.admin;
                 this.isKioskActive = true;
+                this.showAdminPin = false;
                 this.showModal('success', 'Terminal Activated', 'Welcome back, ' + data.admin.name);
                 setTimeout(() => this.closeModal(), 2000);
             });
@@ -583,13 +613,12 @@ document.addEventListener('alpine:init', () => {
             });
         },
 
-        async loginMember() { // Renamed from loginManual based on instruction context
+        async loginManual() {
             if (!this.memberLoginData.id_pengenal_siswa || !this.memberLoginData.pin) return this.showModal('error', 'Missing Data', 'Please fill both ID Pengenal Siswa and PIN.');
-            // The instruction provided an axios.post here, which is redundant as executeKioskApi already handles the API call.
-            // Assuming the intent was to update the data reset and modal display within the existing executeKioskApi success callback.
             this.executeKioskApi('/api/kiosk/login', this.memberLoginData, (data) => {
                 this.user = data.user;
                 this.memberLoginData = { id_pengenal_siswa: '', pin: '' };
+                this.showUserPin = false;
                 this.step = 'action_selection';
                 this.resetTimeout();
             });
@@ -705,11 +734,21 @@ document.addEventListener('alpine:init', () => {
         },
 
         async restartScanner() {
+            if (!this.scanner && !this.adminQrActive && this.step !== 'book_input' && !(this.step === 'login' && this.loginMethod === 'qr')) return;
+            
             this.stopScanner().then(() => {
                 if (this.adminQrActive) this.initScanner("reader-admin", (c) => this.loginAdminWithQr(c));
                 else if (this.step === 'login' && this.loginMethod === 'qr') this.initScanner("reader");
                 else if (this.step === 'book_input') this.initScanner("reader-book");
             });
+        },
+
+        cycleCamera() {
+            if (this.cameras.length <= 1) return;
+            const currentIndex = this.cameras.findIndex(c => c.id === this.selectedCameraId);
+            const nextIndex = (currentIndex + 1) % this.cameras.length;
+            this.selectedCameraId = this.cameras[nextIndex].id;
+            this.restartScanner();
         },
 
         handleScan(content) {
