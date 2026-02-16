@@ -177,18 +177,17 @@
                             <div class="space-y-2">
                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Required</p>
                                 <div class="flex flex-col gap-1.5">
-                                    <template x-for="field in ['name', 'email', 'password']">
-                                        <div class="flex items-center gap-2 text-[11px] font-mono text-primary-600 dark:text-primary-400">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-primary-500/20 flex items-center justify-center"><span class="w-0.5 h-0.5 rounded-full bg-primary-500"></span></span>
-                                            <span x-text="field"></span>
-                                        </div>
-                                    </template>
+                                    <div class="flex items-center gap-2 text-[11px] font-mono text-primary-600 dark:text-primary-400">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-primary-500/20 flex items-center justify-center"><span class="w-0.5 h-0.5 rounded-full bg-primary-500"></span></span>
+                                        <span>name</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 leading-tight">Email akan otomatis dibuat dari nama depan (@perpus.com)</p>
                                 </div>
                             </div>
                             <div class="space-y-2">
                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Properties</p>
                                 <div class="flex flex-wrap gap-1.5">
-                                    <template x-for="field in ['phone', 'role', 'id_pengenal_siswa', 'kelas', 'pin', 'limit']">
+                                    <template x-for="field in ['phone', 'id_pengenal_siswa', 'kelas', 'jurusan', 'angkatan', 'pin', 'borrow_limit']">
                                         <span class="text-[10px] font-mono text-gray-500 bg-gray-50 dark:bg-white/5 px-1.5 py-0.5 rounded-md border border-gray-200 dark:border-gray-800" x-text="field"></span>
                                     </template>
                                 </div>
@@ -341,7 +340,7 @@
                             <div class="space-y-2">
                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Attributes</p>
                                 <div class="flex flex-wrap gap-1.5">
-                                    <template x-for="field in ['author', 'publisher', 'year', 'isbn', 'stock']">
+                                    <template x-for="field in ['author', 'publisher', 'year', 'isbn', 'description', 'stock']">
                                         <span class="text-[10px] font-mono text-gray-500 bg-gray-50 dark:bg-white/5 px-1.5 py-0.5 rounded-md border border-gray-200 dark:border-gray-800" x-text="field"></span>
                                     </template>
                                 </div>

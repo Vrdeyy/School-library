@@ -88,10 +88,22 @@
                                 <span class="text-[1.6mm] font-black text-slate-900 tracking-widest uppercase italic">CATALOG_TITLE</span>
                                 <div class="h-1 flex-1 benday-dots"></div>
                             </div>
-                            <h2 class="text-[3.8mm] font-black uppercase text-slate-900 leading-[1.15] line-clamp-3 italic chromatic-offset" 
-                                style="text-shadow: 1.5px 1.5px 0px white, 2.5px 2.5px 0px rgba(0,0,0,0.05);">
-                                {{ $item->book->title }}
-                            </h2>
+                            @php
+                                $title = $item->book->title;
+                                $tLen = mb_strlen($title);
+                                $tFontSize = 'text-[3.8mm]';
+                                if ($tLen > 100) $tFontSize = 'text-[2.2mm]';
+                                elseif ($tLen > 80) $tFontSize = 'text-[2.6mm]';
+                                elseif ($tLen > 60) $tFontSize = 'text-[3mm]';
+                                elseif ($tLen > 40) $tFontSize = 'text-[3.4mm]';
+                            @endphp
+                            <div class="h-[14mm] flex items-start overflow-hidden">
+                                <h2 class="{{ $tFontSize }} font-black uppercase text-slate-900 leading-[1.1] italic chromatic-offset" 
+                                    style="text-shadow: 1.5px 1.5px 0px white, 2.5px 2.5px 0px rgba(0,0,0,0.05);
+                                           display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                                    {{ $title }}
+                                </h2>
+                            </div>
                         </div>
 
                         <!-- ID Badge Style -->
@@ -100,13 +112,21 @@
                                 <span class="text-[1.6mm] font-black text-slate-900 tracking-widest uppercase italic">ITEM_IDENTIFIER</span>
                                 <div class="h-1 flex-1 benday-dots"></div>
                             </div>
-                            <div class="flex bg-white border-2 border-slate-900 rounded-lg overflow-hidden shadow-[4px_4px_0px_#2563eb] w-full items-stretch">
+                            <div class="flex bg-white border-2 border-slate-900 rounded-lg overflow-hidden shadow-[4px_4px_0px_#2563eb] w-full items-stretch h-[8mm]">
                                 <div class="bg-slate-900 text-white px-2 py-1 flex items-center border-r-2 border-slate-900">
                                     <span class="text-[1.8mm] font-black uppercase tracking-tighter italic">Code</span>
                                 </div>
-                                <div class="flex-1 px-3 py-1 bg-white flex items-center justify-center min-w-0">
-                                    <span class="text-[3.8mm] font-black text-slate-900 uppercase break-all leading-none text-center">
-                                        {{ $item->code }}
+                                <div class="flex-1 px-2 py-1 bg-white flex items-center justify-center min-w-0">
+                                    @php
+                                        $code = $item->code;
+                                        $cLen = mb_strlen($code);
+                                        $cFontSize = 'text-[3.8mm]';
+                                        if ($cLen > 25) $cFontSize = 'text-[2mm]';
+                                        elseif ($cLen > 20) $cFontSize = 'text-[2.5mm]';
+                                        elseif ($cLen > 15) $cFontSize = 'text-[3mm]';
+                                    @endphp
+                                    <span class="{{ $cFontSize }} font-black text-slate-900 uppercase break-all leading-none text-center">
+                                        {{ $code }}
                                     </span>
                                 </div>
                             </div>

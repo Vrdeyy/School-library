@@ -68,16 +68,9 @@ class BorrowResource extends Resource
                 Tables\Columns\TextColumn::make('bookItem.book.title')
                     ->label('Book Title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('bookItem.code')
-                    ->label('Item Code')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('borrow_date')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('due_date')
-                    ->dateTime()
-                    ->sortable()
-                    ->color(fn (Borrow $record) => $record->is_overdue ? 'danger' : null),
                 Tables\Columns\TextColumn::make('return_date')
                     ->dateTime()
                     ->sortable(),
@@ -178,6 +171,26 @@ class BorrowResource extends Resource
                             'approved_by' => auth()->id(),
                         ]);
                         $record->bookItem()->update(['status' => 'borrowed']);
+                    })
+                    ->visible(fn (Borrow $record) => $record->status === 'pending'),
+                
+                Tables\Actions\Action::make('reject')
+                    ->label('Reject')
+                    ->icon('heroicon-o-x-mark')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->form([
+                        Forms\Components\Textarea::make('notes')
+                            ->label('Alasan Penolakan')
+                            ->placeholder('Contoh: ID tidak valid atau buku rusak')
+                            ->required(),
+                    ])
+                    ->action(function (Borrow $record, array $data) {
+                        $record->update([
+                            'status' => 'rejected',
+                            'notes' => $data['notes'],
+                            'approved_by' => auth()->id(),
+                        ]);
                     })
                     ->visible(fn (Borrow $record) => $record->status === 'pending'),
                 

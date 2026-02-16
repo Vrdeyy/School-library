@@ -136,10 +136,25 @@
                 <div class="relative z-10 px-5 pt-4 flex flex-1 gap-4">
                     <!-- Left Info Panel -->
                     <div class="flex-1">
-                        <div class="mb-4">
-                            <h2 class="text-[5mm] font-black uppercase text-slate-900 leading-tight italic chromatic-offset" 
-                                style="text-shadow: 2px 2px 0px white, 3px 3px 0px rgba(0,0,0,0.1);">{{ $user->name }}</h2>
-                            <div class="inline-flex mt-2 bg-white border-2 border-slate-900 rounded-lg overflow-hidden shadow-[3px_3px_0px_#2563eb]">
+                        <div class="mb-3">
+                            @php
+                                $name = $user->name;
+                                $len = mb_strlen($name);
+                                $fontSize = 'text-[5mm]'; 
+                                if ($len > 40) $fontSize = 'text-[3mm]';
+                                elseif ($len > 30) $fontSize = 'text-[3.5mm]';
+                                elseif ($len > 25) $fontSize = 'text-[4mm]';
+                                elseif ($len > 18) $fontSize = 'text-[4.5mm]';
+                            @endphp
+
+                            <div class="h-[12mm] flex items-center">
+                                <h2 class="{{ $fontSize }} font-black uppercase text-slate-900 leading-[1.1] italic chromatic-offset" 
+                                    style="text-shadow: 2px 2px 0px white, 3px 3px 0px rgba(0,0,0,0.1);
+                                           display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    {{ $name }}
+                                </h2>
+                            </div>
+                            <div class="inline-flex mt-1 bg-white border-2 border-slate-900 rounded-lg overflow-hidden shadow-[3px_3px_0px_#2563eb]">
                                 <span class="bg-slate-900 text-white px-2 py-0.5 text-[1.8mm] font-black">ID</span>
                                 <span class="px-3 py-0.5 text-[2.2mm] font-bold text-slate-900 uppercase tracking-wider">{{ $user->id_pengenal_siswa ?? $user->id }}</span>
                             </div>

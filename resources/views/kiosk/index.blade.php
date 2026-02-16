@@ -191,9 +191,10 @@
                 </div>
 
                 <div class="flex items-center gap-3 sm:gap-6 relative z-10 w-full md:w-auto mt-2 md:mt-0">
-                    <div x-show="user" class="flex-grow md:flex-grow-0 flex items-center justify-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-slate-900 text-white rounded-lg border-2 border-slate-900 font-black italic text-[10px] sm:text-xs shadow-[4px_4px_0px_#2563eb]">
-                        <span class="text-slate-400 uppercase text-[8px]">TIMER:</span>
-                        <span class="text-blue-400" x-text="Math.ceil(timer / 10) + 's'"></span>
+                    <!-- Mini comic burst for timer -->
+                    <div x-show="user" class="flex-grow md:flex-grow-0 flex items-center justify-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-slate-900 text-white rounded-lg border-2 border-slate-900 font-black italic text-[10px] sm:text-xs shadow-[4px_4px_0px_#2563eb]" translate="no">
+                        <span class="text-slate-400 uppercase text-[8px]">SESSION_TIME:</span>
+                        <span class="text-blue-400"><span x-text="timer"></span>s</span>
                     </div>
                     <button @click="closeKiosk()" class="flex-shrink-0 px-4 sm:px-6 py-2 bg-white border-[3px] border-red-600 text-red-600 hover:bg-red-600 hover:text-white rounded-lg sm:rounded-xl text-[8px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-[4px_4px_0px_#ef4444] hover:shadow-none active:translate-x-1 active:translate-y-1">TERMINATE</button>
                 </div>
@@ -331,8 +332,8 @@
                             <button @click="startAction('borrow')" class="group bg-white/90 backdrop-blur-xl panel-border p-6 sm:p-12 rounded-2xl sm:rounded-[3.5rem] text-left hover:border-blue-600 hover:shadow-[10px_10px_0px_#2563eb] sm:shadow-[16px_16px_0px_#2563eb] transition-all duration-500 relative overflow-hidden">
                                 <div class="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 bg-blue-100/50 -mr-12 -mt-12 sm:-mr-16 sm:-mt-16 rounded-full blur-2xl sm:blur-3xl benday-dots transition-all"></div>
                                 
-                                <div class="w-16 h-16 sm:w-24 sm:h-24 bg-blue-600 text-white rounded-xl sm:rounded-2xl flex items-center justify-center mb-6 sm:mb-10 border-2 sm:border-4 border-slate-900 shadow-[4px_4px_0px_#1e293b] sm:shadow-[6px_6px_0px_#1e293b] group-hover:scale-110 transition-transform relative z-10">
-                                    <svg class="w-8 h-8 sm:w-12 sm:h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                                <div class="w-16 h-16 sm:w-24 sm:h-24 bg-blue-600 text-white comic-burst burst-border flex items-center justify-center mb-6 sm:mb-10 group-hover:scale-110 transition-transform relative z-10">
+                                    <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                                 </div>
                                 <h3 class="text-2xl sm:text-4xl font-black text-slate-900 uppercase italic tracking-tighter mb-2 sm:mb-4 relative z-10 chromatic-offset text-nowrap">BORROW_ITEM</h3>
                                 <p class="text-slate-400 text-[10px] sm:text-sm font-black uppercase tracking-widest leading-relaxed pr-6 sm:pr-8 relative z-10 italic">Initiate new cryptographic loan transaction. Scans required for validation.</p>
@@ -345,8 +346,8 @@
                             <button @click="startAction('return')" class="group bg-white/90 backdrop-blur-xl panel-border p-6 sm:p-12 rounded-2xl sm:rounded-[3.5rem] text-left hover:border-indigo-600 hover:shadow-[10px_10px_0px_#4f46e5] sm:shadow-[16px_16px_0px_#4f46e5] transition-all duration-500 relative overflow-hidden">
                                 <div class="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 bg-indigo-100/50 -mr-12 -mt-12 sm:-mr-16 sm:-mt-16 rounded-full blur-2xl sm:blur-3xl benday-dots transition-all"></div>
                                 
-                                <div class="w-16 h-16 sm:w-24 sm:h-24 bg-indigo-600 text-white rounded-xl sm:rounded-2xl flex items-center justify-center mb-6 sm:mb-10 border-2 sm:border-4 border-slate-900 shadow-[4px_4px_0px_#1e293b] sm:shadow-[6px_6px_0px_#1e293b] group-hover:scale-110 transition-transform relative z-10">
-                                    <svg class="w-8 h-8 sm:w-12 sm:h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" /></svg>
+                                <div class="w-16 h-16 sm:w-24 sm:h-24 bg-indigo-600 text-white comic-burst burst-border flex items-center justify-center mb-6 sm:mb-10 group-hover:scale-110 transition-transform relative z-10">
+                                    <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" /></svg>
                                 </div>
                                 <h3 class="text-2xl sm:text-4xl font-black text-slate-900 uppercase italic tracking-tighter mb-2 sm:mb-4 relative z-10 chromatic-offset text-nowrap">RETURN_ITEM</h3>
                                 <p class="text-slate-400 text-[10px] sm:text-sm font-black uppercase tracking-widest leading-relaxed pr-6 sm:pr-8 relative z-10 italic">Deactivate active loan session. Items must be optically verified.</p>
@@ -464,7 +465,7 @@
                                 <svg class="w-20 h-20 sm:w-32 sm:h-32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 <!-- Floating onomatopoeia -->
                                 <div class="absolute -top-6 -right-8 sm:-top-8 sm:-right-12 animate-bounce">
-                                    <span class="ONOMATOPOEIA text-2xl sm:text-4xl rotate-12">YES!</span>
+                                    <span class="onomatopoeia text-2xl sm:text-4xl rotate-12">YES!</span>
                                 </div>
                             </div>
                         </div>
@@ -554,7 +555,7 @@ document.addEventListener('alpine:init', () => {
         cameras: [],
         selectedCameraId: null,
         lastScan: { content: null, time: 0 },
-        timer: 900,
+        timer: 90,
         
         // Feedback
         modal: { show: false, type: 'info', title: '', message: '' },
@@ -566,7 +567,7 @@ document.addEventListener('alpine:init', () => {
                     this.timer--;
                     if (this.timer === 0) this.logout();
                 }
-            }, 100);
+            }, 1000);
 
             // Life-cycle Watchers
             this.$watch('isKioskActive', (active) => {
@@ -768,7 +769,7 @@ document.addEventListener('alpine:init', () => {
 
         // --- HELPERS ---
 
-        resetTimeout() { this.timer = 900; },
+        resetTimeout() { this.timer = 90; },
         
         logout() {
             this.user = null;

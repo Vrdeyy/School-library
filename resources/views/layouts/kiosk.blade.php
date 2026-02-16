@@ -68,8 +68,16 @@
             mix-blend-mode: multiply;
         }
 
-        .comic-burst {
+        .comic-star {
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .comic-burst {
+            clip-path: polygon(50% 0%, 63% 15%, 95% 10%, 85% 37%, 100% 50%, 85% 63%, 95% 90%, 63% 85%, 50% 100%, 37% 85%, 5% 90%, 15% 63%, 0% 50%, 15% 37%, 5% 10%, 37% 15%);
+        }
+
+        .burst-border {
+            filter: drop-shadow(0 0 1px #1e293b) drop-shadow(0 0 1px #1e293b) drop-shadow(0 0 1px #1e293b);
         }
 
         .sticker-effect {
@@ -171,7 +179,8 @@
         
         <!-- Background Elements (Synchronized with Catalog Index) -->
         <div class="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-slate-50">
-            <!-- Layer 0: Comic Halftone Global Texture -->
+            <!-- Layer 0: Paper Texture & Comic Halftone Global Texture -->
+            <div class="absolute inset-0 z-0 paper-texture opacity-20"></div>
             <div class="absolute inset-0 z-0 comic-halftone"></div>
             <div class="absolute inset-0 z-0 screentone"></div>
             
@@ -190,6 +199,8 @@
             <!-- Layer 3: Pop-Art Bursts (Stars) -->
             <div class="absolute top-[5%] sm:top-[10%] right-[10%] sm:right-[15%] w-32 sm:w-64 h-32 sm:h-64 bg-indigo-100/40 comic-burst z-[3] rotate-12 animate-pulse"></div>
             <div class="absolute bottom-[15%] sm:bottom-[20%] left-[2%] sm:left-[5%] w-24 sm:w-48 h-24 sm:h-48 bg-purple-100/40 comic-burst z-[3] -rotate-12 animate-bounce" style="animation-delay: 2s"></div>
+            <div class="absolute top-[35%] left-[5%] w-20 sm:w-32 h-20 sm:h-32 bg-blue-100/30 comic-star z-[3] rotate-45 animate-float-gentle"></div>
+            <div class="absolute bottom-[45%] right-[5%] w-24 sm:w-40 h-24 sm:h-40 bg-pink-100/30 comic-burst z-[3] -rotate-45 animate-pulse" style="animation-delay: 1.5s"></div>
 
             <!-- Layer 4: Tech Grid & Lines (Offset Comic Style) -->
             <svg class="absolute inset-0 opacity-[0.15] sm:opacity-[0.25] text-blue-900 z-[4] tech-grid" fill="none" stroke="currentColor" viewBox="0 0 100 100">

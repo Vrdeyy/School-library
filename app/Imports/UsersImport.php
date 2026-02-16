@@ -17,25 +17,37 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
     */
     public function model(array $row)
     {
-        // Handle mapping for 'id_pengenal_siswa' because export might use 'ID Pengenal Siswa' or 'id_pengenal_siswa'
-        $id_pengenal_siswa = $row['id_pengenal_siswa'] ?? $row['id_pengenal_siswa'] ?? $row['nis'] ?? $row['nisnip'] ?? $row['id_nis'] ?? null;
+        // 1. Format Name
+        $name = trim($row['name']);
         
-        // Handle password: if missing in file, use random for user (they use PIN) or default for admin
-        $role = $row['role'] ?? 'user';
-        $password = $row['password'] ?? null;
-        
-        if (empty($password)) {
-            $password = ($role === 'admin') ? '12345678' : \Illuminate\Support\Str::random(16);
+        // 2. Auto-generate Email if not provided (e.g. "Ujang Ejep" -> "ujang@perpus.com")
+        $email = $row['email'] ?? null;
+        if (empty($email)) {
+            $firstName = explode(' ', $name)[0];
+            $baseEmail = strtolower($firstName) . '@perpus.com';
+            
+            // Basic conflict check (if already exists, append random/ID)
+            if (User::where('email', $baseEmail)->exists()) {
+                $baseEmail = strtolower(str_replace(' ', '', $name)) . '@perpus.com';
+            }
+            $email = $baseEmail;
         }
+
+        // 3. Handle ID Pengenal Siswa
+        $id_pengenal_siswa = $row['id_pengenal_siswa'] ?? $row['nis'] ?? $row['nisnip'] ?? $row['id_nis'] ?? null;
         
-        $hashedPassword = Hash::make($password);
+        // 4. Role is always 'user' because admins shouldn't be created via Excel
+        $role = 'user';
+        
+        // 5. Password can be null for regular users
+        $hashedPassword = null;
 
         return new User([
-            'name'         => $row['name'],
-            'email'        => $row['email'],
+            'name'         => $name,
+            'email'        => $email,
             'phone'        => isset($row['phone']) ? (string)$row['phone'] : null,
             'password'     => $hashedPassword,
-            'role'         => $row['role'] ?? 'user',
+            'role'         => $role,
             'kelas'        => $row['kelas'] ?? null,
             'jurusan'      => $row['jurusan'] ?? null,
             'angkatan'     => $row['angkatan'] ?? null,
@@ -50,10 +62,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
     {
         return [
             'name' => 'required|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'nullable|email|unique:users,email',
             'phone' => 'nullable|max:20',
-            'password' => 'nullable|min:6',
-            'role' => 'nullable|in:admin,user',
             'id_pengenal_siswa' => 'nullable',
         ];
     }

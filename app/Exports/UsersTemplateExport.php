@@ -10,10 +10,7 @@ class UsersTemplateExport implements WithHeadings
     {
         return [
             'name',
-            'email',
             'phone',
-            'password',
-            'role',
             'id_pengenal_siswa',
             'kelas',
             'jurusan',

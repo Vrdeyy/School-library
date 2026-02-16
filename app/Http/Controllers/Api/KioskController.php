@@ -138,6 +138,18 @@ class KioskController extends Controller
                 ], 400);
             }
 
+            // DOUBLE CHECK: Is there already a pending or active borrow for this specific item?
+            $activeBorrow = Borrow::where('book_item_id', $bookItem->id)
+                ->whereIn('status', ['pending', 'approved', 'returning'])
+                ->exists();
+
+            if ($activeBorrow) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Buku ini sudah dalam proses peminjaman oleh orang lain.',
+                ], 400);
+            }
+
             DB::transaction(function () use ($user, $bookItem, $request) {
                 // Create Pending Borrow
                 Borrow::create([
@@ -198,11 +210,20 @@ class KioskController extends Controller
                 ], 400);
             }
 
-            // Find Active Borrow
+            // Find Active Borrow (Must be already approved/borrowed)
             $borrow = Borrow::where('book_item_id', $bookItem->id)
                 ->where('user_id', $user->id)
-                ->whereIn('status', ['approved', 'pending'])
+                ->where('status', 'approved')
                 ->first();
+
+            // If it's still pending, user should cancel it, not "return" it.
+            // But for now, we just block it from the return flow.
+            if (!$borrow && Borrow::where('book_item_id', $bookItem->id)->where('user_id', $user->id)->where('status', 'pending')->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Peminjaman kamu belum disetujui admin. Silahkan hubungi pustakawan.',
+                ], 400);
+            }
 
             if (!$borrow) {
                 return response()->json([

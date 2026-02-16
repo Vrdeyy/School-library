@@ -80,9 +80,6 @@
             mix-blend-mode: multiply;
         }
 
-        .comic-burst {
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-        }
 
         .sticker-effect {
             filter: 
@@ -145,6 +142,39 @@
             background-image: radial-gradient(#1e293b 20%, transparent 20%);
             background-size: 4px 4px;
         }
+
+        .comic-star {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .comic-burst {
+            clip-path: polygon(50% 0%, 63% 15%, 95% 10%, 85% 37%, 100% 50%, 85% 63%, 95% 90%, 63% 85%, 50% 100%, 37% 85%, 5% 90%, 15% 63%, 0% 50%, 15% 37%, 5% 10%, 37% 15%);
+        }
+
+        .burst-border {
+            filter: drop-shadow(0 0 1px #1e293b) drop-shadow(0 0 1px #1e293b) drop-shadow(0 0 1px #1e293b);
+        }
+
+        .speech-bubble {
+            position: relative;
+            background: #ffffff;
+            border-radius: .4em;
+        }
+
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-top-color: #ffffff;
+            border-bottom: 0;
+            border-left: 0;
+            margin-left: -10px;
+            margin-bottom: -20px;
+        }
     </style>
 </head>
 <body class="text-slate-900 min-h-screen overflow-x-hidden selection:bg-blue-600 selection:text-white paper-texture">
@@ -152,7 +182,8 @@
     <!-- Background Elements (Comic/Pop-Art Layered Version) -->
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-slate-50">
         
-        <!-- Layer 0: Comic Halftone Global Texture -->
+        <!-- Layer 0: Paper Texture & Comic Halftone Global Texture -->
+        <div class="absolute inset-0 z-0 paper-texture opacity-20"></div>
         <div class="absolute inset-0 z-0 comic-halftone"></div>
         <div class="absolute inset-0 z-0 screentone"></div>
 
@@ -171,6 +202,8 @@
         <!-- Layer 3: Pop-Art Bursts (Stars) -->
         <div class="absolute top-[10%] right-[15%] w-64 h-64 bg-indigo-100/40 comic-burst z-[3] rotate-12 animate-pulse"></div>
         <div class="absolute bottom-[20%] left-[5%] w-48 h-48 bg-purple-100/40 comic-burst z-[3] -rotate-12 animate-bounce" style="animation-delay: 2s"></div>
+        <div class="absolute top-[30%] left-[10%] w-32 h-32 bg-blue-100/30 comic-star z-[3] rotate-45 animate-float-gentle"></div>
+        <div class="absolute bottom-[40%] right-[15%] w-40 h-40 bg-pink-100/30 comic-burst z-[3] -rotate-45 animate-pulse" style="animation-delay: 1.5s"></div>
 
         <!-- Layer 4: Tech Grid & Lines (Offset Comic Style) -->
         <svg class="absolute inset-0 opacity-[0.25] text-blue-900 z-[4] tech-grid" fill="none" stroke="currentColor" viewBox="0 0 100 100">
@@ -229,11 +262,11 @@
     <div class="relative z-10">
         <!-- Header/Hero -->
         <header class="pt-16 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 text-center max-w-5xl mx-auto">
-            <div class="inline-flex items-center gap-3 px-4 sm:px-6 py-2 rounded-full bg-white border-2 border-slate-900 shadow-[4px_4px_0px_#2563eb] mb-8 sm:12 relative">
+            <div class="inline-flex items-center gap-3 px-4 sm:px-6 py-2 rounded-full bg-white border-2 border-slate-900 shadow-[4px_4px_0px_#2563eb] mb-8 sm:mb-12 relative">
                 <span class="flex h-2 w-2 rounded-full bg-blue-600 animate-pulse"></span>
                 <span class="text-[8px] sm:text-[10px] font-black tracking-[0.2em] sm:tracking-[0.4em] text-slate-900 uppercase">OFFICIAL_DIGITAL_CATALOG</span>
                 <!-- Mini burst sticker -->
-                <div class="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 comic-burst flex items-center justify-center rotate-12 shadow-lg">
+                <div class="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 comic-burst burst-border flex items-center justify-center rotate-12 shadow-lg">
                     <span class="text-[7px] sm:text-[8px] font-black text-white italic">NEW</span>
                 </div>
             </div>
@@ -241,10 +274,10 @@
             <h1 class="text-4xl sm:text-6xl lg:text-8xl font-black text-slate-900 tracking-tighter uppercase italic leading-none mb-6 sm:8 relative chromatic-offset">
                 EXPLORE<br>
                 <span class="text-blue-600" style="text-shadow: 2px 2px 0 white, 4px 4px 0px #1e293b;">KNOWLEDGE.</span>
-                <!-- Floating accent dots - hidden on very small screens -->
+                <!-- Floating accent comic stars -->
                 <div class="absolute -top-4 sm:-top-6 left-0 flex gap-1 sm:gap-2">
-                    <div class="w-2 h-2 sm:w-3 sm:h-3 bg-blue-600 rounded-full border-2 border-slate-900 shadow-[1px_1px_0px_white]"></div>
-                    <div class="w-2 h-2 sm:w-3 sm:h-3 bg-indigo-600 rounded-full border-2 border-slate-900 shadow-[1px_1px_0px_white]"></div>
+                    <div class="w-3 h-3 sm:w-4 sm:h-4 bg-blue-600 comic-star border-2 border-slate-900 shadow-[2px_2px_0px_white] rotate-12"></div>
+                    <div class="w-3 h-3 sm:w-4 sm:h-4 bg-indigo-600 comic-star border-2 border-slate-900 shadow-[2px_2px_0px_white] -rotate-12"></div>
                 </div>
             </h1>
             
@@ -267,7 +300,7 @@
             <!-- Search Area -->
             <div class="max-w-xl mx-auto relative group px-2">
                 <div class="absolute -top-7 -left-2 z-20">
-                    <div class="comic-burst bg-blue-600 text-white px-3 py-2 sm:px-4 sm:py-3 rotate-[-15deg] shadow-[3px_3px_0px_#1e293b] animate-pulse border-2 border-slate-900">
+                    <div class="comic-burst bg-blue-600 text-white px-3 py-2 sm:px-5 sm:py-4 rotate-[-15deg] shadow-[3px_3px_0px_#1e293b] animate-pulse burst-border border-slate-900">
                         <span class="text-[10px] sm:text-xs font-black italic uppercase">FIND IT!</span>
                     </div>
                 </div>
@@ -286,10 +319,10 @@
         <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-20 sm:pb-24">
             <div class="flex items-center gap-4 sm:gap-6 mb-10 sm:16">
-                <div class="h-3 w-3 sm:h-4 sm:w-4 bg-slate-900 rotate-45 border border-white shadow-sm"></div>
+                <div class="h-4 w-4 sm:h-6 sm:w-6 bg-slate-900 comic-star border-2 border-white shadow-sm rotate-12"></div>
                 <h2 class="text-[10px] sm:text-sm font-black text-slate-900 tracking-[0.3em] sm:tracking-[0.6em] uppercase italic bg-white px-3 sm:px-4 border-2 border-slate-900 shadow-[3px_3px_0px_#1e293b] sm:shadow-[4px_4px_0px_#1e293b]">COLLECTION_MANIFEST</h2>
                 <div class="h-[3px] sm:h-[4px] flex-1 bg-slate-900"></div>
-                <div class="h-3 w-3 sm:h-4 sm:w-4 bg-blue-600 rotate-45 border border-white shadow-sm"></div>
+                <div class="h-4 w-4 sm:h-6 sm:w-6 bg-blue-600 comic-star border-2 border-white shadow-sm -rotate-12"></div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-10 lg:gap-12" id="booksGrid">
