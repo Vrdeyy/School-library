@@ -14,7 +14,6 @@ class BooksTemplateExport implements WithHeadings
             'publisher',
             'year',
             'isbn',
-            'description',
             'stock',
         ];
     }

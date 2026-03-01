@@ -34,8 +34,6 @@ class BookResource extends Resource
                     ->numeric(),
                 Forms\Components\TextInput::make('isbn')
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('cover_image')
                     ->image()
                     ->disk('public')

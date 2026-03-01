@@ -24,7 +24,6 @@ class BooksImport implements ToModel, WithHeadingRow, WithValidation
             'publisher'   => isset($row['publisher']) ? (string)$row['publisher'] : null,
             'year'        => isset($row['year']) ? $row['year'] : null,
             'isbn'        => isset($row['isbn']) ? (string)$row['isbn'] : null,
-            'description' => isset($row['description']) ? (string)$row['description'] : null,
         ]);
 
         $stock = intval($row['stock'] ?? 1);

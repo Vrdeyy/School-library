@@ -48,7 +48,6 @@ class PublicController extends Controller
                         'publisher' => $book->publisher,
                         'year' => $book->year,
                         'isbn' => $book->isbn,
-                        'description' => $book->description,
                         'cover_image' => $book->cover_image ? asset('storage/' . $book->cover_image) : null,
                         'total_stock' => $book->items->count(),
                         'available_stock' => $book->items->where('status', 'available')->count(),

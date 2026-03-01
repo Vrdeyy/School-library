@@ -84,8 +84,8 @@
         }
 
         .onomatopoeia {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 900;
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
             text-transform: uppercase;
             font-style: italic;
             -webkit-text-stroke: 1.5px #1e293b;
@@ -94,11 +94,7 @@
             letter-spacing: -0.05em;
         }
 
-        .chromatic-offset {
-            text-shadow: 
-                -2px -2px 0 rgba(239, 68, 68, 0.4),
-                2px 2px 0 rgba(34, 211, 238, 0.4);
-        }
+        /* Removed chromatic-offset */
 
         .comic-burst {
             clip-path: polygon(50% 0%, 63% 15%, 95% 10%, 85% 37%, 100% 50%, 85% 63%, 95% 90%, 63% 85%, 50% 100%, 37% 85%, 5% 90%, 15% 63%, 0% 50%, 15% 37%, 5% 10%, 37% 15%);
@@ -185,7 +181,7 @@
         }
 
         [x-cloak] { display: none !important; }
-        body { font-family: 'Outfit', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Courier Prime', monospace; background-color: #f8fafc; }
     </style>
 </head>
 <body class="text-slate-900 min-h-screen overflow-x-hidden selection:bg-purple-600 selection:text-white paper-texture">
@@ -211,8 +207,8 @@
         </svg>
 
         <!-- FLOATING PLUS SIGNS & DECOR (Subtle) -->
-        <div class="absolute top-[20%] right-[30%] opacity-[0.1] text-slate-400 font-black text-4xl animate-float-gentle">+</div>
-        <div class="absolute bottom-[40%] left-[25%] opacity-[0.08] text-purple-400 font-black text-5xl animate-bounce" style="animation-duration: 4s">+</div>
+        <div class="absolute top-[20%] right-[30%] opacity-[0.1] text-slate-400 font-bold text-4xl animate-float-gentle">+</div>
+        <div class="absolute bottom-[40%] left-[25%] opacity-[0.08] text-purple-400 font-bold text-5xl animate-bounce" style="animation-duration: 4s">+</div>
         
         <!-- PREMIUM STICKER SHAPES (Backdrops) -->
         <div class="absolute top-[5%] right-[15%] w-32 h-32 bg-purple-100/20 comic-burst -rotate-12 opacity-[0.1] animate-pulse"></div>
@@ -226,7 +222,7 @@
             </svg>
         </div>
         <!-- Plus Decor near book -->
-        <div class="absolute top-[20%] left-[20%] opacity-[0.15] text-slate-400 font-black text-3xl z-20 animate-pulse">+</div>
+        <div class="absolute top-[20%] left-[20%] opacity-[0.15] text-slate-400 font-bold text-3xl z-20 animate-pulse">+</div>
 
         <!-- 2. Calculator (Math) -->
         <div class="absolute top-[8%] right-[8%] rotate-[12deg] z-20 animate-pulse opacity-[0.15] sticker-effect">
@@ -274,12 +270,12 @@
         <header class="pt-16 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 text-center max-w-5xl mx-auto">
             <div class="inline-flex items-center gap-3 px-4 sm:px-6 py-2 rounded-full bg-white border-2 border-slate-900 shadow-[4px_4px_0px_#9333ea] mb-8 sm:mb-12 relative">
                 <span class="flex h-2 w-2 rounded-full bg-purple-600 animate-pulse"></span>
-                <span class="text-[8px] sm:text-[10px] font-black tracking-[0.1em] sm:tracking-[0.2em] text-slate-900">Katalog_Digital_Resmi</span>
+                <span class="text-[8px] sm:text-[10px] font-bold tracking-[0.1em] sm:tracking-[0.2em] text-slate-900">Katalog_Digital_Resmi</span>
             </div>
 
-            <h1 class="text-4xl sm:text-6xl lg:text-8xl font-black text-slate-900 tracking-tighter italic leading-none mb-6 sm:8 relative chromatic-offset">
+            <h1 class="text-4xl sm:text-6xl lg:text-8xl font-bold text-slate-900 tracking-tight leading-none mb-6 sm:8 relative">
                 Jelajahi<br>
-                <span class="text-purple-600" style="text-shadow: 2px 2px 0 white, 4px 4px 0px #1e293b;">Wawasan.</span>
+                <span class="text-purple-600">Wawasan.</span>
                 <!-- Floating accent comic stars -->
                 <div class="absolute -top-4 sm:-top-6 left-0 flex gap-1 sm:gap-2">
                     <div class="w-3 h-3 sm:w-4 sm:h-4 bg-purple-600 comic-plus border-2 border-slate-900 shadow-[2px_2px_0px_white] rotate-12"></div>
@@ -293,13 +289,13 @@
 
             <div class="flex justify-center gap-6 sm:gap-12 flex-wrap mb-12 sm:20">
                 <div class="text-center group">
-                    <p class="text-3xl sm:text-5xl font-black text-slate-900 group-hover:text-purple-600 transition-colors italic">0{{ $books->count() }}</p>
-                    <p class="text-[8px] sm:text-[10px] font-black text-slate-400 tracking-[0.1em] sm:tracking-[0.2em] mt-2">Total Judul</p>
+                    <p class="text-3xl sm:text-5xl font-bold text-slate-900 group-hover:text-purple-600 transition-colors italic">0{{ $books->count() }}</p>
+                    <p class="text-[8px] sm:text-[10px] font-bold text-slate-400 tracking-[0.1em] sm:tracking-[0.2em] mt-2">Total Judul</p>
                 </div>
                 <div class="h-10 sm:h-16 w-1 sm:w-2 bg-slate-900 rotate-[15deg]"></div>
                 <div class="text-center group">
-                    <p class="text-3xl sm:text-5xl font-black text-slate-900 group-hover:text-purple-600 transition-colors italic">{{ $books->sum(fn($b) => $b->items->count()) }}</p>
-                    <p class="text-[8px] sm:text-[10px] font-black text-slate-400 tracking-[0.1em] sm:tracking-[0.2em] mt-2">Unit Tersedia</p>
+                    <p class="text-3xl sm:text-5xl font-bold text-slate-900 group-hover:text-purple-600 transition-colors italic">{{ $books->sum(fn($b) => $b->items->count()) }}</p>
+                    <p class="text-[8px] sm:text-[10px] font-bold text-slate-400 tracking-[0.1em] sm:tracking-[0.2em] mt-2">Unit Tersedia</p>
                 </div>
             </div>
 
@@ -312,7 +308,7 @@
                         </svg>
                     </div>
                     <input type="text" id="searchInput" placeholder="Cari..." 
-                           class="flex-1 py-4 sm:py-7 px-4 sm:px-8 text-lg sm:text-xl font-black text-slate-900 placeholder:text-slate-400 outline-none italic">
+                           class="flex-1 py-4 sm:py-7 px-4 sm:px-8 text-lg sm:text-xl font-bold text-slate-900 placeholder:text-slate-400 outline-none italic">
                 </div>
             </div>
         </header>
@@ -321,7 +317,7 @@
         <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-20 sm:pb-24">
             <div class="flex items-center gap-4 sm:gap-6 mb-10 sm:16">
                 <div class="h-4 w-4 sm:h-6 sm:w-6 bg-slate-900 comic-plus border-2 border-white shadow-sm rotate-12"></div>
-                <h2 class="text-[10px] sm:text-sm font-black text-slate-900 tracking-[0.1em] sm:tracking-[0.2em] italic bg-white px-3 sm:px-4 border-2 border-slate-900 shadow-[3px_3px_0px_#1e293b] sm:shadow-[4px_4px_0px_#1e293b]">Manifest Koleksi</h2>
+                <h2 class="text-[10px] sm:text-sm font-bold text-slate-900 tracking-[0.1em] sm:tracking-[0.2em] italic bg-white px-3 sm:px-4 border-2 border-slate-900 shadow-[3px_3px_0px_#1e293b] sm:shadow-[4px_4px_0px_#1e293b]">Manifest Koleksi</h2>
                 <div class="h-[3px] sm:h-[4px] flex-1 bg-slate-900"></div>
                 <div class="h-4 w-4 sm:h-6 sm:w-6 bg-purple-600 comic-plus border-2 border-white shadow-sm -rotate-12"></div>
             </div>
@@ -353,8 +349,8 @@
 
                             <!-- Floating Year Chip -->
                             <div class="absolute top-4 left-4 sticker-effect z-10">
-                                <span class="bg-white border-[3px] border-slate-900 text-slate-900 text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest shadow-[4px_4px_0px_#1e293b] group-hover/card:bg-purple-600 group-hover/card:text-white transition-colors">
-                                    {{ $book->year ?? 'N/A' }}
+                                <span class="bg-white border-[3px] border-slate-900 text-slate-900 text-[10px] font-bold px-3 py-1.5 rounded-lg uppercase tracking-widest shadow-[4px_4px_0px_#1e293b] group-hover/card:bg-purple-600 group-hover/card:text-white transition-colors">
+                                    {{ $book->year ?? 'Null' }}
                                 </span>
                             </div>
 
@@ -368,39 +364,62 @@
                             <div class="absolute inset-0 opacity-[0.05] pointer-events-none screentone"></div>
                             
                             <!-- Internal Barcode Visual -->
-                            <div class="absolute top-6 right-6 opacity-20 group-hover/card:opacity-40 transition-opacity hidden sm:block">
-                                <div class="flex gap-[1px] h-8 items-end">
-                                    @for($i = 0; $i < 12; $i++)
-                                        <div class="bg-slate-900" style="width: {{ rand(1, 4) }}px; height: {{ rand(60, 100) }}%"></div>
-                                    @endfor
-                                </div>
-                                <span class="text-[6px] font-black text-slate-900 mt-1 block">SMK YAJ</span>
-                            </div>
+                            <div class="absolute top-6 right-6 opacity-20 group-hover/card:opacity-40 transition-opacity hidden sm:block">                            </div>
 
                             <div class="relative z-10 flex flex-col h-full">
                                 <div class="mb-4">
-                                    <div class="bg-slate-900 text-white text-[10px] font-black px-3 py-1.5 rounded border border-white shadow-[4px_4px_0px_#9333ea] uppercase tracking-tighter italic w-fit mb-4">
+                                    <div class="bg-slate-900 text-white text-[10px] font-bold px-3 py-1.5 rounded border border-white shadow-[4px_4px_0px_#9333ea] uppercase tracking-tight italic w-fit mb-4">
                                         <p>Koleksi</p>
                                     </div>
 
-                                    <span class="text-[9px] font-black text-slate-400 tracking-widest mb-2 block">Manifest Judul</span>
-                                    <h3 class="text-2xl sm:text-4xl font-black text-slate-900 italic leading-[0.9] group-hover/card:text-purple-600 transition-colors line-clamp-2 chromatic-offset tracking-tighter mb-4">
+                                    <span class="text-[15px] font-bold text-slate-400 tracking-widest mb-2 block">Manifest Judul</span>
+                                    <h3 class="{{ strlen($book->title) > 50 ? 'text-lg sm:text-2xl' : (strlen($book->title) > 25 ? 'text-xl sm:text-3xl' : 'text-2xl sm:text-4xl') }} font-bold text-slate-900 leading-[0.9] group-hover/card:text-purple-600 transition-colors line-clamp-2 tracking-tight mb-4">
                                         {{ $book->title }}
                                     </h3>
                                 </div>
                                 
-                                <div class="mt-auto pt-8 border-t-4 border-slate-900 border-dotted flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-                                    <div class="flex flex-col">
-                                        <span class="text-[9px] font-black text-slate-400 tracking-widest mb-1">Data Penulis</span>
-                                        <p class="text-lg font-black text-slate-900 tracking-tight truncate max-w-[200px]">{{ $book->author ?? 'Tidak Diketahui' }}</p>
+                                <div class="mt-auto pt-6 border-t-4 border-slate-900 border-dotted space-y-4">
+                                    <!-- Author Block -->
+                                    <div class="min-w-0">
+                                        <div class="flex items-center gap-2 mb-1.5">
+                                            <span class="text-[15px] font-bold text-slate-400 tracking-widest uppercase">Data Penulis</span>
+                                            <div class="h-[1px] flex-1 bg-slate-100 tech-grid opacity-50"></div>
+                                        </div>
+                                        <p class="text-xl font-bold text-slate-900 tracking-tight leading-[1.1] break-words">
+                                            {{ $book->author ?? 'Tidak Diketahui' }}
+                                        </p>
                                     </div>
 
-                                    <!-- Status Sticker -->
-                                    <div class="inline-flex border-[3px] border-slate-900 rounded-xl overflow-hidden w-fit shadow-[8px_8px_0px_#9333ea] sticker-effect transition-all group-hover/card:scale-110 active:scale-95">
-                                        <span class="bg-slate-900 text-white px-4 py-2 text-xs font-black tracking-tighter border-r-[3px] border-slate-900 italic">Stok</span>
-                                        <span class="px-5 py-2 text-sm font-black {{ $book->available_stock > 0 ? 'bg-white text-purple-600' : 'bg-slate-100 text-slate-400' }} italic">
-                                            {{ $book->available_stock > 0 ? $book->available_stock : 'HABIS' }}
-                                        </span>
+                                    <!-- Status Block -->
+                                    <div class="flex items-center justify-between gap-4">
+                                        <div class="flex flex-col gap-1.5">
+                                            <!-- Mini Decorative Barcode -->
+                                            <div class="flex items-end gap-[2px] opacity-30">
+                                                <div class="w-1 h-3 bg-slate-500"></div>
+                                                <div class="w-[2px] h-4 bg-slate-500"></div>
+                                                <div class="w-1.5 h-2 bg-slate-500"></div>
+                                                <div class="w-1 h-5 bg-slate-500"></div>
+                                                <div class="w-[2px] h-3 bg-slate-500"></div>
+                                                <div class="w-2 h-4 bg-slate-500"></div>
+                                                <div class="w-1 h-2 bg-slate-500"></div>
+                                                <div class="w-[2px] h-5 bg-slate-500"></div>
+                                                <div class="w-1 h-3 bg-slate-500"></div>
+                                                <div class="w-1.5 h-4 bg-slate-500"></div>
+                                                <div class="w-1 h-5 bg-slate-500"></div>
+                                                <div class="w-[2px] h-3 bg-slate-500"></div>
+                                            </div>
+                                            <div class="text-[7px] font-bold text-slate-400 tracking-[0.2em] uppercase italic leading-none">
+                                                SMK YAJ DEPOK
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Status Sticker -->
+                                        <div class="inline-flex shrink-0 border-[3px] border-slate-900 rounded-xl overflow-hidden w-fit shadow-[6px_6px_0px_#9333ea] sticker-effect transition-all group-hover/card:scale-110 active:scale-95">
+                                            <span class="bg-slate-900 text-white px-3 py-1.5 text-[10px] font-bold tracking-tight border-r-[3px] border-slate-900 italic">Stok</span>
+                                            <span class="px-4 py-1.5 text-xs font-bold {{ $book->available_stock > 0 ? 'bg-white text-purple-600' : 'bg-slate-100 text-slate-400' }} italic">
+                                                {{ $book->available_stock > 0 ? $book->available_stock : 'HABIS' }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -415,7 +434,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                             </svg>
                         </div>
-                        <h3 class="text-5xl font-black text-slate-900 italic mb-4 chromatic-offset">Manifest Kosong</h3>
+                        <h3 class="text-5xl font-bold text-slate-900 mb-4">Manifest Kosong</h3>
                         <p class="text-slate-400 font-bold tracking-[0.1em] italic">Repositori digital saat ini tidak berisi entri yang sesuai dengan kueri Anda.</p>
                     </div>
                 </div>
@@ -431,12 +450,12 @@
                         <img src="{{ asset('images/logo.png') }}" alt="Logo" class="max-w-full max-h-full ">
                     </div>
                     <div class="text-left">
-                        <p class="text-[20px] font-black text-slate-900 tracking-[0.2em] uppercase leading-none">PERPUSTAKAAN</p>
+                        <p class="text-[20px] font-bold text-slate-900 tracking-[0.2em] uppercase leading-none">PERPUSTAKAAN</p>
                         <p class="text-[15px] font-bold text-purple-600 uppercase tracking-widest mt-1">SMK YAJ DEPOK</p>
                     </div>
                 </div>
                 
-                <p class="text-[9px] font-black text-slate-400 tracking-[0.2em] italic bg-white px-4 py-2 border border-slate-200 rounded-full">
+                <p class="text-[9px] font-bold text-slate-400 tracking-[0.2em] italic bg-white px-4 py-2 border border-slate-200 rounded-full">
                     © Hak Cipta • {{ date('Y') }} • Kampunk Dev Team
                 </p>
             </div>

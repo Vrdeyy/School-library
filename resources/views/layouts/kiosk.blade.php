@@ -59,6 +59,54 @@
             opacity: 0.95;
         }
 
+        /* Animations */
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) rotate(15deg); }
+            50% { transform: translate(20px, -20px) rotate(18deg); }
+        }
+        .animate-drift { animation: drift 10s ease-in-out infinite; }
+
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+        .animate-float-gentle { animation: float-gentle 15s ease-in-out infinite; }
+
+        /* Effects */
+        .sticker-effect {
+            filter: 
+                drop-shadow(2px 2px 0 white) 
+                drop-shadow(-2px -2px 0 white) 
+                drop-shadow(2px -2px 0 white) 
+                drop-shadow(-2px 2px 0 white)
+                drop-shadow(6px 6px 0 rgba(30, 41, 59, 0.15));
+        }
+
+        .onomatopoeia {
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-style: italic;
+            -webkit-text-stroke: 1.5px #1e293b;
+            color: white;
+            filter: drop-shadow(5px 5px 0px #9333ea);
+            letter-spacing: -0.05em;
+        }
+
+        .comic-burst {
+            clip-path: polygon(50% 0%, 63% 15%, 95% 10%, 85% 37%, 100% 50%, 85% 63%, 95% 90%, 63% 85%, 50% 100%, 37% 85%, 5% 90%, 15% 63%, 0% 50%, 15% 37%, 5% 10%, 37% 15%);
+        }
+
+        .comic-plus {
+            clip-path: polygon(35% 0%, 65% 0%, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0% 65%, 0% 35%, 35% 35%);
+        }
+
+        .panel-border {
+            border: 4px solid #1e293b;
+            box-shadow: 8px 8px 0px #1e293b;
+        }
+
+
         @keyframes scanline {
             0% { transform: translateY(-100%); }
             100% { transform: translateY(100vh); }
@@ -93,6 +141,48 @@
                 <circle cx="250" cy="150" r="4" fill="currentColor" />
                 <circle cx="700" cy="900" r="3" fill="currentColor" />
             </svg>
+
+            <!-- FLOATING PLUS SIGNS & DECOR (Subtle) -->
+            <div class="absolute top-[20%] right-[30%] opacity-[0.1] text-slate-400 font-bold text-4xl animate-float-gentle">+</div>
+            <div class="absolute bottom-[40%] left-[25%] opacity-[0.08] text-purple-400 font-bold text-5xl animate-bounce" style="animation-duration: 4s">+</div>
+            
+            <!-- PREMIUM STICKER SHAPES (Backdrops) -->
+            <div class="absolute top-[5%] right-[15%] w-32 h-32 bg-purple-100/20 comic-burst -rotate-12 opacity-[0.1] animate-pulse"></div>
+            <div class="absolute bottom-[10%] left-[10%] w-40 h-40 bg-slate-200/20 comic-star rotate-12 opacity-[0.08] animate-float-gentle"></div>
+
+            <!-- BACKGROUND ICON STICKERS (Scaled & Layered Above Shapes) -->
+            <!-- 1. Book (Library) -->
+            <div class="absolute top-[8%] left-[-4%] sm:left-[10%] rotate-[35deg] z-20 animate-float-gentle opacity-[0.2] sticker-effect">
+                <svg class="w-32 h-32 sm:w-56 sm:h-56 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <!-- Plus Decor near book -->
+            <div class="absolute top-[20%] left-[20%] opacity-[0.15] text-slate-400 font-bold text-3xl z-20 animate-pulse">+</div>
+
+            <!-- 2. Calculator (Math) -->
+            <div class="absolute top-[8%] right-[8%] rotate-[12deg] z-20 animate-pulse opacity-[0.15] sticker-effect">
+                <svg class="w-20 h-20 sm:w-40 sm:h-40 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-3-2.25V18M10.5 15.75V18M15.75 12V13.5m-3-1.5V13.5m-3-1.5V13.5M6.75 6.75h10.5a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V7.5a.75.75 0 01.75-.75z" />
+                </svg>
+            </div>
+
+            <!-- 3. Globe (Sociology/General) -->
+            <div class="absolute bottom-[10%] left-[2%] sm:left-[8%] rotate-[-15deg] z-20 animate-bounce opacity-[0.2] sticker-effect" style="animation-duration: 9s">
+                <svg class="w-32 h-32 sm:w-64 sm:h-64 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A11.952 11.952 0 0112 15c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 013 12c0-.778.099-1.533.284-2.253" />
+                </svg>
+            </div>
+            <!-- Plus near globe -->
+            <div class="absolute bottom-[15%] left-[25%] opacity-[0.1] text-purple-400 font-extrabold text-4xl z-20 animate-float-gentle">+</div>
+
+            <!-- 4. Graduation Cap (Education) -->
+            <div class="absolute bottom-[30%] right-[10%] rotate-[-10deg] z-20 animate-float-gentle opacity-[0.2] sticker-effect">
+                <svg class="w-32 h-32 sm:w-64 sm:h-64 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                    <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                    <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                </svg>
+            </div>
 
             <div class="scanline z-[10]"></div>
         </div>

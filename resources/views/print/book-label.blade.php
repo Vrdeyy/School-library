@@ -169,11 +169,10 @@
                 <div class="relative z-10 flex flex-col h-full justify-center gap-3">
                     <!-- Title -->
                     <div class="mb-0">
-                        <span class="text-[1.3mm] font-black text-slate-400 tracking-widest mb-0.5 block">Manifest Judul</span>
+                        <span class="text-[1.3mm] font-bold text-slate-400 tracking-widest mb-0.5 block uppercase">Manifest Judul</span>
                         <div class="flex items-start overflow-hidden">
-                            <h2 class="text-[3.5mm] font-black text-slate-900 leading-[1.1] italic chromatic-offset" 
-                                style="text-shadow: 1px 1px 0px white, 2px 2px 0px rgba(0,0,0,0.05);
-                                       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                            <h2 class="text-[3.5mm] font-bold text-slate-900 leading-[1.1]" 
+                                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                 {{ $item->book->title }}
                             </h2>
                         </div>
@@ -182,8 +181,8 @@
                     <!-- Footer Details -->
                     <div class="border-t-2 border-slate-900 border-dotted pt-2 flex items-center justify-between">
                         <div class="flex flex-col">
-                            <span class="text-[1.3mm] font-black text-slate-400 tracking-widest leading-none">Kode Identifikasi</span>
-                            <p class="text-[3mm] font-black text-slate-900 tracking-tight truncate max-w-[45mm]">{{ $item->code }}</p>
+                            <span class="text-[1.3mm] font-bold text-slate-400 tracking-widest leading-none uppercase">Kode Identifikasi</span>
+                            <p class="text-[3mm] font-bold text-slate-900 tracking-tight truncate max-w-[45mm]">{{ $item->code }}</p>
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,6 @@
 
 @section('content')
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
     .ONOMATOPOEIA {
@@ -41,7 +40,7 @@
     }
 </style>
 
-<div class="p-8 flex flex-wrap justify-center gap-10 print:p-0 print:gap-0 print:block font-['Outfit']">
+<div class="p-8 flex flex-wrap justify-center gap-10 print:p-0 print:gap-0 print:block">
     @foreach($users as $user)
         <div class="print:inline-block print:m-2 print:break-inside-avoid">
             <div class="id-card relative overflow-hidden bg-slate-50 border border-slate-300 shadow-xl rounded-[4mm] flex flex-col print:shadow-none print:border" 
@@ -123,11 +122,11 @@
                             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="max-w-full max-h-full object-contain">
                         </div>
                         <div>
-                            <h1 class="text-[3.5mm] font-black tracking-[0.6mm] text-slate-900 leading-none uppercase italic chromatic-offset">PERPUSTAKAAN</h1>
-                            <p class="text-[2mm] font-bold text-purple-600 mt-1 uppercase italic tracking-widest">SMK YAJ Depok</p>
+                            <h1 class="text-[3.5mm] font-bold tracking-[0.6mm] text-slate-900 leading-none uppercase">PERPUSTAKAAN</h1>
+                            <p class="text-[2mm] font-bold text-purple-600 mt-1 uppercase tracking-widest">SMK YAJ Depok</p>
                         </div>
                     </div>
-                    <div class="bg-slate-900 text-white text-[1.6mm] font-black px-2.5 py-1 rounded border border-white shadow-[2px_2px_0px_#9333ea] uppercase tracking-wider italic">
+                    <div class="bg-slate-900 text-white text-[1.6mm] font-bold px-2.5 py-1 rounded border border-white shadow-[2px_2px_0px_#9333ea] uppercase tracking-wider">
                         MEMBER_ID
                     </div>
                 </div>
@@ -148,15 +147,14 @@
                             @endphp
 
                             <div class="h-[12mm] flex items-center">
-                                <h2 class="{{ $fontSize }} font-black uppercase text-slate-900 leading-[1.1] italic chromatic-offset" 
-                                    style="text-shadow: 2px 2px 0px white, 3px 3px 0px rgba(0,0,0,0.1);
-                                           display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                <h2 class="{{ $fontSize }} font-bold text-slate-900 leading-[1.1]" 
+                                    style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                     {{ $name }}
                                 </h2>
                             </div>
-                            <div class="inline-flex mt-1 bg-white border-2 border-slate-900 rounded-lg overflow-hidden shadow-[3px_3px_0px_#9333ea]">
-                                <span class="bg-slate-900 text-white px-2 py-0.5 text-[1.8mm] font-black">ID</span>
-                                <span class="px-3 py-0.5 text-[2.2mm] font-bold text-slate-900 uppercase tracking-wider">{{ $user->id_pengenal_siswa ?? $user->id }}</span>
+                            <div class="inline-flex items-stretch mt-1 bg-slate-900 border-2 border-slate-900 rounded-lg overflow-hidden shadow-[3px_3px_0px_#9333ea]">
+                                <span class="text-white px-2 py-0.5 text-[1.8mm] font-bold flex items-center justify-center">ID</span>
+                                <span class="bg-white px-3 py-0.5 text-[2.2mm] font-bold text-slate-900 uppercase tracking-wider flex items-center justify-center">{{ $user->id_pengenal_siswa ?? $user->id }}</span>
                             </div>
                         </div>
 
@@ -175,7 +173,7 @@
                                 {!! QrCode::size(85)->margin(1)->color(15, 23, 42)->generate($user->qr_payload) !!}
                             </div>
                         </div>
-                        <p class="text-[1.5mm] font-black text-slate-900 tracking-[0.8mm] uppercase opacity-70">MEMBER QR</p>
+                        <p class="text-[1.5mm] font-bold text-slate-900 tracking-[0.8mm] uppercase opacity-70">MEMBER QR</p>
                     </div>
                 </div>
 
