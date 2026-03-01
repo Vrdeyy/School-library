@@ -40,7 +40,7 @@
 
     <!-- Actions -->
     <div class="no-print relative z-20 flex justify-center gap-4 mb-8">
-        <button onclick="window.print()" class="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-blue-500/20 flex items-center gap-3">
+        <button onclick="window.print()" class="px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-purple-500/20 flex items-center gap-3">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
             PRINT_REPORT
         </button>
@@ -51,7 +51,7 @@
 
     <div class="report-container border-2 border-slate-200 shadow-2xl p-12 rounded-[2.5rem] bg-white overflow-hidden relative">
         <!-- Logo Background Watermark -->
-        <svg class="absolute -right-20 -top-20 w-96 h-96 opacity-[0.03] text-blue-500 -rotate-12 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="absolute -right-20 -top-20 w-96 h-96 opacity-[0.03] text-purple-500 -rotate-12 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
         </svg>
 
@@ -62,7 +62,7 @@
             </div>
             <div>
                 <h1 class="text-4xl font-black tracking-[0.2em] text-slate-900 uppercase italic leading-none mb-2">MANIFEST_LAPORAN_PEMINJAMAN</h1>
-                <p class="text-[10px] font-black text-blue-600 tracking-[0.5em] uppercase border-b-2 border-blue-600 pb-2 inline-block">PERPUSTAKAAN SMK YAJ DEPOK</p>
+                <p class="text-[10px] font-black text-purple-600 tracking-[0.5em] uppercase border-b-2 border-purple-600 pb-2 inline-block">PERPUSTAKAAN SMK YAJ DEPOK</p>
                 <p class="mt-6 text-sm font-bold text-slate-500 uppercase tracking-widest italic">Periode: {{ $monthName }} {{ $year }}</p>
             </div>
         </header>
@@ -73,9 +73,9 @@
                 <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">TOTAL_RECORDS</p>
                 <p class="text-3xl font-black text-slate-900 tracking-tighter">{{ $stats['total'] }}</p>
             </div>
-            <div class="bg-blue-50 border-2 border-blue-100 p-6 rounded-[2rem] text-center shadow-sm">
-                <p class="text-[9px] font-black text-blue-400 uppercase tracking-widest mb-1">STATE_ACTIVE</p>
-                <p class="text-3xl font-black text-blue-600 tracking-tighter">{{ $stats['approved'] }}</p>
+            <div class="bg-purple-50 border-2 border-purple-100 p-6 rounded-[2rem] text-center shadow-sm">
+                <p class="text-[9px] font-black text-purple-400 uppercase tracking-widest mb-1">STATE_ACTIVE</p>
+                <p class="text-3xl font-black text-purple-600 tracking-tighter">{{ $stats['approved'] }}</p>
             </div>
             <div class="bg-green-50 border-2 border-green-100 p-6 rounded-[2rem] text-center shadow-sm">
                 <p class="text-[9px] font-black text-green-400 uppercase tracking-widest mb-1">STATE_RETURNED</p>
@@ -106,7 +106,7 @@
                     @forelse($borrows as $index => $borrow)
                     <tr class="group hover:bg-slate-50 transition-colors">
                         <td class="py-5 px-2 text-[11px] font-bold text-slate-400">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</td>
-                        <td class="py-5 px-2 text-[11px] font-black text-blue-600 uppercase italic">{{ $borrow->id }}</td>
+                        <td class="py-5 px-2 text-[11px] font-black text-purple-600 uppercase italic">{{ $borrow->id }}</td>
                         <td class="py-5 px-2">
                             <p class="text-[11px] font-black text-slate-900 uppercase italic line-clamp-1">{{ $borrow->user->name ?? '-' }}</p>
                             <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">{{ $borrow->user->id_pengenal_siswa ?? 'ID_UNKNOWN' }}</p>
@@ -116,7 +116,7 @@
                         <td class="py-5 px-2 text-center">
                             <div class="bg-slate-50 px-2 py-1 rounded-lg border border-slate-100 inline-block">
                                 <p class="text-[9px] font-black text-slate-900">{{ $borrow->borrow_date?->format('d/m/Y') ?? '-' }}</p>
-                                <p class="text-[8px] font-bold text-blue-500 tracking-tighter">DUE: {{ $borrow->due_date?->format('d/m/Y') ?? '-' }}</p>
+                                <p class="text-[8px] font-bold text-purple-500 tracking-tighter">DUE: {{ $borrow->due_date?->format('d/m/Y') ?? '-' }}</p>
                             </div>
                         </td>
                         <td class="py-5 px-2 text-[10px] font-black text-slate-600 text-center">{{ $borrow->return_date?->format('d/m/Y') ?? '-' }}</td>
@@ -124,7 +124,7 @@
                             @php
                                 $statusColors = [
                                     'pending' => 'bg-amber-100 text-amber-600 border-amber-200',
-                                    'approved' => 'bg-blue-100 text-blue-600 border-blue-200',
+                                    'approved' => 'bg-purple-100 text-purple-600 border-purple-200',
                                     'returning' => 'bg-cyan-100 text-cyan-600 border-cyan-200',
                                     'returned' => 'bg-slate-100 text-slate-600 border-slate-200',
                                     'rejected' => 'bg-red-100 text-red-600 border-red-200',
@@ -162,7 +162,7 @@
                 <div class="inline-block border-b-2 border-slate-900 pb-2 mb-1">
                     <p class="text-lg font-black text-slate-900 uppercase italic">{{ auth()->user()->name ?? 'Administrator' }}</p>
                 </div>
-                <p class="text-[8px] font-black text-blue-600 tracking-[0.5em] uppercase">SYSTEM_OPERATOR</p>
+                <p class="text-[8px] font-black text-purple-600 tracking-[0.5em] uppercase">SYSTEM_OPERATOR</p>
             </div>
         </footer>
     </div>

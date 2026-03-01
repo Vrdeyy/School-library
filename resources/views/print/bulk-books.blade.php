@@ -4,17 +4,15 @@
 
 @section('content')
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
     .ONOMATOPOEIA {
-        font-family: 'Outfit', sans-serif;
+        font-family: 'IBM Plex Mono', monospace;
         font-weight: 900;
-        text-transform: uppercase;
         font-style: italic;
         -webkit-text-stroke: 1px #1e293b;
         color: white;
-        filter: drop-shadow(2px 2px 0px #2563eb);
+        filter: drop-shadow(2px 2px 0px #9333ea);
         letter-spacing: -0.02em;
     }
     .sticker-effect {
@@ -39,111 +37,161 @@
             -1px -1px 0 rgba(255,0,0,0.3),
             1px 1px 0 rgba(0,255,255,0.3);
     }
+    .panel-border {
+        border: 4px solid #1e293b;
+    }
+
+    /* Street Authenticator Elements */
+    .holographic-shimmer {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0) 0%, 
+            rgba(255, 255, 255, 0.8) 50%, 
+            rgba(255, 255, 255, 0) 100%);
+        background-size: 200% 200%;
+        animation: shimmer 3s infinite linear;
+    }
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    .tape-effect {
+        position: absolute;
+        width: 45px;
+        height: 18px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(2px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        z-index: 30;
+        transform: rotate(-45deg);
+        pointer-events: none;
+    }
+
+    .security-stamp {
+        position: absolute;
+        font-weight: 900;
+        padding: 2px 8px;
+        border: 3px solid currentColor;
+        border-radius: 6px;
+        letter-spacing: 0.1em;
+        opacity: 0.12;
+        user-select: none;
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    .perforated-divider {
+        position: relative;
+        border-left: 4px dashed #1e293b;
+    }
+    .perforated-divider::before,
+    .perforated-divider::after {
+        content: '';
+        position: absolute;
+        left: -12px;
+        width: 20px;
+        height: 20px;
+        background-color: white; 
+        border: 4px solid #1e293b;
+        border-radius: 50%;
+        z-index: 20;
+    }
+    .perforated-divider::before { top: -12px; }
+    .perforated-divider::after { bottom: -12px; }
+    .screentone {
+        background-image: radial-gradient(circle, #1e293b 1px, transparent 0);
+        background-size: 8px 8px;
+        opacity: 0.05;
+    }
 </style>
 
-<div class="p-8 flex flex-wrap justify-center gap-6 print:p-0 print:gap-0 print:block font-['Outfit']">
+<div class="p-8 flex flex-wrap justify-center gap-6 print:p-0 print:gap-0 print:block print-container">
     @foreach($items as $item)
-        <div class="print:inline-block print:m-1 print:break-inside-avoid shadow-lg rounded-[4mm] overflow-hidden">
-            <div class="relative overflow-hidden bg-slate-50 border-2 border-slate-900 flex flex-col print:shadow-none print:border-4" 
-                 style="width: 85.6mm; height: 53.98mm; -webkit-print-color-adjust: exact; print-color-adjust: exact;">
+        <div class="print:inline-block print:m-1 print:break-inside-avoid shadow-lg rounded-[2mm] overflow-hidden">
+            <div class="relative overflow-hidden bg-white panel-border flex flex-col print:shadow-none print:border-4" 
+                 style="width: 100mm; height: 40mm; -webkit-print-color-adjust: exact; print-color-adjust: exact;">
                 
+                <!-- Tape Effects -->
+                <div class="tape-effect -top-2 -left-4 opacity-70"></div>
+                <div class="tape-effect -bottom-2 -right-4 rotate-[135deg] opacity-50"></div>
+
                 <!-- Background Shapes -->
                 <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden text-slate-900">
                     <!-- Halftone Pattern -->
-                    <div class="absolute inset-0 z-0 comic-halftone"></div>
+                    <div class="absolute inset-0 z-0 comic-halftone opacity-[0.08]"></div>
                     
                     <!-- Subtle Global Texture -->
-                    <div class="absolute inset-0 opacity-[0.05] z-0" 
+                    <div class="absolute inset-0 opacity-[0.15] z-0" 
                          style="background-image: repeating-linear-gradient(135deg, #475569 0, #475569 0.5px, transparent 0.5px, transparent 10px);"></div>
 
-                    <!-- Accent Color Block -->
-                    <div class="absolute -right-5 -top-10 w-[45mm] h-[75mm] bg-blue-100/30 rotate-[15deg] border-l border-blue-200/50"></div>
-                    
-                    <!-- Geometric Pattern (Tech Grid) -->
-                    <svg class="absolute right-[-2mm] bottom-[0mm] opacity-[0.15] text-blue-900" 
-                         style="width: 35mm; height: 35mm;"
-                         fill="none" stroke="currentColor" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <pattern id="grid-bulk-label-{{ $item->id }}" width="8" height="8" patternUnits="userSpaceOnUse">
-                                <path d="M 8 0 L 0 0 0 8" fill="none" stroke="currentColor" stroke-width="0.5"/>
-                            </pattern>
-                        </defs>
-                        <rect width="100" height="100" fill="url(#grid-bulk-label-{{ $item->id }})" />
-                    </svg>
-
-                    <!-- Decorative Dots -->
-                    <div class="absolute top-[20mm] left-[40%] w-12 h-6 opacity-10 benday-dots"></div>
+                    <!-- Accent Color Block (Top Corner) -->
+                    <div class="absolute -right-5 -top-10 w-[40mm] h-[40mm] bg-purple-100/50 rotate-[45deg] border-b border-purple-200/80"></div>
                 </div>
 
-                <!-- Top Accent Bar -->
-                <div class="relative z-10 w-full h-[3mm] bg-black"></div>
+                <!-- Top Identity Bar -->
+                <div class="relative z-10 w-full h-[3mm] bg-slate-900 flex items-center px-4 gap-1">
+                    <div class="w-1 h-1 bg-white rounded-full opacity-50"></div>
+                    <div class="w-1 h-1 bg-white rounded-full opacity-50"></div>
+                    <div class="w-1 h-1 bg-white rounded-full opacity-50"></div>
+                </div>
 
-                <!-- Body -->
-                <div class="relative z-10 px-5 pt-4 flex flex-1 gap-6 items-center">
-                    <!-- Left Info Panel -->
-                    <div class="flex-1 flex flex-col min-w-0">
-                        <!-- Title Container -->
-                        <div class="mb-4">
-                            <div class="flex items-center gap-1.5 mb-1.5 opacity-60">
-                                <span class="text-[1.6mm] font-black text-slate-900 tracking-widest uppercase italic">CATALOG_TITLE</span>
-                                <div class="h-1 flex-1 benday-dots"></div>
-                            </div>
-                            @php
-                                $title = $item->book->title;
-                                $tLen = mb_strlen($title);
-                                $tFontSize = 'text-[3.8mm]';
-                                if ($tLen > 100) $tFontSize = 'text-[2.2mm]';
-                                elseif ($tLen > 80) $tFontSize = 'text-[2.6mm]';
-                                elseif ($tLen > 60) $tFontSize = 'text-[3mm]';
-                                elseif ($tLen > 40) $tFontSize = 'text-[3.4mm]';
-                            @endphp
-                            <div class="h-[14mm] flex items-start overflow-hidden">
-                                <h2 class="{{ $tFontSize }} font-black uppercase text-slate-900 leading-[1.1] italic chromatic-offset" 
-                                    style="text-shadow: 1.5px 1.5px 0px white, 2.5px 2.5px 0px rgba(0,0,0,0.05);
-                                           display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
-                                    {{ $title }}
-                                </h2>
+                <!-- Main Body: Ticket Stub Layout -->
+                <div class="relative z-10 flex flex-1 overflow-hidden">
+                    <!-- Left: QR Code Identity Area (SQUARE STUB) -->
+                    <div class="w-[40mm] flex flex-col items-center justify-center bg-white p-2 relative overflow-hidden shrink-0">
+                        <div class="absolute inset-0 opacity-[0.03] pointer-events-none screentone"></div>
+                        
+                        <!-- Security Stamp (Over QR area) -->
+                        <div class="security-stamp top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[25deg] text-slate-900 scale-125">Asli</div>
+
+                        <div class="p-2 bg-white border-4 border-slate-900 rounded-xl shadow-[4px_4px_0px_#9333ea] z-10 flex items-center justify-center">
+                            {!! QrCode::size(100)->margin(1)->color(15, 23, 42)->generate($item->qr_payload) !!}
+                        </div>
+                        <p class="mt-1 text-[1.4mm] font-black text-slate-900 tracking-[0.2mm] italic opacity-70 z-10 underline">Optic ID Manifest</p>
+                    </div>
+
+                    <!-- Vertical Perforated Divider -->
+                    <div class="perforated-divider h-full"></div>
+
+                    <!-- Right: Info Details (RECTANGULAR BODY) -->
+                    <div class="flex-1 bg-slate-50 p-4 flex flex-col relative overflow-hidden min-w-0">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-[0.05] pointer-events-none screentone"></div>
+
+                        <!-- Decorative Barcode -->
+                        <div class="absolute top-3 right-4 opacity-30">
+                            <div class="flex gap-[0.2mm] h-[3.5mm] items-end">
+                                <div class="bg-slate-900 w-[0.3mm] h-full"></div>
+                                <div class="bg-slate-900 w-[0.8mm] h-[80%]"></div>
+                                <div class="bg-slate-900 w-[0.2mm] h-full"></div>
+                                <div class="bg-slate-900 w-[0.5mm] h-[90%]"></div>
+                                <div class="bg-slate-900 w-[0.2mm] h-full"></div>
                             </div>
                         </div>
 
-                        <!-- ID Badge Style -->
-                        <div>
-                            <div class="flex items-center gap-1.5 mb-2 opacity-60">
-                                <span class="text-[1.6mm] font-black text-slate-900 tracking-widest uppercase italic">ITEM_IDENTIFIER</span>
-                                <div class="h-1 flex-1 benday-dots"></div>
-                            </div>
-                            <div class="flex bg-white border-2 border-slate-900 rounded-lg overflow-hidden shadow-[4px_4px_0px_#2563eb] w-full items-stretch h-[8mm]">
-                                <div class="bg-slate-900 text-white px-2 py-1 flex items-center border-r-2 border-slate-900">
-                                    <span class="text-[1.8mm] font-black uppercase tracking-tighter italic">Code</span>
+                        <div class="relative z-10 flex flex-col h-full justify-center gap-3">
+                            <!-- Title -->
+                            <div class="mb-0">
+                                <span class="text-[1.3mm] font-black text-slate-400 tracking-widest mb-0.5 block">Manifest Judul</span>
+                                <div class="flex items-start overflow-hidden">
+                                    <h2 class="text-[3.5mm] font-black text-slate-900 leading-[1.1] italic chromatic-offset" 
+                                        style="text-shadow: 1px 1px 0px white, 2px 2px 0px rgba(0,0,0,0.05);
+                                               display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                        {{ $item->book->title }}
+                                    </h2>
                                 </div>
-                                <div class="flex-1 px-2 py-1 bg-white flex items-center justify-center min-w-0">
-                                    @php
-                                        $code = $item->code;
-                                        $cLen = mb_strlen($code);
-                                        $cFontSize = 'text-[3.8mm]';
-                                        if ($cLen > 25) $cFontSize = 'text-[2mm]';
-                                        elseif ($cLen > 20) $cFontSize = 'text-[2.5mm]';
-                                        elseif ($cLen > 15) $cFontSize = 'text-[3mm]';
-                                    @endphp
-                                    <span class="{{ $cFontSize }} font-black text-slate-900 uppercase break-all leading-none text-center">
-                                        {{ $code }}
-                                    </span>
+                            </div>
+
+                            <!-- Footer Details -->
+                            <div class="border-t-2 border-slate-900 border-dotted pt-2 flex items-center justify-between">
+                                <div class="flex flex-col">
+                                    <span class="text-[1.3mm] font-black text-slate-400 tracking-widest leading-none">Kode Identifikasi</span>
+                                    <p class="text-[3mm] font-black text-slate-900 tracking-tight truncate max-w-[45mm]">{{ $item->code }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Right QR Panel -->
-                    <div class="flex flex-col items-center gap-2 shrink-0">
-                        <div class="p-2 bg-white border-2 border-slate-900 rounded-xl shadow-[4px_4px_0px_#2563eb]">
-                            {!! QrCode::size(95)->margin(1)->color(15, 23, 42)->generate($item->qr_payload) !!}
-                        </div>
-                        <p class="text-[1.4mm] font-black text-slate-900 tracking-[0.5mm] uppercase italic opacity-70">OPTIC_ID_SCAN</p>
-                    </div>
                 </div>
-
-                <!-- Footer Bar -->
-                <div class="relative z-10 w-full mt-auto h-[2.5mm] bg-blue-600 border-t-2 border-slate-900"></div>
             </div>
         </div>
     @endforeach
@@ -152,13 +200,11 @@
 <style>
     @media print {
         @page {
+            size: 100mm 40mm;
             margin: 5mm;
         }
         body { margin: 0; padding: 0; background: white; }
-        .print\:block { display: block !important; }
-        .print\:inline-block { display: inline-block !important; }
-        .print\:p-0 { padding: 0 !important; }
-        .print\:m-1 { margin: 1mm !important; }
+        .print-container { display: block !important; padding: 0 !important; }
     }
 </style>
 @endsection

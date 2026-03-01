@@ -14,7 +14,7 @@
         font-style: italic;
         -webkit-text-stroke: 1px #1e293b;
         color: white;
-        filter: drop-shadow(2px 2px 0px #2563eb);
+        filter: drop-shadow(2px 2px 0px #9333ea);
         letter-spacing: -0.02em;
     }
     .sticker-effect {
@@ -53,14 +53,14 @@
                     <div class="absolute inset-0 z-0 comic-halftone"></div>
                     
                     <!-- Subtle Global Texture -->
-                    <div class="absolute inset-0 opacity-[0.05] z-0" 
+                    <div class="absolute inset-0 opacity-[0.15] z-0" 
                          style="background-image: repeating-linear-gradient(135deg, #475569 0, #475569 0.5px, transparent 0.5px, transparent 10px);"></div>
 
                     <!-- Accent Color Block -->
-                    <div class="absolute -right-5 -top-10 w-[55mm] h-[85mm] bg-blue-100/30 rotate-[15deg] border-l border-blue-200/50"></div>
+                    <div class="absolute -right-5 -top-10 w-[55mm] h-[85mm] bg-purple-100/75 rotate-[15deg] border-l border-purple-200/50"></div>
 
                     <!-- Geometric Pattern (Tech Grid) -->
-                    <svg class="absolute right-[-2mm] bottom-[0mm] opacity-[0.2] text-blue-900" 
+                    <svg class="absolute right-[-2mm] bottom-[0mm] opacity-[0.50] text-purple-900" 
                          style="width: 38mm; height: 38mm;"
                          fill="none" stroke="currentColor" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <defs>
@@ -72,25 +72,25 @@
                     </svg>
 
                     <!-- Floating Plus Signs -->
-                    <div class="absolute top-[8mm] right-[40mm] opacity-30 text-blue-500 font-bold text-[3mm]">+</div>
-                    <div class="absolute top-[12mm] right-[44mm] opacity-20 text-blue-500 font-bold text-[2mm]">+</div>
-                    <div class="absolute bottom-[20mm] left-[35mm] opacity-30 text-blue-500 font-bold text-[3mm]">+</div>
+                    <div class="absolute top-[8mm] right-[40mm] opacity-30 text-purple-500 font-bold text-[3mm]">+</div>
+                    <div class="absolute top-[12mm] right-[44mm] opacity-20 text-purple-500 font-bold text-[2mm]">+</div>
+                    <div class="absolute bottom-[20mm] left-[35mm] opacity-30 text-purple-500 font-bold text-[3mm]">+</div>
 
                     <!-- Circuit/Accent Line -->
-                    <svg class="absolute top-0 right-0 w-[40mm] h-[15mm] opacity-[0.25] text-blue-600" viewBox="0 0 100 40">
+                    <svg class="absolute top-0 right-0 w-[40mm] h-[15mm] opacity-[0.50] text-purple-600" viewBox="0 0 100 40">
                         <path d="M100 5 H70 L60 15 H20" fill="none" stroke="currentColor" stroke-width="0.8" />
                         <circle cx="20" cy="15" r="1.5" fill="currentColor" />
                     </svg>
 
                     <!-- Decorative Dots -->
-                    <div class="absolute top-[20mm] left-[45%] w-16 h-8 opacity-10 benday-dots"></div>
+                    <div class="absolute top-[20mm] left-[45%] w-16 h-8 opacity-50 benday-dots"></div>
                     
                     <!-- Bottom Left Accents -->
-                    <div class="absolute -bottom-10 -left-10 w-36 h-36 bg-blue-100/20 rounded-full border border-blue-200/50"></div>
+                    <div class="absolute -bottom-10 -left-10 w-36 h-36 bg-purple-100/75 rounded-full border border-purple-200/50"></div>
                     
                     <!-- COMIC ACCENT: Graduation Cap Sticker -->
                     <div class="absolute right-[43mm] top-[35mm] rotate-[15deg] sticker-effect z-20">
-                        <div class="bg-blue-600 p-1.5 rounded-lg border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]">
+                        <div class="bg-purple-600 p-1.5 rounded-lg border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]">
                             <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 14l9-5-9-5-9 5 9 5z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
@@ -100,7 +100,7 @@
 
                     <!-- COMIC ACCENT: Book Sticker -->
                     <div class="absolute left-[47mm] bottom-[31mm] -rotate-[12deg] sticker-effect z-20">
-                        <div class="bg-indigo-600 p-1.5 rounded-lg border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]">
+                        <div class="bg-fuchsia-600 p-1.5 rounded-lg border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b]">
                             <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                             </svg>
@@ -124,10 +124,10 @@
                         </div>
                         <div>
                             <h1 class="text-[3.5mm] font-black tracking-[0.6mm] text-slate-900 leading-none uppercase italic chromatic-offset">PERPUSTAKAAN</h1>
-                            <p class="text-[2mm] font-bold text-blue-600 mt-1 uppercase italic tracking-widest">SMK YAJ Depok</p>
+                            <p class="text-[2mm] font-bold text-purple-600 mt-1 uppercase italic tracking-widest">SMK YAJ Depok</p>
                         </div>
                     </div>
-                    <div class="bg-slate-900 text-white text-[1.6mm] font-black px-2.5 py-1 rounded border border-white shadow-[2px_2px_0px_#2563eb] uppercase tracking-wider italic">
+                    <div class="bg-slate-900 text-white text-[1.6mm] font-black px-2.5 py-1 rounded border border-white shadow-[2px_2px_0px_#9333ea] uppercase tracking-wider italic">
                         MEMBER_ID
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                                     {{ $name }}
                                 </h2>
                             </div>
-                            <div class="inline-flex mt-1 bg-white border-2 border-slate-900 rounded-lg overflow-hidden shadow-[3px_3px_0px_#2563eb]">
+                            <div class="inline-flex mt-1 bg-white border-2 border-slate-900 rounded-lg overflow-hidden shadow-[3px_3px_0px_#9333ea]">
                                 <span class="bg-slate-900 text-white px-2 py-0.5 text-[1.8mm] font-black">ID</span>
                                 <span class="px-3 py-0.5 text-[2.2mm] font-bold text-slate-900 uppercase tracking-wider">{{ $user->id_pengenal_siswa ?? $user->id }}</span>
                             </div>
@@ -170,7 +170,7 @@
 
                     <!-- Right QR Panel -->
                     <div class="flex flex-col items-center gap-2">
-                        <div class="p-2 bg-white border-2 border-slate-900 rounded-xl shadow-[4px_4px_0px_#2563eb]">
+                        <div class="p-2 bg-white border-2 border-slate-900 rounded-xl shadow-[4px_4px_0px_#9333ea]">
                             <div class="flex items-center justify-center">
                                 {!! QrCode::size(85)->margin(1)->color(15, 23, 42)->generate($user->qr_payload) !!}
                             </div>
