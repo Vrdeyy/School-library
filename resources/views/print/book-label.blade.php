@@ -171,7 +171,7 @@
                     <div class="mb-0">
                         <span class="text-[1.3mm] font-bold text-slate-400 tracking-widest mb-0.5 block uppercase">Manifest Judul</span>
                         <div class="flex items-start overflow-hidden">
-                            <h2 class="text-[3.5mm] font-bold text-slate-900 leading-[1.1]" 
+                            <h2 class="text-[3.5mm] font-black text-slate-900 leading-[1.1]" 
                                 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                 {{ $item->book->title }}
                             </h2>

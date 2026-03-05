@@ -68,8 +68,8 @@
         .animate-drift { animation: drift 10s ease-in-out infinite; }
 
         @keyframes float-gentle {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(5deg); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
         }
         .animate-float-gentle { animation: float-gentle 15s ease-in-out infinite; }
 
@@ -199,7 +199,7 @@
 
         <!-- CIRCUIT LINES (Bold Comic Style) -->
         <svg class="absolute inset-0 w-full h-full opacity-[0.4] text-purple-600" viewBox="0 0 1000 1000">
-            <path d="M0 100 H200 L250 150 H500 L550 100 H1000" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M0 100 H350 L400 150 H600 L650 100 H1000" fill="none" stroke="currentColor" stroke-width="2" />
             <path d="M1000 850 H750 L700 900 H300 L250 850 H0" fill="none" stroke="currentColor" stroke-width="1.5" />
             <path d="M200 0 V150 L150 200 V500" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="10 10" />
             <circle cx="250" cy="150" r="4" fill="currentColor" />
@@ -216,10 +216,12 @@
 
         <!-- BACKGROUND ICON STICKERS (Scaled & Layered Above Shapes) -->
         <!-- 1. Book (Library) -->
-        <div class="absolute top-[8%] left-[-4%] sm:left-[10%] rotate-[35deg] z-20 animate-float-gentle opacity-[0.2] sticker-effect">
-            <svg class="w-32 h-32 sm:w-56 sm:h-56 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
+        <div class="absolute top-[8%] left-[-4%] sm:left-[10%] rotate-[-35deg] z-20 opacity-[0.2] sticker-effect">
+            <div class="animate-float-gentle">
+                <svg class="w-32 h-32 sm:w-56 sm:h-56 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
         </div>
         <!-- Plus Decor near book -->
         <div class="absolute top-[20%] left-[20%] opacity-[0.15] text-slate-400 font-bold text-3xl z-20 animate-pulse">+</div>
@@ -232,10 +234,12 @@
         </div>
 
         <!-- 3. Globe (Sociology/General) -->
-        <div class="absolute bottom-[10%] left-[2%] sm:left-[8%] rotate-[-15deg] z-20 animate-bounce opacity-[0.2] sticker-effect" style="animation-duration: 9s">
-            <svg class="w-32 h-32 sm:w-64 sm:h-64 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A11.952 11.952 0 0112 15c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 013 12c0-.778.099-1.533.284-2.253" />
-            </svg>
+        <div class="absolute bottom-[10%] left-[2%] sm:left-[8%] rotate-[-15deg] z-20 opacity-[0.2] sticker-effect">
+            <div class="animate-bounce" style="animation-duration: 9s">
+                <svg class="w-32 h-32 sm:w-64 sm:h-64 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A11.952 11.952 0 0112 15c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 013 12c0-.778.099-1.533.284-2.253" />
+                </svg>
+            </div>
         </div>
         <!-- Plus near globe -->
         <div class="absolute bottom-[15%] left-[25%] opacity-[0.1] text-purple-400 font-extrabold text-4xl z-20 animate-float-gentle">+</div>
@@ -273,9 +277,9 @@
                 <span class="text-[8px] sm:text-[10px] font-bold tracking-[0.1em] sm:tracking-[0.2em] text-slate-900">Katalog_Digital_Resmi</span>
             </div>
 
-            <h1 class="text-4xl sm:text-6xl lg:text-8xl font-bold text-slate-900 tracking-tight leading-none mb-6 sm:8 relative">
-                Jelajahi<br>
-                <span class="text-purple-600">Wawasan.</span>
+            <h1 class="text-4xl sm:text-6xl lg:text-8xl font-black text-slate-900 tracking-tight leading-none mb-6 sm:8 relative">
+                Jelajahi
+                <span class="text-purple-600">Wawasan</span>
                 <!-- Floating accent comic stars -->
                 <div class="absolute -top-4 sm:-top-6 left-0 flex gap-1 sm:gap-2">
                     <div class="w-3 h-3 sm:w-4 sm:h-4 bg-purple-600 comic-plus border-2 border-slate-900 shadow-[2px_2px_0px_white] rotate-12"></div>
@@ -317,7 +321,7 @@
         <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-20 sm:pb-24">
             <div class="flex items-center gap-4 sm:gap-6 mb-10 sm:16">
                 <div class="h-4 w-4 sm:h-6 sm:w-6 bg-slate-900 comic-plus border-2 border-white shadow-sm rotate-12"></div>
-                <h2 class="text-[10px] sm:text-sm font-bold text-slate-900 tracking-[0.1em] sm:tracking-[0.2em] italic bg-white px-3 sm:px-4 border-2 border-slate-900 shadow-[3px_3px_0px_#1e293b] sm:shadow-[4px_4px_0px_#1e293b]">Manifest Koleksi</h2>
+                <h2 class="text-[10px] sm:text-sm font-black text-slate-900 tracking-[0.1em] sm:tracking-[0.2em] italic bg-white px-3 sm:px-4 border-2 border-slate-900 shadow-[3px_3px_0px_#1e293b] sm:shadow-[4px_4px_0px_#1e293b]">Manifest Koleksi</h2>
                 <div class="h-[3px] sm:h-[4px] flex-1 bg-slate-900"></div>
                 <div class="h-4 w-4 sm:h-6 sm:w-6 bg-purple-600 comic-plus border-2 border-white shadow-sm -rotate-12"></div>
             </div>
@@ -372,8 +376,8 @@
                                         <p>Koleksi</p>
                                     </div>
 
-                                    <span class="text-[15px] font-bold text-slate-400 tracking-widest mb-2 block">Manifest Judul</span>
-                                    <h3 class="{{ strlen($book->title) > 50 ? 'text-lg sm:text-2xl' : (strlen($book->title) > 25 ? 'text-xl sm:text-3xl' : 'text-2xl sm:text-4xl') }} font-bold text-slate-900 leading-[0.9] group-hover/card:text-purple-600 transition-colors line-clamp-2 tracking-tight mb-4">
+                                    <span class="text-[15px] font-bold text-slate-400 tracking-widest mb-2 block">Judul Buku</span>
+                                    <h3 class="{{ strlen($book->title) > 50 ? 'text-lg sm:text-2xl' : (strlen($book->title) > 25 ? 'text-xl sm:text-3xl' : 'text-2xl sm:text-4xl') }} font-black text-slate-900 leading-[0.9] group-hover/card:text-purple-600 transition-colors line-clamp-2 tracking-tight mb-4">
                                         {{ $book->title }}
                                     </h3>
                                 </div>
@@ -382,7 +386,7 @@
                                     <!-- Author Block -->
                                     <div class="min-w-0">
                                         <div class="flex items-center gap-2 mb-1.5">
-                                            <span class="text-[15px] font-bold text-slate-400 tracking-widest uppercase">Data Penulis</span>
+                                            <span class="text-[15px] font-bold text-slate-400 tracking-widest uppercase">Penulis</span>
                                             <div class="h-[1px] flex-1 bg-slate-100 tech-grid opacity-50"></div>
                                         </div>
                                         <p class="text-xl font-bold text-slate-900 tracking-tight leading-[1.1] break-words">
@@ -434,7 +438,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                             </svg>
                         </div>
-                        <h3 class="text-5xl font-bold text-slate-900 mb-4">Manifest Kosong</h3>
+                        <h3 class="text-5xl font-black text-slate-900 mb-4">Manifest Kosong</h3>
                         <p class="text-slate-400 font-bold tracking-[0.1em] italic">Repositori digital saat ini tidak berisi entri yang sesuai dengan kueri Anda.</p>
                     </div>
                 </div>

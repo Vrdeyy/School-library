@@ -27,6 +27,10 @@
         animation: scan 3s linear infinite;
         z-index: 10;
     }
+
+    .indent-fix {
+        text-indent: 0.3em; /* counter letter-spacing */
+    }
 </style>
 
 <div x-data="kioskSystem" x-cloak class="flex-grow flex flex-col">
@@ -50,7 +54,7 @@
                         <img src="{{ asset('images/logo.png') }}" alt="Logo" class="max-w-full max-h-full object-contain">
                     </div>
                     <div class="space-y-1 sm:space-y-2">
-                        <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 leading-none uppercase relative">
+                        <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-none uppercase relative">
                             PERPUSTAKAAN
                             <!-- Floating accent comic stars -->
                             <div class="absolute -top-3 sm:-top-4 -right-2 sm:-right-4 flex gap-1 sm:gap-2">
@@ -79,7 +83,7 @@
                                 <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                             </div>
                             <div>
-                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Masuk Admin</h2>
+                                <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Masuk Admin</h2>
                                 <div class="h-1.5 w-12 sm:h-2 sm:w-16 bg-purple-600 mt-1"></div>
                             </div>
                         </div>
@@ -87,24 +91,38 @@
                         <div class="space-y-4 sm:space-y-6">
                             <div class="space-y-2 sm:space-y-3">
                                 <label class="text-[8px] sm:text-[10px] font-bold text-slate-400 tracking-tight ml-1 block">ID Pengenal / Email</label>
-                                <input x-model="adminData.id_pengenal_siswa" 
-                                       type="text" 
-                                       placeholder="ID dibutuhkan..." 
-                                       @keyup.enter="loginAdmin()"
-                                       class="w-full bg-slate-50 border-[3px] sm:border-4 border-slate-900 rounded-xl sm:rounded-2xl py-3 sm:py-5 px-5 sm:px-8 text-sm sm:text-base text-slate-900 font-bold focus:bg-white outline-none transition-all uppercase italic">
+                                <input
+                                    x-model="adminData.id_pengenal_siswa"
+                                    type="text"
+                                    placeholder="ID / Email..."
+                                    @keyup.enter="loginAdmin()"
+                                    class="w-full bg-slate-50 border-[3px] sm:border-4 border-slate-900
+                                    rounded-xl sm:rounded-2xl
+                                    py-3 sm:py-4
+                                    px-5 sm:px-8
+                                    text-sm sm:text-base
+                                    text-slate-900 font-bold
+                                    leading-none
+                                    flex items-center
+                                    shadow-[4px_4px_0px_#9333ea] sm:shadow-[8px_8px_0px_#9333ea]
+                                    focus:bg-white outline-none transition-all italic">
                             </div>
                             <div class="space-y-2 sm:space-y-3">
                                 <label class="text-[8px] sm:text-[10px] font-bold text-slate-400 tracking-tight ml-1 block">Token PIN Keamanan</label>
-                                    <div class="flex gap-2 sm:gap-3 bg-white border-[3px] sm:border-4 border-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shadow-[4px_4px_0px_#9333ea] sm:shadow-[8px_8px_0px_#9333ea] relative">
-                                        <div class="bg-slate-100 text-slate-900 px-3 sm:px-5 py-3 sm:py-4 flex items-center border-r-[3px] sm:border-r-4 border-slate-900">
+                                    <div class="flex items-center bg-white border-[3px] sm:border-4 border-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shadow-[4px_4px_0px_#9333ea] sm:shadow-[8px_8px_0px_#9333ea]">
+                                        <!-- Icon Kiri -->
+                                        <div class="flex-shrink-0 bg-slate-100 px-3 sm:px-5 py-3 sm:py-4 flex items-center border-r-[3px] sm:border-r-4 border-slate-900">
                                             <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
                                         </div>
-                                        <input x-model="adminData.pin" 
-                                               :type="showAdminPin ? 'text' : 'password'" 
-                                               maxlength="6" 
+                                        <!-- Input PIN -->
+                                        <input x-model="adminData.pin"
+                                               :type="showAdminPin ? 'text' : 'password'"
+                                               maxlength="6"
+                                               inputmode="numeric"
                                                @keyup.enter="loginAdmin()"
-                                               class="flex-1 bg-transparent py-3 sm:py-4 px-4 sm:px-6 text-slate-900 text-center tracking-[0.5em] sm:tracking-[1em] font-bold text-xl sm:text-2xl outline-none">
-                                        <button @click="showAdminPin = !showAdminPin" type="button" class="px-3 sm:px-4 text-slate-400 hover:text-slate-600 transition-colors">
+                                               class="flex-1 min-w-0 bg-transparent py-3 sm:py-4 px-4 sm:px-6 text-slate-900 text-center tracking-[0.5em] sm:tracking-[1em] font-bold text-xl sm:text-2xl outline-none">
+                                        <!-- Toggle Show/Hide -->
+                                        <button @click="showAdminPin = !showAdminPin" type="button" class="flex-shrink-0 px-3 sm:px-4 py-3 sm:py-4 text-slate-400 hover:text-slate-600 transition-colors">
                                             <template x-if="!showAdminPin">
                                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                                             </template>
@@ -123,47 +141,87 @@
                 </div>
 
                 <!-- QR Admin Login -->
-                <div class="bg-slate-50 border-[3px] sm:border-4 border-slate-900 p-6 sm:p-12 rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center text-center relative overflow-hidden shadow-[8px_8px_0px_#1e293b] sm:shadow-[12px_12px_0px_#1e293b]">
-                    <!-- Ben-day background -->
-                    <div class="absolute inset-0 opacity-[0.05] pointer-events-none benday-dots"></div>
-                    
-                    <div x-show="!adminQrActive" class="space-y-6 sm:space-y-8 relative z-10" x-transition>
-                        <div class="w-20 h-20 sm:w-32 sm:h-32 bg-white border-[3px] sm:border-4 border-slate-900 rounded-2xl sm:rounded-[2.5rem] flex items-center justify-center mx-auto shadow-[6px_6px_0px_#9333ea] sm:shadow-[10px_10px_0px_#9333ea] animate-float-gentle">
-                            <svg class="w-10 h-10 sm:w-16 sm:h-16 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
-                        </div>
-                        <div>
-                             <h3 class="text-xl sm:text-3xl font-bold text-slate-900 mb-2 sm:mb-3 tracking-tight">PIN Scan</h3>
-                             <p class="text-slate-500 text-[8px] sm:text-xs font-bold max-w-[200px] sm:max-w-[240px] mx-auto tracking-tight leading-relaxed">Gunakan kartu identitas admin resmi Anda untuk otentikasi cepat.</p>
-                        </div>
-                        <button @click="startAdminQr()" class="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm uppercase tracking-tight sm:tracking-[0.3em] transition-all shadow-[6px_6px_0px_#1e293b] sm:shadow-[8px_8px_0px_#1e293b] hover:-translate-y-1 active:translate-y-1 active:shadow-none">
-                             Inisialisasi Optik
-                        </button>
+                <div
+                class="bg-slate-50 border-[3px] sm:border-4 border-slate-900
+                        pt-12 pb-6 sm:pt-20 sm:pb-12 px-6 sm:px-12
+                        rounded-2xl sm:rounded-3xl
+                        flex flex-col items-center justify-center text-center
+                        relative overflow-hidden
+                        shadow-[8px_8px_0px_#1e293b] sm:shadow-[12px_12px_0px_#1e293b]"
+                >
+
+                    <!-- BACKGROUND ONLY (YANG BOLEH KECLIP) -->
+                    <div class="absolute inset-0 overflow-hidden rounded-2xl sm:rounded-3xl pointer-events-none">
+                        <div class="absolute inset-0 opacity-[0.05] benday-dots"></div>
                     </div>
 
-                    <div x-show="adminQrActive" class="w-full space-y-4 sm:space-y-6 relative z-10" x-transition>
-                        <div class="relative aspect-square w-full max-w-sm mx-auto bg-slate-900 border-[6px] sm:border-8 border-slate-900 rounded-3xl sm:rounded-[3rem] overflow-hidden shadow-[8px_8px_0px_#9333ea] sm:shadow-[16px_16px_0px_#9333ea]">
-                            <div id="reader-admin" class="w-full h-full"></div>
-                            <!-- Comic scanline -->
-                            <div class="absolute inset-0 pointer-events-none zig-zag opacity-20 h-4 sm:h-6"></div>
-                        </div>
-                        
-                        <!-- Camera selection & Controls -->
-                        <div x-show="cameras.length > 0" class="w-full max-w-sm mx-auto flex gap-2">
-                            <select x-model="selectedCameraId" @change="restartScanner()" 
-                                    class="flex-1 bg-white border-[3px] sm:border-4 border-slate-900 rounded-xl py-3 px-4 text-[8px] sm:text-xs font-bold uppercase tracking-widest text-slate-900 outline-none transition-all">
-                                <template x-for="camera in cameras" :key="camera.id">
-                                    <option :value="camera.id" x-text="camera.label || 'Camera ' + camera.id"></option>
-                                </template>
-                            </select>
-                            <button @click="loadCameras()" class="p-3 bg-white border-[3px] border-slate-900 rounded-xl hover:bg-slate-50 transition-all shadow-[2px_2px_0px_#1e293b] active:shadow-none active:translate-x-0.5 active:translate-y-0.5" title="Refresh Cameras">
-                                <svg class="w-4 h-4 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                            </button>
-                            <button x-show="cameras.length > 1" @click="cycleCamera()" class="p-3 bg-purple-600 border-[3px] border-slate-900 rounded-xl text-white hover:bg-purple-500 transition-all shadow-[2px_2px_0px_#1e293b] active:shadow-none active:translate-x-0.5 active:translate-y-0.5" title="Flip Camera">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                    <!-- CONTENT (BEBAS ANIMASI, AMAN) -->
+                    <div class="relative z-10 w-full">
+
+                        <!-- STATE: BELUM SCAN -->
+                        <div x-show="!adminQrActive" class="space-y-6 sm:space-y-8" x-transition>
+                            <div class="w-20 h-20 sm:w-32 sm:h-32 bg-white border-[3px] sm:border-4 border-slate-900 rounded-2xl sm:rounded-[2.5rem] flex items-center justify-center mx-auto shadow-[6px_6px_0px_#9333ea] sm:shadow-[10px_10px_0px_#9333ea] animate-float-gentle">
+                                <svg class="w-10 h-10 sm:w-16 sm:h-16 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                                </svg>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xl sm:text-3xl font-black text-slate-900 mb-2 sm:mb-3 tracking-tight">
+                                    PIN Scan
+                                </h3>
+                                <p class="text-slate-500 text-[8px] sm:text-xs font-bold max-w-[200px] sm:max-w-[240px] mx-auto tracking-tight leading-relaxed">
+                                    Gunakan kartu identitas admin resmi Anda untuk otentikasi cepat.
+                                </p>
+                            </div>
+
+                            <button
+                            @click="startAdminQr()"
+                            class="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5
+                                    bg-purple-600 hover:bg-purple-500 text-white
+                                    rounded-xl sm:rounded-2xl
+                                    font-bold text-xs sm:text-sm uppercase tracking-tight sm:tracking-[0.3em]
+                                    transition-all
+                                    shadow-[6px_6px_0px_#1e293b] sm:shadow-[8px_8px_0px_#1e293b]
+                                    hover:-translate-y-1 active:translate-y-1 active:shadow-none">
+                                Inisialisasi Optik
                             </button>
                         </div>
 
-                         <button @click="stopAdminQr()" class="text-[10px] sm:text-sm font-bold text-red-600 hover:text-red-700 tracking-tight italic bg-white px-4 sm:px-6 py-2 border-2 border-slate-900 rounded-lg shadow-[3px_3px_0px_#1e293b] sm:shadow-[4px_4px_0px_#1e293b]">Batalkan Scan</button>
+                        <!-- STATE: SCANNING -->
+                        <div x-show="adminQrActive" class="w-full space-y-4 sm:space-y-6" x-transition>
+                            <div class="relative aspect-square w-full max-w-sm mx-auto bg-slate-900 border-[6px] sm:border-8 border-slate-900 rounded-3xl sm:rounded-[3rem] overflow-hidden shadow-[8px_8px_0px_#9333ea] sm:shadow-[16px_16px_0px_#9333ea]">
+                                <div id="reader-admin" class="w-full h-full"></div>
+                                <div class="absolute inset-0 pointer-events-none zig-zag opacity-20 h-4 sm:h-6"></div>
+                            </div>
+
+                            <div x-show="cameras.length > 0" class="w-full max-w-sm mx-auto flex gap-2">
+                                <select
+                                x-model="selectedCameraId"
+                                @change="restartScanner()"
+                                class="flex-1 bg-white border-[3px] sm:border-4 border-slate-900 rounded-xl py-3 px-4 text-[8px] sm:text-xs font-bold uppercase tracking-widest text-slate-900 outline-none transition-all">
+                                    <template x-for="camera in cameras" :key="camera.id">
+                                        <option :value="camera.id" x-text="camera.label || 'Camera ' + camera.id"></option>
+                                    </template>
+                                </select>
+
+                                <button @click="loadCameras()" class="p-3 bg-white border-[3px] border-slate-900 rounded-xl shadow-[2px_2px_0px_#1e293b] active:shadow-none active:translate-x-0.5 active:translate-y-0.5">
+                                    ↻
+                                </button>
+
+                                <button x-show="cameras.length > 1" @click="cycleCamera()" class="p-3 bg-purple-600 border-[3px] border-slate-900 rounded-xl text-white shadow-[2px_2px_0px_#1e293b] active:shadow-none active:translate-x-0.5 active:translate-y-0.5">
+                                    ⇆
+                                </button>
+                            </div>
+
+                            <button
+                            @click="stopAdminQr()"
+                            class="text-[10px] sm:text-sm font-bold text-red-600 bg-white px-4 sm:px-6 py-2 border-2 border-slate-900 rounded-lg shadow-[3px_3px_0px_#1e293b] sm:shadow-[4px_4px_0px_#1e293b]">
+                                Batalkan Scan
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -186,7 +244,7 @@
                     </div>
                     <div>
                         <div class="flex items-center gap-2 sm:gap-3">
-                             <h2 class="text-lg sm:text-2xl font-bold text-slate-900 tracking-tight leading-none">Terminal Operator</h2>
+                             <h2 class="text-lg sm:text-2xl font-black text-slate-900 tracking-tight leading-none">Terminal Operator</h2>
                              <span class="bg-purple-600 text-white text-[8px] sm:text-[10px] font-bold px-2 sm:px-3 py-1 rounded border-2 border-slate-900 tracking-widest shadow-[3px_3px_0px_#1e293b]">Aktif</span>
                         </div>
                          <p class="text-[8px] sm:text-[10px] font-bold text-slate-400 tracking-tight sm:tracking-[0.2em] mt-1 sm:mt-2">Otentikasi Sebagai: <span class="text-purple-600" x-text="activeAdmin?.name"></span></p>
@@ -199,7 +257,12 @@
                          <span class="text-slate-400 text-[8px]">Waktu Sesi:</span>
                          <span class="text-purple-400"><span x-text="timer"></span>d</span>
                     </div>
-                     <button @click="closeKiosk()" class="flex-shrink-0 px-4 sm:px-6 py-2 bg-white border-[3px] border-red-600 text-red-600 hover:bg-red-600 hover:text-white rounded-lg sm:rounded-xl text-[8px] sm:text-[10px] font-bold tracking-widest transition-all shadow-[4px_4px_0px_#ef4444] hover:shadow-none active:translate-x-1 active:translate-y-1">Akhiri</button>
+
+                    <!-- Logout User Button -->
+                    <button x-show="user" @click="logout()" class="flex-shrink-0 px-4 sm:px-6 py-2 bg-white border-[3px] border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white rounded-lg sm:rounded-xl text-[8px] sm:text-[10px] font-bold tracking-widest transition-all shadow-[4px_4px_0px_#f97316] hover:shadow-none active:translate-x-1 active:translate-y-1">Logout User</button>
+
+                    <!-- Close Kiosk Button -->
+                    <button @click="closeKiosk()" class="flex-shrink-0 px-4 sm:px-6 py-2 bg-white border-[3px] border-red-600 text-red-600 hover:bg-red-600 hover:text-white rounded-lg sm:rounded-xl text-[8px] sm:text-[10px] font-bold tracking-widest transition-all shadow-[4px_4px_0px_#ef4444] hover:shadow-none active:translate-x-1 active:translate-y-1" x-text="user ? 'Tutup Kiosk' : 'Akhiri'"></button>
                 </div>
             </div>
 
@@ -208,114 +271,109 @@
                 
                 <!-- STEP: MEMBER LOGIN -->
                 <template x-if="step === 'login'">
-                    <div class="flex-grow flex flex-col lg:flex-row gap-12 items-stretch" x-transition>
-                        <!-- Method Select -->
-                        <div class="flex-grow flex flex-col justify-center space-y-6 sm:space-y-12 lg:w-1/2">
-                            <div class="space-y-2 sm:space-y-4">
-                                 <h2 class="text-3xl sm:text-5xl md:text-7xl font-bold text-slate-900 tracking-tight leading-tight">Gerbang Auth User</h2>
-                                 <p class="text-[10px] sm:text-sm md:text-base text-slate-400 font-bold tracking-tight sm:tracking-[0.2em] italic">Akses layanan perpustakaan aman menggunakan kredensial digital Anda.</p>
-                                <p class="text-[10px] sm:text-sm md:text-base text-purple-600 font-bold uppercase tracking-tight sm:tracking-[0.3em] italic">Access secure library services using your digital credentials.</p>
-                            </div>
-
-                            <div class="space-y-6 max-w-lg">
-                                <button @click="loginMethod = 'qr'" 
-                                        :class="loginMethod === 'qr' ? 'bg-white border-purple-600 shadow-[6px_6px_0px_#9333ea] sm:shadow-[10px_10px_0px_#9333ea]' : 'bg-slate-50 border-slate-200 opacity-60'" 
-                                        class="w-full p-4 sm:p-8 rounded-2xl sm:rounded-3xl flex items-center justify-between border-2 sm:border-4 transition-all duration-500 group relative overflow-hidden">
-                                    <div class="absolute inset-0 opacity-[0.03] benday-dots"></div>
-                                    <div class="flex items-center gap-4 sm:gap-6 relative z-10">
-                                        <div :class="loginMethod === 'qr' ? 'bg-purple-600 text-white border-slate-900' : 'bg-slate-100 text-slate-400 border-slate-200'" class="p-3 sm:p-5 rounded-lg sm:rounded-2xl border-2 shadow-[3px_3px_0px_#1e293b] sm:shadow-[4px_4px_0px_#1e293b] transition-colors">
-                                            <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
-                                        </div>
-                                        <div class="text-left">
-                                             <p class="font-bold text-slate-900 text-lg sm:text-2xl italic tracking-tight">Scan Optik PIN</p>
-                                             <p class="text-[8px] sm:text-[10px] text-slate-400 font-bold tracking-tight sm:tracking-[0.2em] mt-1">Verifikasi Instan</p>
-                                        </div>
-                                    </div>
-                                    <div x-show="loginMethod === 'qr'" class="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-purple-600 animate-ping relative z-10"></div>
-                                </button>
-
-                                <button @click="loginMethod = 'manual'" 
-                                        :class="loginMethod === 'manual' ? 'bg-white border-violet-600 shadow-[6px_6px_0px_#7c3aed] sm:shadow-[10px_10px_0px_#7c3aed]' : 'bg-slate-50 border-slate-200 opacity-60'" 
-                                        class="w-full p-4 sm:p-8 rounded-2xl sm:rounded-3xl flex items-center justify-between border-2 sm:border-4 transition-all duration-500 group relative overflow-hidden">
-                                    <div class="absolute inset-0 opacity-[0.03] benday-dots"></div>
-                                    <div class="flex items-center gap-4 sm:gap-6 relative z-10">
-                                        <div :class="loginMethod === 'manual' ? 'bg-violet-600 text-white border-slate-900' : 'bg-slate-100 text-slate-400 border-slate-200'" class="p-3 sm:p-5 rounded-lg sm:rounded-2xl border-2 shadow-[3px_3px_0px_#1e293b] sm:shadow-[4px_4px_0px_#1e293b] transition-colors">
-                                            <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                                        </div>
-                                        <div class="text-left">
-                                             <p class="font-bold text-slate-900 text-lg sm:text-2xl italic tracking-tight">Kode Aman Manual</p>
-                                             <p class="text-[8px] sm:text-[10px] text-slate-400 font-bold tracking-tight sm:tracking-[0.2em] mt-1">Input Keypad</p>
-                                        </div>
-                                    </div>
-                                    <div x-show="loginMethod === 'manual'" class="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-violet-600 animate-ping relative z-10"></div>
-                                </button>
+                    <div class="flex-grow flex flex-col animate-fade-in" x-transition>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 w-full max-w-6xl mx-auto flex-grow items-start">
+                            <!-- Left: Details & Manual Input -->
+                            <div class="bg-white/90 backdrop-blur-xl panel-border p-6 sm:p-12 rounded-2xl sm:rounded-3xl relative overflow-hidden group">
+                                <div class="absolute top-0 right-0 w-32 h-32 sm:w-48 sm:h-48 bg-purple-100/40 -mr-12 -mt-12 sm:-mr-16 sm:-mt-16 rounded-full blur-2xl sm:blur-3xl benday-dots transition-all"></div>
                                 
-                                <div x-show="loginMethod === 'manual'" class="pt-8 space-y-8 animate-fade-in relative z-10">
-                                    <div class="space-y-4">
-                                         <label class="text-[10px] font-bold text-slate-400 tracking-tight ml-1">Kode Identifikasi Member</label>
-                                        <input x-model="memberLoginData.id_pengenal_siswa" 
-                                               type="text"                                                placeholder="Input ID User..." 
-                                               @keyup.enter="loginManual()"
-                                               class="w-full bg-slate-50 border-4 border-slate-900 rounded-2xl py-5 px-8 text-xl font-bold text-slate-900 placeholder:text-slate-300 focus:bg-white outline-none italic uppercase">
-                                    </div>
-                                    <div class="space-y-4">
-                                         <label class="text-[10px] font-bold text-slate-400 tracking-tight ml-1">Pin Keamanan Pribadi</label>
-                                        <div class="flex gap-4 bg-white border-4 border-slate-900 rounded-2xl overflow-hidden shadow-[8px_8px_0px_#9333ea] relative">
-                                            <div class="bg-slate-100 text-slate-900 px-6 py-5 flex items-center border-r-4 border-slate-900">
-                                                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
-                                            </div>
-                                            <input x-model="memberLoginData.pin" 
-                                                   :type="showUserPin ? 'text' : 'password'" 
-                                                   maxlength="6" 
-                                                   @keyup.enter="loginManual()"
-                                                   class="flex-1 bg-transparent py-4 px-6 text-slate-900 text-center tracking-[0.8em] font-bold text-3xl outline-none">
-                                            <button @click="showUserPin = !showUserPin" type="button" class="px-6 text-slate-400 hover:text-slate-600 transition-colors">
-                                                <template x-if="!showUserPin">
-                                                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                                                </template>
-                                                <template x-if="showUserPin">
-                                                    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" /></svg>
-                                                </template>
-                                            </button>
+                                <div class="relative z-10 space-y-6 sm:space-y-8">
+                                    <div class="flex items-center gap-4 sm:gap-5">
+                                        <div class="bg-purple-600 text-white p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 border-slate-900 shadow-[3px_3px_0px_#1e293b] sm:shadow-[4px_4px_0px_#1e293b]">
+                                            <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                                        </div>
+                                        <div>
+                                            <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Gerbang Auth User</h2>
+                                            <div class="h-1.5 w-12 sm:h-2 sm:w-16 bg-purple-600 mt-1"></div>
                                         </div>
                                     </div>
-                                    <button @click="loginManual()" 
-                                            :disabled="isProcessing"
-                                            class="w-full py-6 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-bold text-lg uppercase tracking-[0.3em] transition-all shadow-[8px_8px_0px_#1e293b] hover:-translate-y-1 active:translate-y-1 active:shadow-none italic">
-                                         <span x-show="!isProcessing">Eksekusi Login</span>
-                                         <span x-show="isProcessing">Verifikasi...</span>
-                                    </button>
+
+                                    <p class="text-[10px] sm:text-sm md:text-base text-purple-600 font-bold uppercase tracking-tight sm:tracking-[0.3em] italic">Akses layanan perpustakaan aman menggunakan kredensial digital Anda.</p>
+                                    
+                                    <div class="space-y-4 sm:space-y-6 pt-4">
+                                        <div class="space-y-2 sm:space-y-3">
+                                            <label class="text-[8px] sm:text-[10px] font-bold text-slate-400 tracking-widest ml-1 block">Kode Identifikasi Member</label>
+                                            <div class="flex bg-slate-50 border-[3px] sm:border-4 border-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shadow-[6px_6px_0px_#9333ea] sm:shadow-[8px_8px_0px_#9333ea]">
+                                                <div class="bg-slate-100 text-slate-900 px-4 sm:px-6 py-3 sm:py-5 flex items-center border-r-[3px] sm:border-r-4 border-slate-900">
+                                                    <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                                </div>
+                                                <input x-model="memberLoginData.id_pengenal_siswa" 
+                                                       type="text" 
+                                                       placeholder="Input ID User..." 
+                                                       @keyup.enter="loginManual()"
+                                                       class="flex-1 bg-transparent py-3 sm:py-5 px-4 sm:px-8 text-lg sm:text-xl font-bold tracking-widest text-slate-900 uppercase italic outline-none">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="space-y-2 sm:space-y-3">
+                                            <label class="text-[8px] sm:text-[10px] font-bold text-slate-400 tracking-widest ml-1 block">Pin Keamanan Pribadi</label>
+                                            <div class="flex items-center bg-white border-[3px] sm:border-4 border-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shadow-[4px_4px_0px_#9333ea] sm:shadow-[8px_8px_0px_#9333ea]">
+                                                <!-- Icon Kiri -->
+                                                <div class="flex-shrink-0 bg-slate-100 px-3 sm:px-5 py-3 sm:py-4 flex items-center border-r-[3px] sm:border-r-4 border-slate-900">
+                                                    <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                                </div>
+                                                <!-- Input PIN -->
+                                                <input x-model="memberLoginData.pin" 
+                                                       :type="showUserPin ? 'text' : 'password'" 
+                                                       maxlength="6" 
+                                                       inputmode="numeric"
+                                                       @keyup.enter="loginManual()"
+                                                       class="flex-1 min-w-0 bg-transparent py-3 sm:py-4 px-4 sm:px-6 text-slate-900 text-center tracking-[0.5em] sm:tracking-[1em] font-bold text-xl sm:text-2xl outline-none">
+                                                <!-- Toggle Show/Hide -->
+                                                <button @click="showUserPin = !showUserPin" type="button" class="flex-shrink-0 px-3 sm:px-4 py-3 sm:py-4 text-slate-400 hover:text-slate-600 transition-colors">
+                                                    <template x-if="!showUserPin">
+                                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                                    </template>
+                                                    <template x-if="showUserPin">
+                                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" /></svg>
+                                                    </template>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <button @click="loginManual()" 
+                                                :disabled="isProcessing"
+                                                class="w-full py-4 sm:py-6 bg-slate-900 hover:bg-slate-800 text-white rounded-xl sm:rounded-2xl font-bold text-base sm:text-xl shadow-[4px_4px_0px_#9333ea] sm:shadow-[8px_8px_0px_#9333ea] transition-all active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-50 uppercase italic tracking-widest mt-4">
+                                             <span x-show="!isProcessing">Eksekusi Login</span>
+                                             <span x-show="isProcessing">Verifikasi...</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Scanner View -->
-                        <div class="flex-grow flex items-center justify-center lg:w-1/2">
-                            <div class="bg-slate-50 border border-slate-300 p-10 rounded-[4rem] w-full max-w-lg aspect-square relative overflow-hidden shadow-2xl">
-                                <!-- Tech grid background -->
-                                <div class="absolute inset-0 opacity-[0.03] pointer-events-none" 
-                                     style="background-image: linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px); background-size: 20px 20px;"></div>
-
-                                <template x-if="loginMethod === 'qr'">
-                                    <div class="w-full h-full relative z-10">
-                                        <div class="w-full h-full bg-slate-900 rounded-[2.5rem] overflow-hidden border-4 border-slate-900 shadow-[12px_12px_0px_#9333ea] relative">
-                                            <div id="reader" class="w-full h-full"></div>
-                                            <div class="absolute inset-0 pointer-events-none border-2 border-blue-500/20 rounded-[2.5rem] m-10"></div>
-                                            <div class="animate-scan"></div>
-                                        </div>
-
-                                        <!-- No camera selection here, follows Admin choice -->
+                            <!-- Right: Scanner Area -->
+                            <div
+                                class="bg-slate-50 border-[3px] sm:border-4 border-slate-900
+                                        pt-12 pb-6 sm:pt-20 sm:pb-12 px-6 sm:px-12
+                                        rounded-2xl sm:rounded-3xl
+                                        flex flex-col items-center justify-center text-center
+                                        relative overflow-hidden
+                                        shadow-[8px_8px_0px_#1e293b] sm:shadow-[12px_12px_0px_#1e293b]"
+                            >
+                                <!-- Background -->
+                                <div class="absolute inset-0 overflow-hidden rounded-2xl sm:rounded-3xl pointer-events-none">
+                                    <div class="absolute inset-0 opacity-[0.05] benday-dots"></div>
+                                </div>
+                                
+                                <div class="w-full space-y-4 sm:space-y-6 relative z-10">
+                                    <div class="space-y-3">
+                                          <h3 class="text-xl sm:text-3xl font-black text-slate-900 tracking-tight">Scan Sensor Optik</h3>
+                                         <p class="text-slate-500 text-[8px] sm:text-xs font-bold max-w-[200px] sm:max-w-[240px] mx-auto tracking-tight leading-relaxed">Sejajarkan kode QR Member dengan batas sensor optik untuk verifikasi instan.</p>
                                     </div>
-                                </template>
-                                <template x-if="loginMethod === 'manual'">
-                                    <div class="w-full h-full flex flex-col items-center justify-center text-center p-12 relative z-10">
-                                        <div class="w-36 h-36 bg-purple-600/10 border-2 border-purple-600/30 rounded-[2.5rem] flex items-center justify-center text-purple-600 mb-8 shadow-2xl">
-                                            <svg class="w-20 h-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                                        </div>
-                                         <h3 class="text-3xl font-bold text-slate-900 italic tracking-tight">Mode Manual</h3>
-                                         <p class="text-slate-500 text-sm font-bold mt-4 tracking-widest">Menunggu input kriptografis dari panel kontrol.</p>
+
+                                    <div class="relative aspect-square w-full max-w-sm mx-auto bg-slate-900 border-[6px] sm:border-8 border-slate-900 rounded-3xl sm:rounded-[3rem] overflow-hidden shadow-[8px_8px_0px_#9333ea] sm:shadow-[16px_16px_0px_#9333ea]">
+                                        <div id="reader" class="w-full h-full"></div>
+                                        <div class="absolute inset-0 pointer-events-none zig-zag opacity-20 h-4 sm:h-6"></div>
+                                        
+                                        <!-- Animated Scan Line -->
+                                        <div class="absolute w-full h-1 bg-purple-400/50 shadow-[0_0_15px_#a78bfa] animate-scan z-20"></div>
                                     </div>
-                                </template>
+
+                                    <div class="flex items-center justify-center gap-4">
+                                        <div class="h-3 w-3 rounded-full bg-purple-600 animate-ping"></div>
+                                         <span class="text-[10px] font-bold text-slate-900 tracking-tight italic">Power Optik Aktif</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -326,7 +384,7 @@
                     <div class="flex-grow flex flex-col items-center justify-center py-6 sm:py-12 animate-fade-in" x-transition>
                         <div class="text-center mb-10 sm:mb-16 relative">
                             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-12 sm:h-16 zig-zag opacity-5 -rotate-3"></div>
-                             <h2 class="text-3xl sm:text-5xl md:text-7xl font-bold text-slate-900 tracking-tight mb-4 sm:mb-6 relative z-10 inline-block">
+                             <h2 class="text-3xl sm:text-5xl md:text-7xl font-black text-slate-900 tracking-tight mb-4 sm:mb-6 relative z-10 inline-block">
                                 Pilih Modul Utama
                                 <!-- Floating accent comic stars -->
                                 <div class="absolute -top-3 sm:-top-5 -right-4 sm:-right-8 flex gap-1 sm:gap-2">
@@ -345,7 +403,7 @@
                                 <div class="w-16 h-16 sm:w-24 sm:h-24 bg-purple-600 text-white comic-burst burst-border flex items-center justify-center mb-6 sm:mb-10 group-hover:scale-110 transition-transform relative z-10">
                                     <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                                 </div>
-                                 <h3 class="text-2xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-2 sm:mb-4 relative z-10 text-nowrap">Pinjam Buku</h3>
+                                 <h3 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight mb-2 sm:mb-4 relative z-10 text-nowrap">Pinjam Buku</h3>
                                  <p class="text-slate-400 text-[10px] sm:text-sm font-bold tracking-widest leading-relaxed pr-6 sm:pr-8 relative z-10 italic">Inisialisasi transaksi peminjaman baru. Diperlukan scan untuk validasi.</p>
                                 <div class="mt-6 sm:mt-10 flex items-center gap-3 sm:gap-4 text-purple-600 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] relative z-10">
                                      <span class="bg-slate-900 text-white px-3 py-1 sm:px-4 sm:py-2 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b] sm:shadow-[3px_3px_0px_#1e293b]">Jalankan Alur</span><svg class="w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-3 transition-transform text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
@@ -359,14 +417,13 @@
                                 <div class="w-16 h-16 sm:w-24 sm:h-24 bg-violet-600 text-white comic-burst burst-border flex items-center justify-center mb-6 sm:mb-10 group-hover:scale-110 transition-transform relative z-10">
                                     <svg class="w-7 h-7 sm:w-10 sm:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" /></svg>
                                 </div>
-                                 <h3 class="text-2xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-2 sm:mb-4 relative z-10 text-nowrap">Pengembalian</h3>
+                                 <h3 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight mb-2 sm:mb-4 relative z-10 text-nowrap">Pengembalian</h3>
                                  <p class="text-slate-400 text-[10px] sm:text-sm font-bold tracking-widest leading-relaxed pr-6 sm:pr-8 relative z-10 italic">Akhiri sesi pinjaman aktif. Item harus diverifikasi secara optik.</p>
                                 <div class="mt-6 sm:mt-10 flex items-center gap-3 sm:gap-4 text-violet-600 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] relative z-10">
                                      <span class="bg-slate-900 text-white px-3 py-1 sm:px-4 sm:py-2 border-2 border-slate-900 shadow-[2px_2px_0px_#1e293b] sm:shadow-[3px_3px_0px_#1e293b]">Verifikasi Status</span><svg class="w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-3 transition-transform text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                                 </div>
                             </button>
                         </div>
-                                                <button @click="logout()" class="mt-8 sm:mt-16 text-[8px] sm:text-[10px] font-bold text-slate-400 hover:text-red-600 tracking-tight sm:tracking-[0.2em] transition-colors border-b-2 border-transparent hover:border-red-600 pb-1 italic">Akhiri Identitas Saat Ini</button>
                     </div>
                 </template>
 
@@ -385,7 +442,7 @@
                                                 <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 12h6m-6 4h6m2 5H7a2 2 0 00-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                             </div>
                                             <div>
-                                                  <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Identifikasi Item</h2>
+                                                  <h2 class="text-xl sm:text-2xl font-black text-slate-900">Identifikasi Item</h2>
                                                 <div class="h-1.5 w-12 sm:h-2 sm:w-16 bg-purple-600 mt-1"></div>
                                             </div>
                                         </div>
@@ -414,45 +471,36 @@
                                              Verifikasi Data Item
                                         </button>
                                     </div>
-
-                                    <!-- Recent Queue Area -->
-                                    <div class="pt-8 border-t-4 border-dashed border-slate-200 space-y-6">
-                                        <div class="flex justify-between items-center">
-                                             <p class="text-[10px] font-bold text-slate-900 tracking-tight">Status Antrian Batch</p>
-                                             <span class="bg-purple-600 text-white px-4 py-1.5 border-2 border-slate-900 rounded-lg text-[10px] font-bold shadow-[3px_3px_0px_#1e293b]" x-text="scannedBooks.length + ' TERTUNDA'"></span>
-                                        </div>
-                                        <div class="flex flex-wrap gap-3">
-                                            <template x-for="book in scannedBooks" :key="book.code">
-                                                <div class="px-5 py-2.5 bg-white border-4 border-slate-900 rounded-xl text-[10px] font-bold text-purple-600 italic shadow-[4px_4px_0px_#1e293b]" x-text="book.code"></div>
-                                            </template>
-                                            <template x-if="scannedBooks.length === 0">
-                                                 <p class="text-[10px] text-slate-300 font-bold italic tracking-tight py-4 w-full text-center border-4 border-dotted border-slate-100 rounded-2xl">-- Menunggu Inisialisasi Optik --</p>
-                                            </template>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
                             <!-- Right: Scanner Area -->
-                            <div class="bg-slate-50 border-4 border-slate-900 p-12 rounded-3xl flex flex-col items-center justify-center text-center relative overflow-hidden shadow-[12px_12px_0px_#1e293b] min-h-[500px]">
-                                <div class="absolute inset-0 opacity-[0.05] pointer-events-none benday-dots"></div>
+                            <div
+                                class="bg-slate-50 border-[3px] sm:border-4 border-slate-900
+                                        pt-12 pb-6 sm:pt-20 sm:pb-12 px-6 sm:px-12
+                                        rounded-2xl sm:rounded-3xl
+                                        flex flex-col items-center justify-center text-center
+                                        relative overflow-hidden
+                                        shadow-[8px_8px_0px_#1e293b] sm:shadow-[12px_12px_0px_#1e293b]"
+                            >
+                                <!-- Background -->
+                                <div class="absolute inset-0 overflow-hidden rounded-2xl sm:rounded-3xl pointer-events-none">
+                                    <div class="absolute inset-0 opacity-[0.05] benday-dots"></div>
+                                </div>
                                 
-                                <div class="w-full space-y-8 relative z-10">
+                                <div class="w-full space-y-4 sm:space-y-6 relative z-10">
                                     <div class="space-y-3">
-                                          <h3 class="text-3xl font-bold text-slate-900 tracking-tight">Scan Sensor Optik</h3>
-                                         <p class="text-slate-500 text-[10px] font-bold max-w-[280px] mx-auto tracking-widest">Sejajarkan kode QR item dengan batas sensor optik untuk verifikasi instan.</p>
+                                          <h3 class="text-xl sm:text-3xl font-black text-slate-900 tracking-tight">Scan Sensor Optik</h3>
+                                         <p class="text-slate-500 text-[8px] sm:text-xs font-bold max-w-[200px] sm:max-w-[240px] mx-auto tracking-tight leading-relaxed">Sejajarkan kode QR item dengan batas sensor optik untuk verifikasi instan.</p>
                                     </div>
 
-                                    <div class="relative aspect-square w-full max-w-sm mx-auto bg-slate-900 border-8 border-slate-900 rounded-[3rem] overflow-hidden shadow-[16px_16px_0px_#9333ea]">
+                                    <div class="relative aspect-square w-full max-w-sm mx-auto bg-slate-900 border-[6px] sm:border-8 border-slate-900 rounded-3xl sm:rounded-[3rem] overflow-hidden shadow-[8px_8px_0px_#9333ea] sm:shadow-[16px_16px_0px_#9333ea]">
                                         <div id="reader-book" class="w-full h-full"></div>
-                                        <div class="absolute inset-0 pointer-events-none zig-zag opacity-10 h-6"></div>
-                                        <div class="absolute inset-0 pointer-events-none border-[32px] border-slate-900/10"></div>
+                                        <div class="absolute inset-0 pointer-events-none zig-zag opacity-20 h-4 sm:h-6"></div>
                                         
                                         <!-- Animated Scan Line -->
                                         <div class="absolute w-full h-1 bg-purple-400/50 shadow-[0_0_15px_#a78bfa] animate-scan z-20"></div>
                                     </div>
-
-                                    <!-- No camera selection here, follows Admin choice -->
 
                                     <div class="flex items-center justify-center gap-4">
                                         <div class="h-3 w-3 rounded-full bg-purple-600 animate-ping"></div>
@@ -480,7 +528,7 @@
                         </div>
                         
                         <div class="space-y-4 sm:space-y-6 relative z-10">
-                              <h2 class="text-4xl sm:text-6xl md:text-8xl font-bold text-slate-900 tracking-tight">Tugas Selesai.</h2>
+                              <h2 class="text-4xl sm:text-6xl md:text-8xl font-black text-slate-900 tracking-tight">Tugas Selesai.</h2>
                              <p class="text-[10px] sm:text-xl font-bold tracking-widest italic text-slate-400">Transaksi kriptografis telah dicatat dan difinalisasi.</p>
                         </div>
                         <div class="flex flex-wrap justify-center gap-6 sm:gap-10 relative z-10">
@@ -523,7 +571,7 @@
                     <template x-if="modal.type === 'info'"><svg class="w-8 h-8 sm:w-12 sm:h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></template>
                 </div>
 
-                 <h3 class="text-2xl sm:text-4xl font-bold text-slate-900 mb-2 sm:mb-4 tracking-tight uppercase relative z-10" x-text="modal.title"></h3>
+                 <h3 class="text-2xl sm:text-4xl font-black text-slate-900 mb-2 sm:mb-4 tracking-tight uppercase relative z-10" x-text="modal.title"></h3>
                 <p class="text-slate-500 text-sm sm:text-lg font-bold leading-relaxed mb-6 sm:mb-10 italic uppercase tracking-wider relative z-10" x-text="modal.message"></p>
                                 <button @click="closeModal()" class="w-full py-4 sm:py-6 bg-slate-900 text-white rounded-xl sm:rounded-2xl font-bold text-base sm:text-xl hover:bg-slate-800 shadow-[4px_4px_0px_#9333ea] sm:shadow-[8px_8px_0px_#9333ea] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all italic tracking-widest relative z-10">Lanjutkan Tugas</button>
             </div>
@@ -580,19 +628,14 @@ document.addEventListener('alpine:init', () => {
             // Life-cycle Watchers
             this.$watch('isKioskActive', (active) => {
                 if (!active) this.stopScanner();
-                else if (this.step === 'login' && this.loginMethod === 'qr') this.initScanner("reader");
+                else if (this.step === 'login') this.initScanner("reader");
             });
 
             this.$watch('step', (s) => {
                 this.stopScanner().then(() => {
-                    if (s === 'login' && this.loginMethod === 'qr') this.initScanner("reader");
+                    if (s === 'login') this.initScanner("reader");
                     if (s === 'book_input') this.initScanner("reader-book");
                 });
-            });
-
-            this.$watch('loginMethod', (m) => {
-                if (m === 'qr' && this.step === 'login') this.initScanner("reader");
-                else this.stopScanner();
             });
         },
 
@@ -741,11 +784,11 @@ document.addEventListener('alpine:init', () => {
         },
 
         async restartScanner() {
-            if (!this.scanner && !this.adminQrActive && this.step !== 'book_input' && !(this.step === 'login' && this.loginMethod === 'qr')) return;
+            if (!this.scanner && !this.adminQrActive && this.step !== 'book_input' && this.step !== 'login') return;
             
             this.stopScanner().then(() => {
                 if (this.adminQrActive) this.initScanner("reader-admin", (c) => this.loginAdminWithQr(c));
-                else if (this.step === 'login' && this.loginMethod === 'qr') this.initScanner("reader");
+                else if (this.step === 'login') this.initScanner("reader");
                 else if (this.step === 'book_input') this.initScanner("reader-book");
             });
         },

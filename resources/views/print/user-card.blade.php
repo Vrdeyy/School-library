@@ -120,7 +120,7 @@
                     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="max-w-full max-h-full object-contain">
                 </div>
                 <div>
-                    <h1 class="text-[3.5mm] font-bold tracking-[0.1mm] text-slate-900 leading-none">Perpustakaan</h1>
+                    <h1 class="text-[3.5mm] font-black tracking-[0.1mm] text-slate-900 leading-none">Perpustakaan</h1>
                     <p class="text-[2mm] font-bold text-purple-600 mt-1 tracking-widest uppercase">SMK YAJ Depok</p>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                         elseif ($len > 18) { $fontSize = 'text-[4.7mm]'; $lineHeight = 'leading-[1.1]'; }
                     @endphp
                     <div class="h-[12mm] flex items-center mb-1">
-                        <h2 class="{{ $fontSize }} {{ $lineHeight }} font-bold text-slate-900" 
+                        <h2 class="{{ $fontSize }} {{ $lineHeight }} font-black text-slate-900" 
                             style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;">
                             {{ $name }}
                         </h2>

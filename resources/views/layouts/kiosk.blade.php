@@ -193,12 +193,23 @@
         </main>
 
         <!-- Dynamic Status Footer -->
-        <footer class="relative z-10 py-8 text-center">
-            <div class="inline-flex items-center gap-4 px-6 py-2.5 rounded-2xl bg-white border border-slate-200 shadow-xl text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">
-                <span class="flex h-2 w-2 rounded-full bg-purple-600 animate-pulse"></span>
-                <span>© Hak Cipta • {{ date('Y') }} •</span>
-                <span class="h-4 w-px bg-slate-200 mx-1"></span>
-                <span> Kampunk Dev Team</span>
+        <footer class="relative z-10 py-4 sm:py-6 text-center">
+            <div
+            class="inline-flex items-center justify-center leading-none gap-2 sm:gap-3
+                px-3 sm:px-5 py-1.5 sm:py-2
+                rounded-xl sm:rounded-2xl
+                bg-white border border-slate-200 shadow-md sm:shadow-xl
+                text-[8px] sm:text-[10px]
+                font-black tracking-[0.15em] sm:tracking-[0.2em]
+                text-slate-400 uppercase">
+
+                <span class="flex h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-purple-600 animate-pulse"></span>
+
+                <span>© {{ date('Y') }}</span>
+                <span class="h-3 sm:h-4 w-px bg-slate-200 mx-0.5 sm:mx-1"></span>
+                <span>Hak Cipta</span>
+                <span class="h-3 sm:h-4 w-px bg-slate-200 mx-0.5 sm:mx-1"></span>
+                <span>Kampunk Dev</span>
             </div>
         </footer>
     </div>

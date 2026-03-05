@@ -122,7 +122,7 @@
                             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="max-w-full max-h-full object-contain">
                         </div>
                         <div>
-                            <h1 class="text-[3.5mm] font-bold tracking-[0.6mm] text-slate-900 leading-none uppercase">PERPUSTAKAAN</h1>
+                            <h1 class="text-[3.5mm] font-black tracking-[0.6mm] text-slate-900 leading-none uppercase">PERPUSTAKAAN</h1>
                             <p class="text-[2mm] font-bold text-purple-600 mt-1 uppercase tracking-widest">SMK YAJ Depok</p>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                             @endphp
 
                             <div class="h-[12mm] flex items-center">
-                                <h2 class="{{ $fontSize }} font-bold text-slate-900 leading-[1.1]" 
+                                <h2 class="{{ $fontSize }} font-black text-slate-900 leading-[1.1]" 
                                     style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                     {{ $name }}
                                 </h2>
