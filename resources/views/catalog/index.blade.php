@@ -329,7 +329,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12" id="booksGrid">
                 @forelse($books as $book)
                 <div class="book-card group" data-title="{{ strtolower($book->title) }}" data-author="{{ strtolower($book->author ?? '') }}">
-                    <div class="relative bg-white panel-border rounded-2xl overflow-hidden transition-all duration-500 hover:translate-y-[-10px] hover:shadow-[24px_24px_0px_#9333ea] flex flex-col sm:flex-row h-full group/card">
+                    <div class="relative bg-white panel-border rounded-2xl overflow-hidden transition-all duration-500 hover:translate-y-[-10px] hover:shadow-[24px_24px_0px_#9333ea] flex flex-col sm:flex-row h-auto sm:h-[340px] group/card">
                         
                         <!-- Tape Effects -->
                         <div class="tape-effect -top-2 -left-6 opacity-60 group-hover/card:opacity-100 transition-opacity"></div>
@@ -341,15 +341,40 @@
                                 <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}" 
                                      class="w-full h-full object-cover transition-all duration-700 group-hover/card:scale-110 grayscale-[10%] group-hover/card:grayscale-0">
                             @else
-                                <div class="w-full h-full flex flex-col items-center justify-center text-slate-200 p-8 benday-dots">
-                                    <svg class="w-16 h-16 mb-4 opacity-40 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                                    </svg>
+                                <div class="w-full h-full flex flex-col items-center justify-center bg-purple-50 relative overflow-hidden group/placeholder">
+                                    <!-- Layers (Textures - Reduced transparency = Higher opacity) -->
+                                    <div class="absolute inset-0 opacity-[0.15] benday-dots"></div>
+                                    <div class="absolute inset-0 opacity-[0.2] tech-grid text-purple-600/20"></div>
+                                    <div class="absolute inset-0 opacity-[0.08] screentone scale-150 rotate-[-12deg]"></div>
+
+                                    <!-- Centered Seal Content -->
+                                    <div class="relative z-10 flex flex-col items-center gap-6">
+                                        <div class="relative opacity-30 group-hover/card:opacity-60 transition-opacity">
+                                            <!-- Rotating decorative ring -->
+                                            <div class="absolute -inset-8 border-[2.5px] border-dashed border-purple-600/30 rounded-full animate-[spin_30s_linear_infinite] opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
+                                            
+                                            <!-- Main Icon (Subtle Purple) -->
+                                            <svg class="w-24 h-24 sm:w-28 sm:h-28 text-purple-600 drop-shadow-[0_4px_12px_rgba(147,51,234,0.1)] transition-transform duration-500 group-hover/card:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                            </svg>
+                                            
+                                            <!-- Decorative corners for icon (Subtle) -->
+                                            <div class="absolute -top-3 -right-3 w-8 h-8 bg-purple-600 comic-plus border-[3px] border-slate-900 shadow-[2px_2px_0px_white] rotate-12 z-20 transition-transform group-hover/card:rotate-[45deg]"></div>
+                                        </div>
+
+                                        <!-- Status Label (Subtle border/text) -->
+                                        <div class="text-center group-hover/card:translate-y-1 transition-transform opacity-40 group-hover/card:opacity-80">
+                                            <p class="text-[10px] font-black text-purple-600 tracking-[0.3em] uppercase italic px-4 py-1.5 border-[3px] border-purple-600/30 shadow-[4px_4px_0px_rgba(147,51,234,0.1)]">No Cover</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Bottom corner indicator -->
+                                    <div class="absolute bottom-6 left-6 flex items-center gap-2 opacity-50">
+                                        <div class="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></div>
+                                        <div class="w-12 h-[2.5px] bg-purple-200"></div>
+                                    </div>
                                 </div>
                             @endif
-
-                            <!-- Security Stamp -->
-                            <div class="security-stamp top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[25deg] text-purple-600 border-purple-600 scale-150">Asli</div>
 
                             <!-- Floating Year Chip -->
                             <div class="absolute top-4 left-4 sticker-effect z-10">
@@ -376,20 +401,33 @@
                                         <p>Koleksi</p>
                                     </div>
 
-                                    <span class="text-[15px] font-bold text-slate-400 tracking-widest mb-2 block">Judul Buku</span>
-                                    <h3 class="{{ strlen($book->title) > 50 ? 'text-lg sm:text-2xl' : (strlen($book->title) > 25 ? 'text-xl sm:text-3xl' : 'text-2xl sm:text-4xl') }} font-black text-slate-900 leading-[0.9] group-hover/card:text-purple-600 transition-colors line-clamp-2 tracking-tight mb-4">
-                                        {{ $book->title }}
-                                    </h3>
+                                    <div class="h-[75px] sm:h-[90px] flex flex-col justify-center overflow-hidden">
+                                        <span class="text-[12px] sm:text-[14px] font-bold text-slate-400 tracking-widest mb-0.5 block uppercase">Judul Buku</span>
+                                        @php
+                                            $titleLen = mb_strlen($book->title);
+                                            $titleSize = match(true) {
+                                                $titleLen > 70 => 'text-[10px] sm:text-xs',
+                                                $titleLen > 50 => 'text-xs sm:text-sm',
+                                                $titleLen > 35 => 'text-sm sm:text-base',
+                                                $titleLen > 25 => 'text-base sm:text-lg',
+                                                $titleLen > 15 => 'text-lg sm:text-2xl',
+                                                default => 'text-xl sm:text-3xl',
+                                            };
+                                        @endphp
+                                        <h3 class="{{ $titleSize }} font-black text-slate-900 leading-[0.9] group-hover/card:text-purple-600 transition-colors line-clamp-2 tracking-tight">
+                                            {{ $book->title }}
+                                        </h3>
+                                    </div>
                                 </div>
                                 
-                                <div class="mt-auto pt-6 border-t-4 border-slate-900 border-dotted space-y-4">
+                                <div class="mt-auto pt-3 sm:pt-4 border-t-2 sm:border-t-4 border-slate-900 border-dotted space-y-2 sm:space-y-3">
                                     <!-- Author Block -->
                                     <div class="min-w-0">
-                                        <div class="flex items-center gap-2 mb-1.5">
-                                            <span class="text-[15px] font-bold text-slate-400 tracking-widest uppercase">Penulis</span>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="text-[13px] sm:text-[14px] font-bold text-slate-400 tracking-widest uppercase">Penulis</span>
                                             <div class="h-[1px] flex-1 bg-slate-100 tech-grid opacity-50"></div>
                                         </div>
-                                        <p class="text-xl font-bold text-slate-900 tracking-tight leading-[1.1] break-words">
+                                        <p class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight leading-none line-clamp-1">
                                             {{ $book->author ?? 'Tidak Diketahui' }}
                                         </p>
                                     </div>
