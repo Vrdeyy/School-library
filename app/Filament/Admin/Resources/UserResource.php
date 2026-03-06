@@ -24,9 +24,18 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('role')
+                    ->options([
+                        'admin' => 'Admin',
+                        'user' => 'User',
+                    ])
+                    ->default('user')
+                    ->live()
+                    ->required(),
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->required()
+                    ->hidden(fn (Forms\Get $get) => $get('role') === 'user')
+                    ->required(fn (Forms\Get $get) => $get('role') === 'admin')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
                     ->label('No. Telepon')
@@ -40,30 +49,28 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context, Forms\Get $get): bool => $context === 'create' && $get('role') === 'admin'),
-                Forms\Components\Select::make('role')
-                    ->options([
-                        'admin' => 'Admin',
-                        'user' => 'User',
-                    ])
-                    ->default('user')
-                    ->live()
-                    ->required(),
                 Forms\Components\TextInput::make('kelas')
-                    ->maxLength(20),
+                    ->maxLength(20)
+                    ->hidden(fn (Forms\Get $get) => $get('role') === 'admin'),
                 Forms\Components\TextInput::make('jurusan')
-                    ->maxLength(50),
+                    ->maxLength(50)
+                    ->hidden(fn (Forms\Get $get) => $get('role') === 'admin'),
                 Forms\Components\TextInput::make('angkatan')
-                    ->maxLength(10),
+                    ->maxLength(10)
+                    ->hidden(fn (Forms\Get $get) => $get('role') === 'admin'),
                 Forms\Components\TextInput::make('id_pengenal_siswa')
                     ->label('Id Pengenal Siswa')
-                    ->unique(ignoreRecord: true),
+                    ->unique(ignoreRecord: true)
+                    ->required(),
                 Forms\Components\TextInput::make('pin')
                     ->label('PIN (Numeric)')
                     ->numeric()
                     ->password()
                     ->revealable()
+                    ->placeholder('6 Digit PIN')
                     ->formatStateUsing(fn ($record) => $record?->pin)
                     ->length(6)
+                    ->required(fn (string $context) => $context === 'create')
                     ->dehydrated(fn ($state) => filled($state)), 
                 Forms\Components\Toggle::make('is_suspended')
                     ->label('Suspended')

@@ -127,7 +127,7 @@
                         </div>
                     </div>
                     <div class="bg-slate-900 text-white text-[1.6mm] font-bold px-2.5 py-1 rounded border border-white shadow-[2px_2px_0px_#9333ea] uppercase tracking-wider">
-                        MEMBER_ID
+                        MEMBER CARD
                     </div>
                 </div>
 
@@ -153,8 +153,15 @@
                                 </h2>
                             </div>
                             <div class="inline-flex items-stretch mt-1 bg-slate-900 border-2 border-slate-900 rounded-lg overflow-hidden shadow-[3px_3px_0px_#9333ea]">
-                                <span class="text-white px-2 py-0.5 text-[1.8mm] font-bold flex items-center justify-center">ID</span>
-                                <span class="bg-white px-3 py-0.5 text-[2.2mm] font-bold text-slate-900 uppercase tracking-wider flex items-center justify-center">{{ $user->id_pengenal_siswa ?? $user->id }}</span>
+
+                                <span class="text-white px-2 py-0.5 text-[1.8mm] font-bold grid place-items-center">
+                                    ID
+                                </span>
+
+                                <div class="bg-white border-l border-slate-900 w-[15mm] h-[4.5mm] text-[2.2mm] font-bold text-slate-900 uppercase grid place-items-center">
+                                    {{ trim($user->id_pengenal_siswa ?? $user->id) }}
+                                </div>
+
                             </div>
                         </div>
 

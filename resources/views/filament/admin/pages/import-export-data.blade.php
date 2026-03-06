@@ -20,7 +20,7 @@
                 class="px-4 py-2 font-medium transition-colors"
             >
                 <x-heroicon-o-users class="w-5 h-5 inline mr-1" />
-                Users
+                User Accounts
             </button>
             <button
                 @click="activeTab = 'books'"
@@ -110,9 +110,19 @@
                             <div class="p-1.5 bg-primary-50 dark:bg-primary-500/10 rounded-lg">
                                 <x-heroicon-m-arrow-up-tray class="w-4 h-4 text-primary-600 dark:text-primary-400" />
                             </div>
-                            <span class="text-sm font-semibold">Import Users</span>
+                            <span class="text-sm font-semibold">Bulk User Account Import</span>
                         </div>
                     </x-slot>
+
+                    <div class="mb-4 p-3 rounded-lg bg-primary-50 dark:bg-primary-500/10 border border-primary-100 dark:border-primary-500/20">
+                        <p class="text-[10px] text-primary-700 dark:text-primary-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                            <x-heroicon-s-information-circle class="w-3.5 h-3.5" />
+                            Khusus Pembuatan Akun User (Siswa/Anggota)
+                        </p>
+                        <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                            Gunakan fitur ini untuk membuat banyak akun sekaligus. Admin tidak dapat dibuat melalui import untuk alasan keamanan.
+                        </p>
+                    </div>
                     
                     <form action="{{ route('admin.data.import-users') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                         @csrf
@@ -175,19 +185,23 @@
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="space-y-2">
-                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Required</p>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Wajib Diisi</p>
                                 <div class="flex flex-col gap-1.5">
                                     <div class="flex items-center gap-2 text-[11px] font-mono text-primary-600 dark:text-primary-400">
                                         <span class="w-1.5 h-1.5 rounded-full bg-primary-500/20 flex items-center justify-center"><span class="w-0.5 h-0.5 rounded-full bg-primary-500"></span></span>
                                         <span>name</span>
                                     </div>
-                                    <p class="text-[9px] text-gray-400 leading-tight">Email akan otomatis dibuat dari nama depan (@perpus.com)</p>
+                                    <div class="flex items-center gap-2 text-[11px] font-mono text-primary-600 dark:text-primary-400">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-primary-500/20 flex items-center justify-center"><span class="w-0.5 h-0.5 rounded-full bg-primary-500"></span></span>
+                                        <span>id_pengenal_siswa</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-400 leading-tight">PIN default: 123456 (jika kosong)</p>
                                 </div>
                             </div>
                             <div class="space-y-2">
-                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Properties</p>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Atribut Tambahan</p>
                                 <div class="flex flex-wrap gap-1.5">
-                                    <template x-for="field in ['phone', 'id_pengenal_siswa', 'kelas', 'jurusan', 'angkatan', 'pin', 'borrow_limit']">
+                                    <template x-for="field in ['pin', 'kelas', 'jurusan', 'angkatan', 'phone', 'email', 'borrow_limit']">
                                         <span class="text-[10px] font-mono text-gray-500 bg-gray-50 dark:bg-white/5 px-1.5 py-0.5 rounded-md border border-gray-200 dark:border-gray-800" x-text="field"></span>
                                     </template>
                                 </div>
@@ -335,12 +349,16 @@
                                         <span class="w-1.5 h-1.5 rounded-full bg-primary-500/20 flex items-center justify-center"><span class="w-0.5 h-0.5 rounded-full bg-primary-500"></span></span>
                                         <span>title</span>
                                     </div>
+                                    <div class="flex items-center gap-2 text-[11px] font-mono text-primary-600 dark:text-primary-400">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-primary-500/20 flex items-center justify-center"><span class="w-0.5 h-0.5 rounded-full bg-primary-500"></span></span>
+                                        <span>stock</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="space-y-2">
                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Attributes</p>
                                 <div class="flex flex-wrap gap-1.5">
-                                    <template x-for="field in ['author', 'publisher', 'year', 'isbn', 'description', 'stock']">
+                                    <template x-for="field in ['author', 'publisher', 'year', 'isbn']">
                                         <span class="text-[10px] font-mono text-gray-500 bg-gray-50 dark:bg-white/5 px-1.5 py-0.5 rounded-md border border-gray-200 dark:border-gray-800" x-text="field"></span>
                                     </template>
                                 </div>

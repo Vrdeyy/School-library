@@ -8,8 +8,9 @@ use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 
-class BooksImport implements ToModel, WithHeadingRow, WithValidation
+class BooksImport implements ToModel, WithHeadingRow, WithValidation, SkipsEmptyRows
 {
     /**
     * @param array $row
@@ -18,6 +19,11 @@ class BooksImport implements ToModel, WithHeadingRow, WithValidation
     */
     public function model(array $row)
     {
+        // Skip if mandatory fields are missing anyway (double check)
+        if (empty($row['title'])) {
+            return null;
+        }
+
         $book = Book::create([
             'title'       => (string)$row['title'],
             'author'      => isset($row['author']) ? (string)$row['author'] : null,
@@ -38,15 +44,16 @@ class BooksImport implements ToModel, WithHeadingRow, WithValidation
             ]);
         }
 
-        return $book;
+        // Return null because we created the items manually and already saved the book
+        return null;
     }
 
     public function rules(): array
     {
         return [
             'title' => 'required|max:255',
+            'stock' => 'required|numeric|min:1|max:100', // Both title and stock are required
             'author' => 'nullable|max:255',
-            'stock' => 'nullable|numeric|min:1|max:100',
             'isbn' => 'nullable|max:255',
         ];
     }

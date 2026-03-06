@@ -20,41 +20,31 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
         // 1. Format Name
         $name = trim($row['name']);
         
-        // 2. Auto-generate Email if not provided (e.g. "Ujang Ejep" -> "ujang@perpus.com")
-        $email = $row['email'] ?? null;
-        if (empty($email)) {
-            $firstName = explode(' ', $name)[0];
-            $baseEmail = strtolower($firstName) . '@perpus.com';
-            
-            // Basic conflict check (if already exists, append random/ID)
-            if (User::where('email', $baseEmail)->exists()) {
-                $baseEmail = strtolower(str_replace(' ', '', $name)) . '@perpus.com';
-            }
-            $email = $baseEmail;
-        }
+        // 2. Email (nullable now)
+        $email = isset($row['email']) && !empty($row['email']) ? trim($row['email']) : null;
 
-        // 3. Handle ID Pengenal Siswa
-        $id_pengenal_siswa = $row['id_pengenal_siswa'] ?? $row['nis'] ?? $row['nisnip'] ?? $row['id_nis'] ?? null;
+        // 3. ID Pengenal Siswa (Check common column variations)
+        $id_pengenal_siswa = $row['id_pengenal_siswa'] ?? $row['nis'] ?? $row['id'] ?? null;
         
-        // 4. Role is always 'user' because admins shouldn't be created via Excel
+        // 4. Role is always 'user'
         $role = 'user';
         
-        // 5. Password can be null for regular users
-        $hashedPassword = null;
+        // 5. Password/PIN handling
+        $pin = isset($row['pin']) ? (string)$row['pin'] : '123456';
 
         return new User([
-            'name'         => $name,
-            'email'        => $email,
-            'phone'        => isset($row['phone']) ? (string)$row['phone'] : null,
-            'password'     => $hashedPassword,
-            'role'         => $role,
-            'kelas'        => $row['kelas'] ?? null,
-            'jurusan'      => $row['jurusan'] ?? null,
-            'angkatan'     => $row['angkatan'] ?? null,
+            'name'              => $name,
+            'email'             => $email,
+            'phone'             => isset($row['phone']) ? (string)$row['phone'] : null,
+            'password'          => null, // Regular users use PIN
+            'role'              => $role,
+            'kelas'             => $row['kelas'] ?? null,
+            'jurusan'           => $row['jurusan'] ?? null,
+            'angkatan'          => $row['angkatan'] ?? null,
             'id_pengenal_siswa' => $id_pengenal_siswa !== null ? (string)$id_pengenal_siswa : null,
-            'pin'          => isset($row['pin']) ? (string)$row['pin'] : '123456',
-            'borrow_limit' => $row['borrow_limit'] ?? $row['limits'] ?? 3,
-            'is_suspended' => false,
+            'pin'               => $pin,
+            'borrow_limit'      => $row['borrow_limit'] ?? 3,
+            'is_suspended'      => false,
         ]);
     }
 
@@ -64,7 +54,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
             'name' => 'required|max:255',
             'email' => 'nullable|email|unique:users,email',
             'phone' => 'nullable|max:20',
-            'id_pengenal_siswa' => 'nullable',
+            'id_pengenal_siswa' => 'required', // Now required for user creation
         ];
     }
 }
