@@ -20,16 +20,19 @@ class ItemsRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
+                    ->label('Kode Buku')
                     ->required()
                     ->maxLength(255)
-                    ->unique(ignoreRecord: true),
+                    ->unique(ignoreRecord: true)
+                    ->default(fn ($livewire) => BookItem::generateCode($livewire->ownerRecord->id))
+                    ->disabled()
+                    ->dehydrated()
+                    ->helperText('Kode digenerate otomatis dan tidak dapat diubah.'),
                 Forms\Components\Select::make('status')
+                    ->label('Kondisi / Status')
                     ->options([
-                        'available' => 'Available',
-                        'borrowed' => 'Borrowed',
-                        'returning' => 'Returning (Kiosk)',
-                        'lost' => 'Lost',
-                        'maintenance' => 'Maintenance',
+                        'available' => 'Tersedia',
+                        'lost' => 'Hilang',
                     ])
                     ->default('available')
                     ->required(),
@@ -61,7 +64,10 @@ class ItemsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->after(function (BookItem $record) {
+                        $record->generateQrSignature();
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

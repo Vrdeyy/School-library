@@ -68,9 +68,9 @@ class UserResource extends Resource
                     ->password()
                     ->revealable()
                     ->placeholder('6 Digit PIN')
-                    ->formatStateUsing(fn ($record) => $record?->pin)
+                    ->default('123456')
+                    ->formatStateUsing(fn ($state, $record) => $record ? $record->pin : $state)
                     ->length(6)
-                    ->required(fn (string $context) => $context === 'create')
                     ->dehydrated(fn ($state) => filled($state)), 
                 Forms\Components\Toggle::make('is_suspended')
                     ->label('Suspended')

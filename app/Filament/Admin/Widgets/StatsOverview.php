@@ -15,10 +15,16 @@ class StatsOverview extends BaseWidget
 
     protected function getStats(): array
     {
-        // Data for trends (last 7 data points)
+        // Trends for last 7 days
         $borrowTrend = [];
+        $bookTrend = [];
+        $itemTrend = [];
+        
         for ($i = 6; $i >= 0; $i--) {
-            $borrowTrend[] = Borrow::whereDate('created_at', now()->subDays($i)->toDateString())->count();
+            $date = now()->subDays($i)->toDateString();
+            $borrowTrend[] = Borrow::whereDate('borrow_date', $date)->count();
+            $bookTrend[] = Book::whereDate('created_at', $date)->count();
+            $itemTrend[] = BookItem::whereDate('created_at', $date)->count();
         }
 
         return [
@@ -31,14 +37,14 @@ class StatsOverview extends BaseWidget
             Stat::make('Total Buku (Judul)', Book::count())
                 ->description('Koleksi judul unik')
                 ->descriptionIcon('heroicon-m-book-open')
-                ->chart([7, 3, 5, 2, 10, 3, 4]) 
+                ->chart($bookTrend) 
                 ->icon('heroicon-o-book-open')
                 ->color('primary'),
 
             Stat::make('Total Eksemplar', BookItem::count())
                 ->description(BookItem::where('status', 'available')->count() . ' tersedia di rak')
                 ->descriptionIcon('heroicon-m-check-circle')
-                ->chart([15, 18, 12, 20, 15, 25, 30])
+                ->chart($itemTrend)
                 ->icon('heroicon-o-rectangle-stack')
                 ->color('success'),
 

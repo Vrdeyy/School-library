@@ -43,6 +43,7 @@ class BorrowsExport implements FromQuery, WithHeadings, WithMapping, WithStyles,
     public function headings(): array
     {
         return [
+            'NO',
             'NAMA PEMINJAM',
             'NO. TELEPON',
             'JUDUL BUKU',
@@ -55,14 +56,27 @@ class BorrowsExport implements FromQuery, WithHeadings, WithMapping, WithStyles,
 
     public function map($borrow): array
     {
+        static $row = 0;
+        $row++;
+
+        $statusLabel = match ($borrow->status) {
+            'pending' => 'MENUNGGU APPROVAL',
+            'approved' => 'SEDANG DIPINJAM',
+            'returning' => 'PROSES KEMBALI (KIOSK)',
+            'returned' => 'SUDAH DIKEMBALIKAN',
+            'rejected' => 'DITOLAK / DIBATALKAN',
+            default => strtoupper($borrow->status),
+        };
+
         return [
+            $row,
             strtoupper($borrow->user->name ?? '-'),
             $borrow->user->phone ?? '-',
             strtoupper($borrow->bookItem->book->title ?? '-'),
             $borrow->bookItem->code ?? '-',
-            $borrow->borrow_date ? $borrow->borrow_date->format('d M Y') : '-',
-            $borrow->return_date ? $borrow->return_date->format('d M Y') : '-',
-            strtoupper($borrow->status),
+            $borrow->borrow_date ? $borrow->borrow_date->format('d/m/Y H:i') : '-',
+            $borrow->return_date ? $borrow->return_date->format('d/m/Y H:i') : '-',
+            $statusLabel,
         ];
     }
 

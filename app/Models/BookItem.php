@@ -11,9 +11,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class BookItem extends Model
 {
-    use SoftDeletes;
-
-    use HasFactory;
+    use SoftDeletes, HasFactory;
+    
+    public static function generateCode($bookId, $suffix = ''): string
+    {
+        $timestamp = now()->format('ymdHis');
+        $random = strtoupper(\Illuminate\Support\Str::random(4));
+        return "{$bookId}-{$timestamp}-{$random}{$suffix}";
+    }
     
     protected $fillable = [
         'book_id',

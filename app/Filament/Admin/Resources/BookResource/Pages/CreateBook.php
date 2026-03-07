@@ -15,10 +15,8 @@ class CreateBook extends CreateRecord
         $quantity = $this->data['initial_stock'] ?? 1;
         
         for ($i = 1; $i <= $quantity; $i++) {
-            $code = $this->generateUniqueCode($this->record->id, $i);
-            
             $item = $this->record->items()->create([
-                'code' => $code,
+                'code' => \App\Models\BookItem::generateCode($this->record->id, $i),
                 'status' => 'available',
             ]);
             
@@ -26,13 +24,6 @@ class CreateBook extends CreateRecord
         }
     }
 
-    private function generateUniqueCode(int $bookId, int $sequence): string
-    {
-        $timestamp = now()->format('ymdHis');
-        $random = strtoupper(Str::random(4));
-        
-        return "{$bookId}-{$timestamp}-{$random}{$sequence}";
-    }
 
     protected function getRedirectUrl(): string
     {
