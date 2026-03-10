@@ -105,9 +105,9 @@
     }
 </style>
 
-<div class="p-8 flex flex-wrap justify-center gap-6 print:p-0 print:gap-0 print:block print-container">
+<div class="p-12 flex flex-wrap justify-center gap-8 print:p-0 print:gap-4 print:flex print:flex-wrap print:justify-start print-container">
     @foreach($items as $item)
-        <div class="print:inline-block print:m-1 print:break-inside-avoid shadow-lg rounded-[2mm] overflow-hidden">
+        <div class="label-wrapper shadow-lg rounded-[2mm] overflow-hidden print:shadow-none print:m-0 print:break-inside-avoid">
             <div class="relative overflow-hidden bg-white panel-border flex flex-col print:shadow-none print:border-4" 
                  style="width: 100mm; height: 40mm; -webkit-print-color-adjust: exact; print-color-adjust: exact;">
                 
@@ -138,16 +138,15 @@
                 <!-- Main Body: Ticket Stub Layout -->
                 <div class="relative z-10 flex flex-1 overflow-hidden">
                     <!-- Left: QR Code Identity Area (SQUARE STUB) -->
-                    <div class="w-[40mm] flex flex-col items-center justify-center bg-white p-2 relative overflow-hidden shrink-0">
+                    <div class="w-[40mm] flex flex-col items-center justify-center bg-white p-5 relative overflow-hidden shrink-0">
                         <div class="absolute inset-0 opacity-[0.03] pointer-events-none screentone"></div>
                         
                         <!-- Security Stamp (Over QR area) -->
                         <div class="security-stamp top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[25deg] text-slate-900 scale-125">Asli</div>
 
-                        <div class="p-2 bg-white border-4 border-slate-900 rounded-xl shadow-[4px_4px_0px_#9333ea] z-10 flex items-center justify-center">
-                            {!! QrCode::size(100)->margin(1)->color(15, 23, 42)->generate($item->qr_payload) !!}
+                        <div class="p-[2.5mm] bg-white border-4 border-slate-900 rounded-xl shadow-[4px_4px_0px_#9333ea] z-10 flex items-center justify-center">
+                            {!! QrCode::size(90)->margin(1)->color(15, 23, 42)->generate($item->qr_payload) !!}
                         </div>
-                        <p class="mt-1 text-[1.4mm] font-bold text-slate-900 tracking-[0.2mm] opacity-70 z-10 underline uppercase">Optic ID Manifest</p>
                     </div>
 
                     <!-- Vertical Perforated Divider -->
@@ -199,11 +198,24 @@
 <style>
     @media print {
         @page {
-            size: 100mm 40mm;
-            margin: 5mm;
+            size: A4 portrait;
+            margin: 3mm;
         }
         body { margin: 0; padding: 0; background: white; }
-        .print-container { display: block !important; padding: 0 !important; }
+        .print-container { 
+            display: block !important; 
+            padding: 0 !important; 
+            text-align: center;
+        }
+        .label-wrapper {
+            display: inline-block !important;
+            vertical-align: top;
+            margin: 1.5mm !important;
+            box-shadow: none !important;
+            border: none !important;
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact; 
+        }
     }
 </style>
 @endsection
